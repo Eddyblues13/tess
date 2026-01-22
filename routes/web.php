@@ -1,0 +1,174 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return view('home.index');
+})->name('home');
+
+Route::get('/inventory', function () {
+    return view('inventory.index');
+})->name('inventory');
+
+Route::get('/invest', function () {
+    return view('invest.index');
+})->name('invest');
+
+Route::get('/stocks', function () {
+    return view('stocks.index');
+})->name('stocks');
+
+Route::get('/portfolio', function () {
+    return view('portfolio.index');
+})->name('portfolio');
+
+
+Route::get('/about', function () {
+    return view('pages.about');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('pages.contact');
+})->name('contact');
+
+Route::get('/help', function () {
+    return view('pages.help');
+})->name('help');
+
+Route::get('/terms', function () {
+    return view('pages.terms');
+})->name('terms');
+
+Route::get('/privacy', function () {
+    return view('pages.privacy');
+})->name('privacy');
+
+use App\Http\Controllers\AuthController;
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+use App\Http\Controllers\DashboardController;
+
+Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
+    Route::get('/support', [DashboardController::class, 'support'])->name('support');
+    Route::post('/support', [DashboardController::class, 'submitSupport'])->name('support.submit');
+    Route::get('/stock-logo/{ticker}', [DashboardController::class, 'stockLogo'])->name('stock-logo');
+    Route::get('/wallet', [DashboardController::class, 'wallet'])->name('wallet');
+    Route::get('/wallet/deposit', [DashboardController::class, 'walletDeposit'])->name('wallet.deposit');
+    Route::get('/wallet/withdraw', [DashboardController::class, 'walletWithdraw'])->name('wallet.withdraw');
+    Route::post('/wallet/deposit', [DashboardController::class, 'walletDepositSubmit'])->name('wallet.deposit.submit');
+    Route::post('/wallet/withdraw', [DashboardController::class, 'walletWithdrawSubmit'])->name('wallet.withdraw.submit');
+    Route::get('/investments', [DashboardController::class, 'investments'])->name('investments');
+    Route::post('/investments', [DashboardController::class, 'investSubmit'])->name('investments.submit');
+    Route::get('/stocks', [DashboardController::class, 'stocks'])->name('stocks');
+    Route::post('/stocks', [DashboardController::class, 'stockPurchaseSubmit'])->name('stocks.purchase.submit');
+    Route::get('/portfolio', function () {
+        return view('user.portfolio');
+    })->name('portfolio');
+    Route::get('/investment-dashboard', [DashboardController::class, 'investmentDashboard'])->name('investment-dashboard');
+    Route::get('/inventory', [DashboardController::class, 'inventory'])->name('inventory');
+    Route::get('/orders', [DashboardController::class, 'orders'])->name('orders');
+    Route::post('/orders', [DashboardController::class, 'placeOrder'])->name('orders.place');
+    Route::get('/account', [DashboardController::class, 'account'])->name('account');
+    Route::put('/account', [DashboardController::class, 'updateAccount'])->name('account.update');
+    Route::get('/kyc', [DashboardController::class, 'kyc'])->name('kyc');
+    Route::post('/kyc', [DashboardController::class, 'submitKyc'])->name('kyc.submit');
+    Route::get('/notifications', [DashboardController::class, 'getNotifications'])->name('notifications.get');
+    Route::post('/notifications/mark-read', [DashboardController::class, 'markNotificationAsRead'])->name('notifications.mark-read');
+    Route::post('/notifications/mark-all-read', [DashboardController::class, 'markAllNotificationsAsRead'])->name('notifications.mark-all-read');
+});
+
+Route::get('/test', function () {
+    return 'Laravel is working!';
+});
+
+// Admin Authentication Routes
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Middleware\AdminMiddleware;
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Admin login routes (public)
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
+    
+    // Admin logout route
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+    
+    // Admin protected routes
+    Route::middleware('admin')->group(function () {
+        // Dashboard
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        
+        // Users Management
+        Route::get('/users', [AdminDashboardController::class, 'users'])->name('users');
+        Route::get('/users/create', [AdminDashboardController::class, 'createUser'])->name('users.create');
+        Route::post('/users', [AdminDashboardController::class, 'storeUser'])->name('users.store');
+        Route::get('/users/{user}', [AdminDashboardController::class, 'showUser'])->name('users.show');
+        Route::get('/users/{user}/edit', [AdminDashboardController::class, 'editUser'])->name('users.edit');
+        Route::put('/users/{user}', [AdminDashboardController::class, 'updateUser'])->name('users.update');
+        Route::delete('/users/{user}', [AdminDashboardController::class, 'deleteUser'])->name('users.delete');
+        Route::get('/users/{user}/transactions', [AdminDashboardController::class, 'userTransactions'])->name('users.transactions');
+        Route::post('/users/{user}/balance', [AdminDashboardController::class, 'updateUserBalance'])->name('users.balance');
+        Route::post('/users/{user}/email', [AdminDashboardController::class, 'sendEmailToUser'])->name('users.email');
+        Route::post('/users/{user}/impersonate', [AdminDashboardController::class, 'impersonateUser'])->name('users.impersonate');
+        
+        // Orders Management
+        Route::get('/orders', [AdminDashboardController::class, 'orders'])->name('orders');
+        Route::post('/orders/{order}/status', [AdminDashboardController::class, 'updateOrderStatus'])->name('orders.status');
+        
+        // Transactions Management
+        Route::get('/transactions', [AdminDashboardController::class, 'transactions'])->name('transactions');
+        Route::get('/transactions/create', [AdminDashboardController::class, 'createTransaction'])->name('transactions.create');
+        Route::post('/transactions', [AdminDashboardController::class, 'storeTransaction'])->name('transactions.store');
+        Route::get('/transactions/{transaction}/edit', [AdminDashboardController::class, 'editTransaction'])->name('transactions.edit');
+        Route::put('/transactions/{transaction}', [AdminDashboardController::class, 'updateTransaction'])->name('transactions.update');
+        Route::delete('/transactions/{transaction}', [AdminDashboardController::class, 'deleteTransaction'])->name('transactions.delete');
+        Route::post('/transactions/{transaction}/status', [AdminDashboardController::class, 'updateTransactionStatus'])->name('transactions.status');
+        Route::post('/transactions/{transaction}/approve', [AdminDashboardController::class, 'approveTransaction'])->name('transactions.approve');
+        Route::post('/transactions/{transaction}/reject', [AdminDashboardController::class, 'rejectTransaction'])->name('transactions.reject');
+        
+        // KYC Management
+        Route::get('/kyc', [AdminDashboardController::class, 'kycSubmissions'])->name('kyc');
+        Route::post('/kyc/{kyc}/status', [AdminDashboardController::class, 'updateKycStatus'])->name('kyc.status');
+        
+        // Support Tickets Management
+        Route::get('/support', [AdminDashboardController::class, 'supportTickets'])->name('support');
+        Route::post('/support/{ticket}/reply', [AdminDashboardController::class, 'replyToTicket'])->name('support.reply');
+        
+        // Inventory Management
+        Route::get('/inventory', [AdminDashboardController::class, 'inventory'])->name('inventory');
+        Route::get('/inventory/create', [AdminDashboardController::class, 'createInventory'])->name('inventory.create');
+        Route::post('/inventory', [AdminDashboardController::class, 'storeInventory'])->name('inventory.store');
+        Route::get('/inventory/{car}/edit', [AdminDashboardController::class, 'editInventory'])->name('inventory.edit');
+        Route::put('/inventory/{car}', [AdminDashboardController::class, 'updateInventory'])->name('inventory.update');
+        Route::delete('/inventory/{car}', [AdminDashboardController::class, 'deleteInventory'])->name('inventory.delete');
+        
+        // Investment Plans Management
+        Route::get('/investment-plans', [AdminDashboardController::class, 'investmentPlans'])->name('investment-plans');
+        Route::get('/investment-plans/create', [AdminDashboardController::class, 'createInvestmentPlan'])->name('investment-plans.create');
+        Route::post('/investment-plans', [AdminDashboardController::class, 'storeInvestmentPlan'])->name('investment-plans.store');
+        Route::get('/investment-plans/{plan}/edit', [AdminDashboardController::class, 'editInvestmentPlan'])->name('investment-plans.edit');
+        Route::put('/investment-plans/{plan}', [AdminDashboardController::class, 'updateInvestmentPlan'])->name('investment-plans.update');
+        Route::delete('/investment-plans/{plan}', [AdminDashboardController::class, 'deleteInvestmentPlan'])->name('investment-plans.delete');
+        
+        // Stocks Management
+        Route::get('/stocks', [AdminDashboardController::class, 'stocks'])->name('stocks');
+        Route::get('/stocks/create', [AdminDashboardController::class, 'createStock'])->name('stocks.create');
+        Route::post('/stocks', [AdminDashboardController::class, 'storeStock'])->name('stocks.store');
+        Route::get('/stocks/{stock}/edit', [AdminDashboardController::class, 'editStock'])->name('stocks.edit');
+        Route::put('/stocks/{stock}', [AdminDashboardController::class, 'updateStock'])->name('stocks.update');
+        Route::delete('/stocks/{stock}', [AdminDashboardController::class, 'deleteStock'])->name('stocks.delete');
+    });
+});
+
+// Stop impersonation route (accessible without admin auth since user is logged in)
+Route::post('/stop-impersonating', [AdminDashboardController::class, 'stopImpersonating'])->name('stop.impersonating');
+
