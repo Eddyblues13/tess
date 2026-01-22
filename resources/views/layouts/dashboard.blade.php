@@ -226,6 +226,17 @@
             z-index: 30;
         }
 
+        @media (max-width: 768px) {
+            .topbar {
+                padding: 0 12px;
+                height: 54px;
+            }
+            
+            .topTitle {
+                font-size: 13px;
+            }
+        }
+
         .topLeft {
             display: flex;
             align-items: center;
@@ -450,6 +461,15 @@
             border-radius: 18px;
         }
 
+        @media (max-width: 768px) {
+            .heroCard {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 16px;
+                gap: 16px;
+            }
+        }
+
         .heroText h3 {
             margin: 0;
             font-size: 18px;
@@ -466,12 +486,30 @@
             max-width: 420px;
         }
 
+        @media (max-width: 768px) {
+            .heroText h3 {
+                font-size: 16px;
+            }
+            
+            .heroText p {
+                font-size: 12px;
+                max-width: 100%;
+            }
+        }
+
         .balanceBox {
             min-width: 260px;
             padding: 16px;
             border-radius: 16px;
             background: rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .balanceBox {
+                min-width: 100%;
+                width: 100%;
+            }
         }
 
         .balanceTop {
@@ -491,10 +529,27 @@
             color: #ffffff;
         }
 
+        @media (max-width: 768px) {
+            .balanceAmt {
+                font-size: 20px;
+            }
+        }
+
         .balanceBtns {
             margin-top: 10px;
             display: flex;
             gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .balanceBtns {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .balanceBtns .sbtn {
+                width: 100%;
+            }
         }
 
         .sbtn {
@@ -627,6 +682,18 @@
             gap: 10px;
         }
 
+        @media (max-width: 768px) {
+            .quick {
+                padding: 12px;
+                min-height: auto;
+            }
+            
+            .quick svg {
+                width: 14px;
+                height: 14px;
+            }
+        }
+
         .quick h4 {
             margin: 0;
             font-size: 12px;
@@ -699,6 +766,27 @@
             border-bottom: 1px solid rgba(0, 0, 0, .06);
         }
 
+        @media (max-width: 768px) {
+            .panelHead {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 10px 12px;
+            }
+            
+            .panelHead h5 {
+                font-size: 11px;
+            }
+            
+            .panelHead small {
+                font-size: 10px;
+            }
+            
+            .viewAll {
+                font-size: 10px;
+            }
+        }
+
         .panelHead h5 {
             margin: 0;
             font-size: 12px;
@@ -736,6 +824,21 @@
             align-items: center;
             justify-content: space-between;
             gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .orderRow {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .orderRight {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
         }
 
         .orderRow+.orderRow {
@@ -776,6 +879,13 @@
             margin-top: 2px;
         }
 
+        @media (max-width: 768px) {
+            .orderMeta {
+                font-size: 10px;
+                word-break: break-word;
+            }
+        }
+
         .orderRight {
             text-align: right;
             flex: 0 0 auto;
@@ -813,6 +923,25 @@
             gap: 10px;
         }
 
+        @media (max-width: 768px) {
+            .mItem {
+                padding: 10px 12px;
+            }
+            
+            .mRight {
+                margin-right: -12px;
+                padding: 6px 10px;
+            }
+            
+            .mPrice {
+                font-size: 12px;
+            }
+            
+            .mChange {
+                font-size: 10px;
+            }
+        }
+
         .mItem+.mItem {
             border-top: 1px solid rgba(0, 0, 0, .06);
         }
@@ -846,6 +975,22 @@
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 220px;
+        }
+
+        @media (max-width: 768px) {
+            .mName {
+                max-width: 150px;
+                font-size: 11px;
+            }
+            
+            .mTicker {
+                font-size: 10px;
+            }
+            
+            .mLeft {
+                min-width: 0;
+                flex: 1;
+            }
         }
 
         .mTicker {
@@ -888,6 +1033,18 @@
 
         .chartBody {
             padding: 12px 14px 14px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 768px) {
+            .chartBody {
+                padding: 10px 12px 12px;
+            }
+            
+            .chartBody svg {
+                min-width: 600px;
+            }
         }
 
         .legend {
@@ -899,6 +1056,24 @@
             color: #6b7280;
             font-weight: 900;
             font-size: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .legend {
+                gap: 8px;
+                font-size: 9px;
+                justify-content: flex-start;
+                margin-top: 8px;
+            }
+            
+            .chartBody {
+                padding: 10px 12px 12px;
+                overflow-x: auto;
+            }
+            
+            .chartWrap svg {
+                min-width: 600px;
+            }
         }
 
         .dotc {
@@ -925,6 +1100,15 @@
             cursor: pointer;
         }
 
+        @media (max-width: 768px) {
+            .fab {
+                right: 12px;
+                bottom: 12px;
+                width: 48px;
+                height: 48px;
+            }
+        }
+
         .fab svg {
             opacity: .9;
         }
@@ -938,6 +1122,41 @@
         @media (max-width: 900px) {
             .spacerTop {
                 height: 120px;
+            }
+        }
+
+        /* Additional mobile fixes */
+        @media (max-width: 480px) {
+            .heroCard {
+                padding: 14px;
+            }
+            
+            .balanceBox {
+                padding: 14px;
+            }
+            
+            .whitePanel {
+                border-radius: 12px;
+            }
+            
+            .stat,
+            .quick {
+                border-radius: 12px;
+            }
+            
+            .chartWrap {
+                border-radius: 12px;
+            }
+            
+            .thumb {
+                width: 40px;
+                height: 30px;
+            }
+            
+            .logo {
+                width: 28px;
+                height: 28px;
+                font-size: 10px;
             }
         }
     </style>

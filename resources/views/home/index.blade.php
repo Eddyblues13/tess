@@ -280,7 +280,7 @@
                     class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
                     <!-- Image -->
                     <div class="h-[300px] bg-[#f3f4f6]">
-                        <img src="https://images.unsplash.com/photo-1617531653332-2c0e0c0b0b0b?w=800&h=600&fit=crop&q=80&auto=format"
+                        <img src="{{asset('images/tess.avif')}}"
                             alt="Tesla Model Y" class="w-full h-full object-cover" loading="lazy" />
                     </div>
 

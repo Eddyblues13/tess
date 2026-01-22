@@ -297,7 +297,7 @@
 
                     <div class="chartBody">
                         <!-- simple SVG chart (clean + looks like the screenshot vibe) -->
-                        <svg viewBox="0 0 900 220" width="100%" height="220" role="img" aria-label="Performance chart">
+                        <svg viewBox="0 0 900 220" width="100%" height="220" role="img" aria-label="Performance chart" style="max-width: 100%; height: auto;">
                             <!-- grid -->
                             <g opacity="0.12" stroke="#111">
                                 <line x1="40" y1="20" x2="40" y2="200" />

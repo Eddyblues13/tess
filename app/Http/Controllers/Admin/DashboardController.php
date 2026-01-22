@@ -13,6 +13,7 @@ use App\Models\SupportTicket;
 use App\Models\TeslaCar;
 use App\Models\InvestmentPlan;
 use App\Models\Stock;
+use App\Models\PaymentMethod;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -971,5 +972,140 @@ class DashboardController extends Controller
         $stock->delete();
 
         return redirect()->route('admin.stocks')->with('success', 'Stock deleted successfully.');
+    }
+
+    /**
+     * Show payment settings page
+     */
+    public function paymentSettings()
+    {
+        // Get or create payment methods
+        $cryptoWallet = PaymentMethod::firstOrCreate(
+            ['slug' => 'crypto-wallet'],
+            [
+                'name' => 'Crypto Wallet',
+                'type' => 'deposit',
+                'category' => 'crypto',
+                'display_order' => 1,
+                'is_active' => true,
+            ]
+        );
+
+        $paypal = PaymentMethod::firstOrCreate(
+            ['slug' => 'paypal'],
+            [
+                'name' => 'PayPal',
+                'type' => 'both',
+                'category' => 'wallet',
+                'display_order' => 2,
+                'is_active' => true,
+            ]
+        );
+
+        $bankTransfer = PaymentMethod::firstOrCreate(
+            ['slug' => 'bank-transfer'],
+            [
+                'name' => 'Bank Transfer',
+                'type' => 'both',
+                'category' => 'bank',
+                'display_order' => 3,
+                'is_active' => true,
+            ]
+        );
+
+        // Parse details JSON if exists
+        $cryptoDetails = $cryptoWallet->details ? json_decode($cryptoWallet->details, true) : [];
+        $paypalDetails = $paypal->details ? json_decode($paypal->details, true) : [];
+        $bankDetails = $bankTransfer->details ? json_decode($bankTransfer->details, true) : [];
+
+        return view('admin.payment-settings', compact(
+            'cryptoWallet',
+            'paypal',
+            'bankTransfer',
+            'cryptoDetails',
+            'paypalDetails',
+            'bankDetails'
+        ));
+    }
+
+    /**
+     * Update payment settings
+     */
+    public function updatePaymentSettings(Request $request)
+    {
+        $request->validate([
+            'payment_type' => 'required|in:crypto,paypal,bank',
+        ]);
+
+        $paymentType = $request->payment_type;
+        $details = [];
+
+        if ($paymentType === 'crypto') {
+            $request->validate([
+                'crypto_wallet_address' => 'required|string|max:255',
+                'crypto_network' => 'nullable|string|max:100',
+                'crypto_qr_code' => 'nullable|string',
+            ]);
+
+            $details = [
+                'wallet_address' => $request->crypto_wallet_address,
+                'network' => $request->crypto_network,
+                'qr_code' => $request->crypto_qr_code,
+            ];
+
+            $paymentMethod = PaymentMethod::where('slug', 'crypto-wallet')->firstOrFail();
+            $paymentMethod->update([
+                'details' => json_encode($details),
+                'is_active' => $request->has('crypto_active'),
+            ]);
+
+        } elseif ($paymentType === 'paypal') {
+            $request->validate([
+                'paypal_email' => 'required|email|max:255',
+                'paypal_business_name' => 'nullable|string|max:255',
+                'paypal_account_type' => 'nullable|string|max:50',
+            ]);
+
+            $details = [
+                'email' => $request->paypal_email,
+                'business_name' => $request->paypal_business_name,
+                'account_type' => $request->paypal_account_type,
+            ];
+
+            $paymentMethod = PaymentMethod::where('slug', 'paypal')->firstOrFail();
+            $paymentMethod->update([
+                'details' => json_encode($details),
+                'is_active' => $request->has('paypal_active'),
+            ]);
+
+        } elseif ($paymentType === 'bank') {
+            $request->validate([
+                'bank_name' => 'required|string|max:255',
+                'account_name' => 'required|string|max:255',
+                'account_number' => 'required|string|max:100',
+                'routing_number' => 'nullable|string|max:100',
+                'swift_code' => 'nullable|string|max:50',
+                'iban' => 'nullable|string|max:50',
+                'bank_address' => 'nullable|string|max:500',
+            ]);
+
+            $details = [
+                'bank_name' => $request->bank_name,
+                'account_name' => $request->account_name,
+                'account_number' => $request->account_number,
+                'routing_number' => $request->routing_number,
+                'swift_code' => $request->swift_code,
+                'iban' => $request->iban,
+                'bank_address' => $request->bank_address,
+            ];
+
+            $paymentMethod = PaymentMethod::where('slug', 'bank-transfer')->firstOrFail();
+            $paymentMethod->update([
+                'details' => json_encode($details),
+                'is_active' => $request->has('bank_active'),
+            ]);
+        }
+
+        return redirect()->route('admin.payment-settings')->with('success', ucfirst($paymentType) . ' payment settings updated successfully.');
     }
 }

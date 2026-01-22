@@ -60,17 +60,17 @@
                 <tbody>
                     @forelse($users as $user)
                         <tr style="border-bottom: 1px solid rgba(0,0,0,.06);">
-                            <td style="padding: 12px 14px;">
+                            <td data-label="User" style="padding: 12px 14px;">
                                 <div style="font-size: 12px; font-weight: 900; color: #111827;">{{ $user->name }}</div>
                                 @if($user->username)
                                     <div style="font-size: 11px; color: #6b7280; margin-top: 2px;">@{{ $user->username }}</div>
                                 @endif
                             </td>
-                            <td style="padding: 12px 14px; font-size: 12px; color: #111827;">{{ $user->email }}</td>
-                            <td style="padding: 12px 14px;">
+                            <td data-label="Email" style="padding: 12px 14px; font-size: 12px; color: #111827;">{{ $user->email }}</td>
+                            <td data-label="Balance" style="padding: 12px 14px;">
                                 <div style="font-size: 12px; font-weight: 900; color: #111827;">${{ number_format((float)($user->available_balance ?? 0), 2) }}</div>
                             </td>
-                            <td style="padding: 12px 14px;">
+                            <td data-label="KYC Status" style="padding: 12px 14px;">
                                 @php
                                     $latestKyc = $user->latestKycSubmission;
                                     $isVerified = $user->isKycVerified();
@@ -85,9 +85,9 @@
                                     <span style="font-size: 10px; font-weight: 900; padding: 4px 8px; border-radius: 999px; background: rgba(156, 163, 175, .14); color: rgba(107, 114, 128, .95); border: 1px solid rgba(107, 114, 128, .25);">Not Submitted</span>
                                 @endif
                             </td>
-                            <td style="padding: 12px 14px; font-size: 11px; color: #6b7280;">{{ $user->created_at->format('M d, Y') }}</td>
-                            <td style="padding: 12px 14px;">
-                                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            <td data-label="Joined" style="padding: 12px 14px; font-size: 11px; color: #6b7280;">{{ $user->created_at->format('M d, Y') }}</td>
+                            <td data-label="Actions" style="padding: 12px 14px;">
+                                <div class="action-buttons" style="display: flex; flex-wrap: wrap; gap: 6px;">
                                     <a href="{{ route('admin.users.show', $user) }}" style="padding: 6px 10px; border-radius: 8px; background: #111827; color: white; font-size: 11px; font-weight: 900; text-decoration: none;">View</a>
                                     <a href="{{ route('admin.users.edit', $user) }}" style="padding: 6px 10px; border-radius: 8px; background: #2563eb; color: white; font-size: 11px; font-weight: 900; text-decoration: none;">Edit</a>
                                     <button onclick="openBalanceModal({{ $user->id }}, '{{ $user->name }}', {{ $user->available_balance ?? 0 }})" 

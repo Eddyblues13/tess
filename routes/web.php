@@ -166,6 +166,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/stocks/{stock}/edit', [AdminDashboardController::class, 'editStock'])->name('stocks.edit');
         Route::put('/stocks/{stock}', [AdminDashboardController::class, 'updateStock'])->name('stocks.update');
         Route::delete('/stocks/{stock}', [AdminDashboardController::class, 'deleteStock'])->name('stocks.delete');
+        
+        // Payment Settings Management
+        Route::get('/payment-settings', [AdminDashboardController::class, 'paymentSettings'])->name('payment-settings');
+        Route::post('/payment-settings', [AdminDashboardController::class, 'updatePaymentSettings'])->name('payment-settings.update');
     });
 });
 

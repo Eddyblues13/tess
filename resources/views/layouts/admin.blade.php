@@ -148,6 +148,15 @@
             font-size: 13px;
             text-decoration: none;
             transition: all .15s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .nav a {
+                padding: 14px 12px;
+                font-size: 14px;
+                min-height: 48px;
+            }
         }
 
         .nav a:hover {
@@ -243,6 +252,14 @@
             cursor: pointer;
             align-items: center;
             justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .hamb {
+                min-width: 44px;
+                min-height: 44px;
+            }
         }
 
         .topTitle {
@@ -299,6 +316,327 @@
 
             .overlay.show {
                 display: block;
+            }
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .wrap {
+                padding: 12px 12px 20px;
+            }
+
+            .topbar {
+                padding: 0 12px;
+                height: 54px;
+            }
+
+            .topTitle {
+                font-size: 13px;
+            }
+
+            .statGrid {
+                grid-template-columns: 1fr !important;
+                gap: 10px;
+            }
+
+            .stat {
+                padding: 10px;
+                min-height: 60px;
+            }
+
+            .stat strong {
+                font-size: 13px;
+            }
+
+            .stat small {
+                font-size: 9px;
+            }
+
+            .stat .sub {
+                font-size: 10px;
+            }
+
+            .quickGrid {
+                grid-template-columns: 1fr !important;
+                gap: 10px;
+            }
+
+            .quick {
+                padding: 12px;
+                min-height: auto;
+            }
+
+            .quick h4 {
+                font-size: 11px;
+            }
+
+            .quick p {
+                font-size: 10px;
+            }
+
+            .quick svg {
+                width: 14px;
+                height: 14px;
+            }
+
+            .whitePanel {
+                border-radius: 12px;
+            }
+
+            .panelHead {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 10px 12px;
+            }
+
+            .panelHead h5 {
+                font-size: 11px;
+            }
+
+            .panelHead small {
+                font-size: 10px;
+            }
+
+            /* Tables - Convert to cards on mobile */
+            .whitePanel table {
+                display: block;
+                width: 100%;
+            }
+
+            .whitePanel thead {
+                display: none;
+            }
+
+            .whitePanel tbody {
+                display: block;
+                width: 100%;
+            }
+
+            .whitePanel tbody tr {
+                display: block;
+                margin-bottom: 12px;
+                background: #fff;
+                border: 1px solid rgba(0,0,0,.08);
+                border-radius: 12px;
+                padding: 12px;
+                box-shadow: 0 1px 3px rgba(0,0,0,.1);
+            }
+
+            .whitePanel tbody td {
+                display: block;
+                padding: 8px 0;
+                text-align: left !important;
+                border: none;
+                border-bottom: 1px solid rgba(0,0,0,.06);
+            }
+
+            .whitePanel tbody td:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .whitePanel tbody td:first-child {
+                padding-top: 0;
+            }
+
+            .whitePanel tbody td[data-label]:before {
+                content: attr(data-label) ": ";
+                font-weight: 900;
+                font-size: 10px;
+                color: #6b7280;
+                display: inline-block;
+                margin-right: 6px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .whitePanel tbody td[data-label=""]:before {
+                content: "";
+            }
+
+            /* Forms */
+            .whitePanel form {
+                padding: 12px !important;
+            }
+
+            .whitePanel input[type="text"],
+            .whitePanel input[type="email"],
+            .whitePanel input[type="number"],
+            .whitePanel input[type="password"],
+            .whitePanel select,
+            .whitePanel textarea {
+                font-size: 14px !important;
+                padding: 10px 12px !important;
+            }
+
+            .whitePanel label {
+                font-size: 11px !important;
+            }
+
+            /* Buttons */
+            .whitePanel button,
+            .whitePanel .btn,
+            .whitePanel a[style*="padding"] {
+                padding: 10px 16px !important;
+                font-size: 12px !important;
+                width: 100%;
+                margin-bottom: 8px;
+            }
+
+            /* Action buttons in tables */
+            .whitePanel .action-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 8px;
+            }
+
+            .whitePanel .action-buttons a,
+            .whitePanel .action-buttons button {
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Search forms */
+            .whitePanel form[method="GET"] {
+                flex-direction: column;
+            }
+
+            .whitePanel form[method="GET"] > div {
+                width: 100%;
+            }
+
+            /* Lower grid */
+            .lowerGrid {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Pagination */
+            .pagination {
+                flex-direction: column;
+                gap: 8px;
+                align-items: stretch;
+            }
+
+            .pagination a,
+            .pagination span {
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Modals */
+            .modal {
+                padding: 12px;
+            }
+
+            .modal-content {
+                width: 95% !important;
+                max-width: 95% !important;
+                padding: 16px !important;
+            }
+
+            /* Search forms - stack vertically */
+            form[method="GET"] > div[style*="display: flex"] {
+                flex-direction: column !important;
+            }
+
+            form[method="GET"] > div[style*="display: flex"] > div {
+                width: 100% !important;
+                min-width: 100% !important;
+            }
+
+            /* Alerts */
+            .alert {
+                padding: 10px 12px !important;
+                font-size: 12px !important;
+            }
+
+            /* Status badges */
+            .status {
+                font-size: 9px !important;
+                padding: 3px 6px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wrap {
+                padding: 10px 10px 16px;
+            }
+
+            .stat {
+                padding: 8px;
+            }
+
+            .quick {
+                padding: 10px;
+            }
+
+            .panelHead {
+                padding: 8px 10px;
+            }
+
+            .whitePanel form {
+                padding: 10px !important;
+            }
+
+            /* Grid layouts in forms */
+            .whitePanel form > div[style*="grid"] {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            /* Action buttons stack vertically */
+            .action-buttons {
+                flex-direction: column !important;
+            }
+
+            .action-buttons > * {
+                width: 100% !important;
+            }
+
+            /* Panel head buttons */
+            .panelHead a,
+            .panelHead button {
+                width: 100%;
+                margin-top: 8px;
+                text-align: center;
+            }
+
+            /* Touch-friendly buttons */
+            button,
+            .btn,
+            a[style*="padding"] {
+                min-height: 44px;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+            }
+
+            /* Input fields */
+            input,
+            select,
+            textarea {
+                min-height: 44px;
+                font-size: 16px !important; /* Prevents zoom on iOS */
+            }
+
+            /* Wordmark and user box */
+            .wordmark {
+                padding: 14px 14px 8px;
+            }
+
+            .userBox {
+                margin: 8px 12px 12px;
+                padding: 10px;
+            }
+
+            /* Sidebar navigation */
+            .nav {
+                padding: 4px 8px 12px;
+            }
+
+            .navSection {
+                margin-top: 12px;
+                padding-top: 12px;
             }
         }
 
@@ -635,6 +973,13 @@
                     Transactions
                 </a>
 
+                <a href="{{ route('admin.payment-settings') }}" @if(Route::currentRouteName() == 'admin.payment-settings') class="active" @endif>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                    Payment Settings
+                </a>
+
                 <a href="{{ route('admin.kyc') }}" @if(Route::currentRouteName() == 'admin.kyc') class="active" @endif>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 3l8 4v6c0 5-3 8-8 8s-8-3-8-8V7z" />
@@ -759,6 +1104,25 @@
         // Close sidebar if resizing to desktop
         window.addEventListener("resize", () => {
             if (window.innerWidth > 1024) closeSidebar();
+        });
+
+        // Add data-label attributes to table cells from headers for mobile view
+        document.addEventListener('DOMContentLoaded', function() {
+            const tables = document.querySelectorAll('.whitePanel table');
+            tables.forEach(table => {
+                const headers = table.querySelectorAll('thead th');
+                const rows = table.querySelectorAll('tbody tr');
+                
+                headers.forEach((header, index) => {
+                    const label = header.textContent.trim();
+                    rows.forEach(row => {
+                        const cell = row.querySelectorAll('td')[index];
+                        if (cell && !cell.hasAttribute('data-label')) {
+                            cell.setAttribute('data-label', label);
+                        }
+                    });
+                });
+            });
         });
     </script>
     @stack('scripts')
