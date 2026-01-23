@@ -443,6 +443,23 @@
             padding: 18px 18px 30px;
         }
 
+        @media (max-width: 768px) {
+            .wrap {
+                padding: 16px 16px 24px;
+            }
+
+            /* Increase base font sizes for better readability */
+            body {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wrap {
+                padding: 14px 14px 20px;
+            }
+        }
+
         .surface {
             border-radius: 18px;
             background: transparent;
@@ -488,12 +505,22 @@
 
         @media (max-width: 768px) {
             .heroText h3 {
-                font-size: 16px;
+                font-size: 20px;
             }
             
             .heroText p {
-                font-size: 12px;
+                font-size: 14px;
                 max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .heroText h3 {
+                font-size: 18px;
+            }
+            
+            .heroText p {
+                font-size: 13px;
             }
         }
 
@@ -531,7 +558,17 @@
 
         @media (max-width: 768px) {
             .balanceAmt {
-                font-size: 20px;
+                font-size: 28px;
+            }
+
+            .balanceTop {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .balanceAmt {
+                font-size: 24px;
             }
         }
 
@@ -563,6 +600,13 @@
             color: rgba(255, 255, 255, .82);
             cursor: pointer;
             transition: .15s ease;
+        }
+
+        @media (max-width: 768px) {
+            .sbtn {
+                height: 40px;
+                font-size: 13px;
+            }
         }
 
         .sbtn:hover {
@@ -616,10 +660,22 @@
             margin-bottom: 2px;
         }
 
+        @media (max-width: 768px) {
+            .stat small {
+                font-size: 11px;
+            }
+        }
+
         .stat strong {
             font-size: 14px;
             font-weight: 900;
             letter-spacing: -.01em;
+        }
+
+        @media (max-width: 768px) {
+            .stat strong {
+                font-size: 16px;
+            }
         }
 
         .stat .sub {
@@ -684,13 +740,31 @@
 
         @media (max-width: 768px) {
             .quick {
-                padding: 12px;
+                padding: 16px;
                 min-height: auto;
             }
             
+            .quick h4 {
+                font-size: 13px;
+            }
+            
+            .quick p {
+                font-size: 12px;
+            }
+            
+            .quick a {
+                font-size: 12px;
+            }
+            
             .quick svg {
-                width: 14px;
-                height: 14px;
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quick {
+                padding: 14px;
             }
         }
 
@@ -718,6 +792,13 @@
             display: inline-flex;
             align-items: center;
             gap: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .quick a {
+                font-size: 12px;
+                margin-top: 12px;
+            }
         }
 
         .quick a[href*="investments"] {
@@ -830,7 +911,8 @@
             .orderRow {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: 12px;
+                padding: 14px;
             }
             
             .orderRight {
@@ -838,6 +920,23 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+            }
+
+            .orderTitle {
+                font-size: 14px;
+            }
+
+            .orderMeta {
+                font-size: 12px;
+            }
+
+            .price {
+                font-size: 14px;
+            }
+
+            .status {
+                font-size: 11px;
+                padding: 5px 10px;
             }
         }
 
@@ -925,20 +1024,28 @@
 
         @media (max-width: 768px) {
             .mItem {
-                padding: 10px 12px;
+                padding: 14px 16px;
             }
             
             .mRight {
-                margin-right: -12px;
-                padding: 6px 10px;
+                margin-right: -16px;
+                padding: 8px 12px;
             }
             
             .mPrice {
-                font-size: 12px;
+                font-size: 14px;
             }
             
             .mChange {
-                font-size: 10px;
+                font-size: 12px;
+            }
+
+            .mName {
+                font-size: 13px;
+            }
+
+            .mTicker {
+                font-size: 12px;
             }
         }
 
@@ -979,17 +1086,23 @@
 
         @media (max-width: 768px) {
             .mName {
-                max-width: 150px;
-                font-size: 11px;
+                max-width: 100%;
+                font-size: 13px;
             }
             
             .mTicker {
-                font-size: 10px;
+                font-size: 12px;
             }
             
             .mLeft {
                 min-width: 0;
                 flex: 1;
+            }
+
+            .logo {
+                width: 36px;
+                height: 36px;
+                font-size: 12px;
             }
         }
 
@@ -1060,19 +1173,27 @@
 
         @media (max-width: 768px) {
             .legend {
-                gap: 8px;
-                font-size: 9px;
+                gap: 10px;
+                font-size: 11px;
                 justify-content: flex-start;
-                margin-top: 8px;
+                margin-top: 10px;
             }
             
             .chartBody {
-                padding: 10px 12px 12px;
+                padding: 14px 16px 16px;
                 overflow-x: auto;
             }
             
             .chartWrap svg {
                 min-width: 600px;
+            }
+
+            .chartWrap .panelHead h5 {
+                font-size: 13px;
+            }
+
+            .chartWrap .panelHead small {
+                font-size: 11px;
             }
         }
 
@@ -1128,35 +1249,52 @@
         /* Additional mobile fixes */
         @media (max-width: 480px) {
             .heroCard {
-                padding: 14px;
+                padding: 16px;
             }
             
             .balanceBox {
-                padding: 14px;
+                padding: 16px;
             }
             
             .whitePanel {
-                border-radius: 12px;
+                border-radius: 14px;
             }
             
             .stat,
             .quick {
-                border-radius: 12px;
+                border-radius: 14px;
             }
             
             .chartWrap {
-                border-radius: 12px;
+                border-radius: 14px;
             }
             
             .thumb {
-                width: 40px;
-                height: 30px;
+                width: 48px;
+                height: 36px;
             }
             
             .logo {
-                width: 28px;
-                height: 28px;
-                font-size: 10px;
+                width: 32px;
+                height: 32px;
+                font-size: 11px;
+            }
+
+            /* Ensure text is readable */
+            .orderTitle {
+                font-size: 13px;
+            }
+
+            .orderMeta {
+                font-size: 11px;
+            }
+
+            .mName {
+                font-size: 12px;
+            }
+
+            .mTicker {
+                font-size: 11px;
             }
         }
     </style>
