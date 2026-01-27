@@ -30,6 +30,9 @@ Route::get('/', function (StockMarketService $stockService, NewsService $newsSer
     } catch (\Exception $e) {
         \Log::error('News fetch error: ' . $e->getMessage());
     }
+
+    // Tesla Investment Plans (4 plans as defined in seeder)
+    $investmentPlans = InvestmentPlan::orderBy('display_order')->get();
     
     return view('home.index', [
         'featuredStocks' => $featuredStocks,
@@ -37,6 +40,7 @@ Route::get('/', function (StockMarketService $stockService, NewsService $newsSer
         'topLosers' => $topLosers,
         'mostActive' => $mostActive,
         'marketNews' => $marketNews,
+        'investmentPlans' => $investmentPlans,
     ]);
 })->name('home');
 

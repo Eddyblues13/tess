@@ -242,6 +242,112 @@
         </div>
     </section>
 
+    <!-- Tesla Investment Plans section -->
+    <section class="bg-[#07090c] border-t border-[#E31937]/20">
+        <div class="wrap py-14">
+            <div class="flex items-start justify-between gap-6 mb-6">
+                <div>
+                    <h2 class="text-[26px] md:text-[32px] font-[900] tracking-[-.02em] text-white">
+                        Tesla Investment Plans <span class="text-[#E31937]">•</span>
+                    </h2>
+                    <p class="mt-2 text-[13px] md:text-[14px] text-white/55 max-w-xl">
+                        Choose from four Tesla investment plans with fixed profit margins and clear minimum and maximum investment limits.
+                    </p>
+                </div>
+                <div class="mt-2">
+                    <a href="{{ route('invest') }}" class="inline-flex items-center gap-2 text-[13px] font-[800] text-[#E31937] hover:opacity-80 transition-colors">
+                        View all plans
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14" />
+                            <path d="M13 6l6 6-6 6" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                @forelse(($investmentPlans ?? [])->take(4) as $plan)
+                    <div class="rounded-[18px] border border-white/10 bg-white/5 px-5 py-5 flex flex-col justify-between hover:border-[#E31937]/40 hover:bg-white/[0.06] transition-colors">
+                        <div>
+                            <div class="flex items-center justify-between gap-3 mb-2">
+                                <h3 class="text-[15px] font-[900] tracking-[-.02em] text-white uppercase">
+                                    {{ $plan->name }}
+                                </h3>
+                                @if($plan->profit_margin)
+                                    <span class="inline-flex items-center rounded-full bg-[#E31937]/15 px-3 py-1 text-[11px] font-[800] text-[#E31937]">
+                                        {{ rtrim(rtrim(number_format((float)$plan->profit_margin, 2), '0'), '.') }}% Profit
+                                    </span>
+                                @endif
+                            </div>
+                            <p class="text-[12px] text-white/45 mb-4">
+                                {{ $plan->duration_label ? $plan->duration_label : ($plan->duration_days ? $plan->duration_days . ' days' : 'Flexible duration') }}
+                                @if($plan->category)
+                                    · <span class="text-white/35">{{ $plan->category }}</span>
+                                @endif
+                            </p>
+
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <div class="text-[11px] font-[800] text-white/45 uppercase tracking-[0.08em]">Minimum</div>
+                                    <div class="mt-1 text-[14px] font-[900] text-white">
+                                        ${{ number_format((float)$plan->min_investment, 0) }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="text-[11px] font-[800] text-white/45 uppercase tracking-[0.08em]">Maximum</div>
+                                    <div class="mt-1 text-[14px] font-[900] text-white">
+                                        @if(is_null($plan->max_investment))
+                                            Unlimited
+                                        @else
+                                            ${{ number_format((float)$plan->max_investment, 0) }}
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between text-[12px] text-white/50">
+                                <div>
+                                    <span class="font-[800] text-white/70">
+                                        @if($plan->duration_label)
+                                            {{ $plan->duration_label }}
+                                        @elseif($plan->duration_days)
+                                            {{ $plan->duration_days }} days
+                                        @else
+                                            Fixed term
+                                        @endif
+                                    </span>
+                                    @if($plan->risk_level)
+                                        <span class="ml-1 text-white/35">· {{ ucfirst($plan->risk_level) }} risk</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 flex items-center justify-between gap-3">
+                            @auth
+                                <a href="{{ route('dashboard.investments') }}"
+                                   class="flex-1 h-[38px] inline-flex items-center justify-center rounded-md text-[12px] font-[900] text-white hover:opacity-90 transition cursor-pointer"
+                                   style="background: #E31937;">
+                                    Invest now
+                                </a>
+                            @else
+                                <a href="{{ route('register') }}"
+                                   class="flex-1 h-[38px] inline-flex items-center justify-center rounded-md text-[12px] font-[900] text-white hover:opacity-90 transition cursor-pointer"
+                                   style="background: #E31937;">
+                                    Get started
+                                </a>
+                            @endauth
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-span-4 text-center py-8 text-[13px] text-white/50">
+                        Investment plans will appear here once configured.
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </section>
+
     <!-- White inventory section (exact structure like screenshot) -->
     <section class="bg-white">
         <div class="wrap py-14">
