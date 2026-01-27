@@ -8,10 +8,10 @@
         <div class="wrap">
             <div class="max-w-3xl">
                 <h1 class="text-[48px] md:text-[64px] font-[900] tracking-[-.04em] text-white mb-4">
-                    Stock Markets
+                    Stock Markets <span class="text-[#E31937]">•</span>
                 </h1>
                 <p class="text-[15px] md:text-[16px] text-white/60">
-                    Featured picks, top gainers, losers, and most active stocks.
+                    Featured picks, top gainers, losers, and <span class="text-[#E31937] font-[600]">most active</span> stocks.
                 </p>
             </div>
         </div>
@@ -22,206 +22,124 @@
         <div class="wrap">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 <!-- Featured -->
-                <div class="rounded-[18px] border border-white/10 bg-white/5 overflow-hidden">
-                    <div class="flex items-center justify-between px-5 py-4 text-[13px] font-[900] text-white/75">
-                        <span>Featured</span>
-                        <span class="text-white/40 font-[800]">See all</span>
+                <div class="rounded-[18px] border border-white/10 bg-white/5 overflow-hidden hover:border-[#E31937]/50 transition-colors">
+                    <div class="flex items-center justify-between px-5 py-4 text-[13px] font-[900] text-white/75 border-b border-[#E31937]/20">
+                        <span class="text-[#E31937]">Featured</span>
+                        <span class="text-[#E31937] font-[800] hover:opacity-80 cursor-pointer">See all</span>
                     </div>
 
-                    <div class="flex items-center justify-between gap-3 px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center text-white/90 text-[13px] font-[900]">
-                                
-                            </div>
-                            <div class="min-w-0">
-                                <div class="text-[13px] font-[900] text-white/90 truncate">
-                                    AAPL <span class="text-white/40 font-[700]">· Apple Inc.</span>
-                                </div>
-                                <div class="text-[12px] text-white/40">Technology</div>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-[14px] font-[900] text-white/90">$229.35</div>
-                            <div class="text-[12px] font-[900] text-emerald-400">+2.91 (+1.27%)</div>
-                        </div>
-                    </div>
+                    @php
+                        $stockNames = [
+                            'AAPL' => 'Apple Inc.',
+                            'MSFT' => 'Microsoft Corporation',
+                            'GOOGL' => 'Alphabet Inc.',
+                            'AMZN' => 'Amazon.com Inc.',
+                            'NVDA' => 'NVIDIA Corporation',
+                            'META' => 'Meta Platforms Inc.',
+                            'TSLA' => 'Tesla Inc.',
+                            'JPM' => 'JPMorgan Chase & Co.',
+                            'V' => 'Visa Inc.',
+                            'JNJ' => 'Johnson & Johnson',
+                        ];
+                    @endphp
 
-                    <div class="flex items-center justify-between gap-3 px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center text-white/90 text-[12px] font-[900]">
-                                ▦
-                            </div>
-                            <div class="min-w-0">
-                                <div class="text-[13px] font-[900] text-white/90 truncate">
-                                    MSFT <span class="text-white/40 font-[700]">· Microsoft Corporation</span>
+                    @forelse($featuredStocks ?? [] as $symbol => $stock)
+                        <div class="flex items-center justify-between gap-3 px-5 py-4 border-t border-white/7">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-[30px] h-[30px] rounded-[10px] border border-[#E31937]/30 bg-black/20 grid place-items-center text-[#E31937] text-[12px] font-[900]">
+                                    {{ substr($symbol, 0, 1) }}
                                 </div>
-                                <div class="text-[12px] text-white/40">Technology</div>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-[14px] font-[900] text-white/90">$522.04</div>
-                            <div class="text-[12px] font-[900] text-rose-400">-10.91 (-2.09%)</div>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center justify-between gap-3 px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center text-white/90 text-[12px] font-[900]">
-                                G
-                            </div>
-                            <div class="min-w-0">
-                                <div class="text-[13px] font-[900] text-white/90 truncate">
-                                    GOOGL <span class="text-white/40 font-[700]">· Alphabet Inc.</span>
+                                <div class="min-w-0">
+                                    <div class="text-[13px] font-[900] text-white/90 truncate">
+                                        {{ $symbol }} <span class="text-white/40 font-[700]">· {{ $stockNames[$symbol] ?? 'Stock' }}</span>
+                                    </div>
+                                    <div class="text-[12px] text-white/40">Technology</div>
                                 </div>
-                                <div class="text-[12px] text-white/40">Technology</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-[14px] font-[900] text-white/90">${{ number_format($stock['price'] ?? 0, 2) }}</div>
+                                @php
+                                    $change = $stock['change_percent'] ?? 0;
+                                    $changeColor = $change >= 0 ? 'text-emerald-400' : 'text-rose-400';
+                                    $changeSign = $change >= 0 ? '+' : '';
+                                @endphp
+                                <div class="text-[12px] font-[900] {{ $changeColor }}">{{ $changeSign }}{{ number_format($change, 2) }}%</div>
                             </div>
                         </div>
-                        <div class="text-right">
-                            <div class="text-[14px] font-[900] text-white/90">$201.42</div>
-                            <div class="text-[12px] font-[900] text-rose-400">-3.54 (-1.76%)</div>
-                        </div>
-                    </div>
+                    @empty
+                        <div class="px-5 py-4 border-t border-white/7 text-[12px] text-white/50">Loading stock data...</div>
+                    @endforelse
                 </div>
 
                 <!-- Top Gainers -->
-                <div class="rounded-[18px] border border-white/10 bg-white/5 overflow-hidden">
-                    <div class="px-5 py-4 text-[13px] font-[900] text-white/75">
+                <div class="rounded-[18px] border border-white/10 bg-white/5 overflow-hidden hover:border-[#E31937]/50 transition-colors">
+                    <div class="px-5 py-4 text-[13px] font-[900] text-[#E31937] border-b border-[#E31937]/20">
                         Top Gainers
                     </div>
 
-                    <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                <span class="text-[12px] font-[900] text-white/85">TF</span>
+                    @forelse($topGainers ?? [] as $stock)
+                        <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
+                            <div class="flex items-center gap-3">
+                                <div class="w-[30px] h-[30px] rounded-[10px] border border-[#E31937]/30 bg-black/20 grid place-items-center">
+                                    <span class="text-[12px] font-[900] text-[#E31937]">{{ substr($stock['symbol'] ?? '?', 0, 2) }}</span>
+                                </div>
+                                <div class="text-[13px] font-[900] text-white/90">{{ $stock['symbol'] ?? 'N/A' }}</div>
                             </div>
-                            <div class="text-[13px] font-[900] text-white/90">TMO</div>
+                            <div class="text-[12px] font-[900] text-emerald-400">+{{ number_format($stock['change_percent'] ?? 0, 2) }}%</div>
                         </div>
-                        <div class="text-[12px] font-[900] text-emerald-400">+5.00%</div>
-                    </div>
-
-                    <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                <span class="text-[12px] font-[900] text-white/85">N</span>
-                            </div>
-                            <div class="text-[13px] font-[900] text-white/90">NVDA</div>
-                        </div>
-                        <div class="text-[12px] font-[900] text-emerald-400">+4.94%</div>
-                    </div>
-
-                    <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                <span class="text-[12px] font-[900] text-white/85">P</span>
-                            </div>
-                            <div class="text-[13px] font-[900] text-white/90">PYPL</div>
-                        </div>
-                        <div class="text-[12px] font-[900] text-emerald-400">+4.86%</div>
-                    </div>
-
-                    <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                <span class="text-[12px] font-[900] text-white/85">♥</span>
-                            </div>
-                            <div class="text-[13px] font-[900] text-white/90">CVS</div>
-                        </div>
-                        <div class="text-[12px] font-[900] text-emerald-400">+4.83%</div>
-                    </div>
+                    @empty
+                        <div class="px-5 py-4 border-t border-white/7 text-[12px] text-white/50">Loading data...</div>
+                    @endforelse
                 </div>
 
                 <!-- Top Losers -->
-                <div class="rounded-[18px] border border-white/10 bg-white/5 overflow-hidden">
-                    <div class="px-5 py-4 text-[13px] font-[900] text-white/75">
+                <div class="rounded-[18px] border border-white/10 bg-white/5 overflow-hidden hover:border-[#E31937]/50 transition-colors">
+                    <div class="px-5 py-4 text-[13px] font-[900] text-[#E31937] border-b border-[#E31937]/20">
                         Top Losers
                     </div>
 
-                    <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                <span class="text-[12px] font-[900] text-white/85">H</span>
+                    @forelse($topLosers ?? [] as $stock)
+                        <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
+                            <div class="flex items-center gap-3">
+                                <div class="w-[30px] h-[30px] rounded-[10px] border border-[#E31937]/30 bg-black/20 grid place-items-center">
+                                    <span class="text-[12px] font-[900] text-[#E31937]">{{ substr($stock['symbol'] ?? '?', 0, 2) }}</span>
+                                </div>
+                                <div class="text-[13px] font-[900] text-white/90">{{ $stock['symbol'] ?? 'N/A' }}</div>
                             </div>
-                            <div class="text-[13px] font-[900] text-white/90">HON</div>
+                            <div class="text-[12px] font-[900] text-rose-400">{{ number_format($stock['change_percent'] ?? 0, 2) }}%</div>
                         </div>
-                        <div class="text-[12px] font-[900] text-rose-400">-4.93%</div>
-                    </div>
-
-                    <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                <span class="text-[12px] font-[900] text-white/85">N</span>
-                            </div>
-                            <div class="text-[13px] font-[900] text-white/90">NEE</div>
-                        </div>
-                        <div class="text-[12px] font-[900] text-rose-400">-4.91%</div>
-                    </div>
-
-                    <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                <span class="text-[12px] font-[900] text-white/85">G</span>
-                            </div>
-                            <div class="text-[13px] font-[900] text-white/90">GS</div>
-                        </div>
-                        <div class="text-[12px] font-[900] text-rose-400">-4.90%</div>
-                    </div>
-
-                    <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                <span class="text-[12px] font-[900] text-white/85">HD</span>
-                            </div>
-                            <div class="text-[13px] font-[900] text-white/90">HD</div>
-                        </div>
-                        <div class="text-[12px] font-[900] text-rose-400">-4.88%</div>
-                    </div>
+                    @empty
+                        <div class="px-5 py-4 border-t border-white/7 text-[12px] text-white/50">Loading data...</div>
+                    @endforelse
                 </div>
 
                 <!-- Most Active -->
-                <div class="rounded-[18px] border border-white/10 bg-white/5 overflow-hidden">
-                    <div class="px-5 py-4 text-[13px] font-[900] text-white/75">
+                <div class="rounded-[18px] border border-white/10 bg-white/5 overflow-hidden hover:border-[#E31937]/50 transition-colors">
+                    <div class="px-5 py-4 text-[13px] font-[900] text-[#E31937] border-b border-[#E31937]/20">
                         Most Active
                     </div>
 
-                    <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                <span class="text-[12px] font-[900] text-white/85">P</span>
+                    @forelse($mostActive ?? [] as $stock)
+                        @php
+                            $volume = $stock['volume'] ?? 0;
+                            $volumeFormatted = $volume >= 1000000 
+                                ? number_format($volume / 1000000, 1) . 'M' 
+                                : ($volume >= 1000 
+                                    ? number_format($volume / 1000, 1) . 'K' 
+                                    : number_format($volume));
+                        @endphp
+                        <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
+                            <div class="flex items-center gap-3">
+                                <div class="w-[30px] h-[30px] rounded-[10px] border border-[#E31937]/30 bg-black/20 grid place-items-center">
+                                    <span class="text-[12px] font-[900] text-[#E31937]">{{ substr($stock['symbol'] ?? '?', 0, 2) }}</span>
+                                </div>
+                                <div class="text-[13px] font-[900] text-white/90">{{ $stock['symbol'] ?? 'N/A' }}</div>
                             </div>
-                            <div class="text-[13px] font-[900] text-white/90">PYPL</div>
+                            <div class="text-[12px] font-[800] text-[#E31937]/80">Vol {{ $volumeFormatted }}</div>
                         </div>
-                        <div class="text-[12px] font-[800] text-white/55">Vol 98.3M</div>
-                    </div>
-
-                    <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                <span class="text-[12px] font-[900] text-white/85">F</span>
-                            </div>
-                            <div class="text-[13px] font-[900] text-white/90">FTNT</div>
-                        </div>
-                        <div class="text-[12px] font-[800] text-white/55">Vol 97.2M</div>
-                    </div>
-
-                    <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                <span class="text-[12px] font-[900] text-white/85">WF</span>
-                            </div>
-                            <div class="text-[13px] font-[900] text-white/90">WFC</div>
-                        </div>
-                        <div class="text-[12px] font-[800] text-white/55">Vol 95.3M</div>
-                    </div>
-
-                    <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
-                        <div class="flex items-center gap-3">
-                            <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                <span class="text-[12px] font-[900] text-white/85">A</span>
-                            </div>
-                            <div class="text-[13px] font-[900] text-white/90">ABNB</div>
-                        </div>
-                        <div class="text-[12px] font-[800] text-white/55">Vol 93.8M</div>
-                    </div>
+                    @empty
+                        <div class="px-5 py-4 border-t border-white/7 text-[12px] text-white/50">Loading data...</div>
+                    @endforelse
                 </div>
             </div>
         </div>

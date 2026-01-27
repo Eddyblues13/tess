@@ -1,5 +1,5 @@
-﻿    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap");
 
         :root {
             --bg: #0b0c10;
@@ -28,10 +28,12 @@
 
         body {
             margin: 0;
-            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
             background: linear-gradient(180deg, #07080b, #0b0c10 30%, #0b0c10);
             color: var(--text);
             overflow-x: hidden;
+            font-size: 16px;
+            font-weight: 500;
         }
 
         /* layout */
@@ -80,7 +82,7 @@
         .wordmark span {
             font-weight: 900;
             letter-spacing: .28em;
-            font-size: 18px;
+            font-size: 22px;
             color: #fff;
             opacity: .95;
         }
@@ -111,7 +113,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 800;
             padding: 5px 8px;
             border-radius: 999px;
@@ -134,7 +136,7 @@
             border-radius: 10px;
             color: rgba(255, 255, 255, .62);
             font-weight: 700;
-            font-size: 13px;
+            font-size: 15px;
             text-decoration: none;
             transition: all .15s ease;
         }
@@ -236,7 +238,7 @@
 
         .topTitle {
             font-weight: 900;
-            font-size: 14px;
+            font-size: 18px;
             color: #111827;
             letter-spacing: -0.01em;
         }
@@ -343,7 +345,7 @@
 
         .heroText h3 {
             margin: 0;
-            font-size: 18px;
+            font-size: 24px;
             font-weight: 900;
             color: #ffffff;
             letter-spacing: -0.01em;
@@ -351,10 +353,11 @@
 
         .heroText p {
             margin: 6px 0 0;
-            font-size: 13px;
+            font-size: 16px;
             color: rgba(255, 255, 255, 0.75);
             line-height: 1.5;
             max-width: 420px;
+            font-weight: 500;
         }
 
         .balanceBox {
@@ -370,13 +373,13 @@
             align-items: center;
             justify-content: space-between;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 900;
             margin-bottom: 8px;
         }
 
         .balanceAmt {
-            font-size: 24px;
+            font-size: 32px;
             font-weight: 900;
             letter-spacing: -.02em;
             color: #ffffff;
@@ -390,9 +393,9 @@
 
         .sbtn {
             flex: 1;
-            height: 32px;
+            height: 36px;
             border-radius: 10px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 900;
             border: 1px solid rgba(255, 255, 255, .12);
             background: rgba(0, 0, 0, .10);

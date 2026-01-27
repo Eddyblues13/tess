@@ -88,6 +88,12 @@
             user-select: none;
         }
 
+        .wordmark img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
+
         .wordmark span {
             font-weight: 900;
             letter-spacing: .28em;
@@ -210,6 +216,8 @@
         .content {
             min-height: 100vh;
             background: #f8f8f8;
+            overflow-x: hidden;
+            max-width: 100%;
         }
 
         .topbar {
@@ -267,6 +275,11 @@
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        .bellWrapper,
+        .profileWrapper {
+            position: relative;
         }
 
         .bell {
@@ -405,6 +418,56 @@
             cursor: pointer;
         }
 
+        .profileDropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 200px;
+            background: #fff;
+            border: 1px solid rgba(0,0,0,.10);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,.15);
+            z-index: 100;
+            display: none;
+            overflow: hidden;
+            padding: 8px 0;
+        }
+
+        .profileDropdown.show {
+            display: block;
+        }
+
+        .profileDropdown a,
+        .profileDropdown form {
+            display: block;
+        }
+
+        .profileDropdown a,
+        .profileDropdown button {
+            width: 100%;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            color: #111827;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+
+        .profileDropdown a:hover,
+        .profileDropdown button:hover {
+            background: #f9fafb;
+        }
+
+        .profileDropdown .profileDropdownDivider {
+            height: 1px;
+            background: rgba(0,0,0,.06);
+            margin: 4px 0;
+        }
+
         @media (max-width:1024px) {
             .sidebar {
                 position: fixed;
@@ -441,6 +504,9 @@
         /* inner layout */
         .wrap {
             padding: 18px 18px 30px;
+            max-width: 100%;
+            overflow-x: hidden;
+            box-sizing: border-box;
         }
 
         @media (max-width: 768px) {
@@ -489,16 +555,17 @@
 
         .heroText h3 {
             margin: 0;
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 900;
             color: #ffffff;
             letter-spacing: -0.01em;
         }
 
         .heroText p {
-            margin: 6px 0 0;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.75);
+            margin: 8px 0 0;
+            font-size: 15px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
             line-height: 1.5;
             max-width: 420px;
         }
@@ -543,14 +610,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 12px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 14px;
             font-weight: 900;
             margin-bottom: 8px;
         }
 
         .balanceAmt {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 900;
             letter-spacing: -.02em;
             color: #ffffff;
@@ -558,7 +625,7 @@
 
         @media (max-width: 768px) {
             .balanceAmt {
-                font-size: 28px;
+                font-size: 24px;
             }
 
             .balanceTop {
@@ -568,7 +635,7 @@
 
         @media (max-width: 480px) {
             .balanceAmt {
-                font-size: 24px;
+                font-size: 22px;
             }
         }
 
@@ -591,32 +658,60 @@
 
         .sbtn {
             flex: 1;
-            height: 32px;
+            height: 38px;
             border-radius: 10px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 900;
-            border: 1px solid rgba(255, 255, 255, .12);
-            background: rgba(0, 0, 0, .10);
-            color: rgba(255, 255, 255, .82);
+            border: 1px solid rgba(255, 255, 255, .15);
+            background: rgba(255, 255, 255, .08);
+            color: rgba(255, 255, 255, .95);
             cursor: pointer;
-            transition: .15s ease;
+            transition: all .2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
         @media (max-width: 768px) {
             .sbtn {
-                height: 40px;
-                font-size: 13px;
+                height: 42px;
+                font-size: 14px;
             }
         }
 
         .sbtn:hover {
-            background: rgba(255, 255, 255, .06);
+            background: rgba(255, 255, 255, .15);
+            border-color: rgba(255, 255, 255, .25);
+            transform: translateY(-1px);
+        }
+
+        .sbtn.deposit-btn {
+            background: rgba(16, 185, 129, .2);
+            border-color: rgba(16, 185, 129, .4);
+            color: #10b981;
+        }
+
+        .sbtn.deposit-btn:hover {
+            background: rgba(16, 185, 129, .3);
+            border-color: rgba(16, 185, 129, .5);
+            color: #34d399;
         }
 
         .sbtn.ghost {
             background: transparent;
-            border-color: rgba(255, 255, 255, .16);
-            color: rgba(255, 255, 255, .70);
+            border-color: rgba(255, 255, 255, .2);
+            color: rgba(255, 255, 255, .85);
+        }
+
+        .sbtn.withdraw-btn:hover {
+            background: rgba(255, 255, 255, .1);
+            border-color: rgba(255, 255, 255, .3);
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .sbtn svg {
+            flex-shrink: 0;
         }
 
         /* stat cards */
@@ -644,12 +739,12 @@
             background: #fff;
             color: #0f1116;
             border: 1px solid rgba(0, 0, 0, .08);
-            padding: 12px;
+            padding: 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            min-height: 64px;
+            min-height: 78px;
         }
 
         .stat small {
@@ -730,12 +825,12 @@
             background: #fff;
             color: #0f1116;
             border: 1px solid rgba(0, 0, 0, .08);
-            padding: 14px;
-            min-height: 78px;
+            padding: 16px;
+            min-height: 90px;
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            gap: 10px;
+            gap: 12px;
         }
 
         @media (max-width: 768px) {
@@ -770,22 +865,22 @@
 
         .quick h4 {
             margin: 0;
-            font-size: 12px;
+            font-size: 15px;
             font-weight: 900;
             color: #111827;
         }
 
         .quick p {
             margin: 6px 0 0;
-            font-size: 11px;
+            font-size: 13px;
             color: #6b7280;
             font-weight: 700;
-            line-height: 1.35;
+            line-height: 1.4;
         }
 
         .quick a {
             margin-top: 10px;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 900;
             color: #2563eb;
             text-decoration: none;
@@ -796,7 +891,7 @@
 
         @media (max-width: 768px) {
             .quick a {
-                font-size: 12px;
+                font-size: 13px;
                 margin-top: 12px;
             }
         }
@@ -870,21 +965,21 @@
 
         .panelHead h5 {
             margin: 0;
-            font-size: 12px;
+            font-size: 15px;
             font-weight: 900;
             color: #111827;
         }
 
         .panelHead small {
             display: block;
-            margin-top: 3px;
-            font-size: 11px;
+            margin-top: 4px;
+            font-size: 12px;
             font-weight: 700;
             color: #6b7280;
         }
 
         .viewAll {
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 900;
             color: #111827;
             opacity: .7;
@@ -962,7 +1057,7 @@
         }
 
         .orderTitle {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 900;
             color: #111827;
             white-space: nowrap;
@@ -991,7 +1086,7 @@
         }
 
         .price {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 900;
             color: #111827;
         }
@@ -1107,7 +1202,7 @@
         }
 
         .mTicker {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 800;
             color: #6b7280;
             margin-top: 2px;
@@ -1129,7 +1224,7 @@
         }
 
         .mChange {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 900;
             margin-top: 3px;
             color: #10b981;
@@ -1168,13 +1263,13 @@
             justify-content: flex-end;
             color: #6b7280;
             font-weight: 900;
-            font-size: 10px;
+            font-size: 12px;
         }
 
         @media (max-width: 768px) {
             .legend {
                 gap: 10px;
-                font-size: 11px;
+                font-size: 12px;
                 justify-content: flex-start;
                 margin-top: 10px;
             }
@@ -1308,7 +1403,7 @@
         <!-- ================= SIDEBAR ================= -->
         <aside class="sidebar" id="sidebar">
             <div class="wordmark">
-                <span>TESLA</span>
+                <img src="{{ asset('images/logo.png') }}" alt="TESLA Logo" />
             </div>
 
             <div class="userBox">
@@ -1483,18 +1578,39 @@
                 </div>
 
                 <div class="topRight">
-                    <div class="bell" title="Notifications">
-                        <div class="bellBadge">3</div>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2">
-                            <path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 7h18s-3 0-3-7" />
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                        </svg>
+                    <div class="bellWrapper">
+                        <div class="bell" id="notificationBell" title="Notifications">
+                            <div class="bellBadge hidden" id="notificationBadge">0</div>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2">
+                                <path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 7h18s-3 0-3-7" />
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                            </svg>
+                        </div>
+                        <div class="notificationDropdown" id="notificationDropdown">
+                            <div class="notificationHeader">
+                                <h5>Notifications</h5>
+                                <button type="button" id="notificationMarkAllRead">Mark all read</button>
+                            </div>
+                            <div class="notificationList" id="notificationList">
+                                <div class="notificationEmpty" id="notificationEmpty">No notifications</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="profileIcon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
-                            <path d="M20 21a8 8 0 1 0-16 0" />
-                            <circle cx="12" cy="7" r="4" />
-                        </svg>
+                    <div class="profileWrapper">
+                        <div class="profileIcon" id="profileIcon" title="Account">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
+                                <path d="M20 21a8 8 0 1 0-16 0" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                        </div>
+                        <div class="profileDropdown" id="profileDropdown">
+                            <a href="{{ route('dashboard.account') }}">Account</a>
+                            <div class="profileDropdownDivider"></div>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit">Logout</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1548,25 +1664,52 @@
         // Active nav state
         const nav = document.getElementById("nav");
 
-        // Notification dropdown toggle
+        // Notification & profile dropdowns
         const notificationBell = document.getElementById("notificationBell");
         const notificationDropdown = document.getElementById("notificationDropdown");
+        const notificationList = document.getElementById("notificationList");
+        const notificationEmpty = document.getElementById("notificationEmpty");
+        const notificationMarkAllRead = document.getElementById("notificationMarkAllRead");
+        const bellWrapper = notificationBell ? notificationBell.closest(".bellWrapper") : null;
+        const profileIcon = document.getElementById("profileIcon");
+        const profileDropdown = document.getElementById("profileDropdown");
+        const profileWrapper = profileIcon ? profileIcon.closest(".profileWrapper") : null;
 
-        if (notificationBell && notificationDropdown) {
-            notificationBell.addEventListener("click", function(e) {
-                e.stopPropagation();
-                notificationDropdown.classList.toggle("show");
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener("click", function(e) {
-                if (!notificationBell.contains(e.target)) {
-                    notificationDropdown.classList.remove("show");
-                }
-            });
+        function loadNotifications() {
+            fetch('{{ route("dashboard.notifications.get") }}')
+                .then(response => response.json())
+                .then(data => {
+                    const list = document.getElementById("notificationList");
+                    const emptyEl = document.getElementById("notificationEmpty");
+                    if (!list || !emptyEl) return;
+                    list.querySelectorAll(".notificationItem").forEach(n => n.remove());
+                    if (data.notifications && data.notifications.length > 0) {
+                        emptyEl.style.display = "none";
+                        data.notifications.forEach(function(n) {
+                            const item = document.createElement("div");
+                            item.className = "notificationItem unread";
+                            item.dataset.notificationId = n.id;
+                            item.innerHTML = '<div class="notificationTitle">' + (n.title || 'Notification') + '</div>' +
+                                (n.message ? '<div class="notificationMessage">' + n.message + '</div>' : '') +
+                                (n.created_at ? '<div class="notificationTime">' + n.created_at + '</div>' : '');
+                            if (n.link) {
+                                item.style.cursor = "pointer";
+                                item.addEventListener("click", function() {
+                                    markAsRead(n.id);
+                                    window.location.href = n.link;
+                                });
+                            } else {
+                                item.addEventListener("click", function() { markAsRead(n.id); });
+                            }
+                            list.appendChild(item);
+                        });
+                    } else {
+                        emptyEl.style.display = "block";
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         }
 
-        // Mark notification as read
         function markAsRead(notificationId) {
             fetch('{{ route("dashboard.notifications.mark-read") }}', {
                 method: 'POST',
@@ -1579,17 +1722,21 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const item = document.querySelector(`[data-notification-id="${notificationId}"]`);
+                    const item = document.querySelector('[data-notification-id="' + notificationId + '"]');
                     if (item) {
                         item.classList.remove('unread');
+                        item.remove();
                     }
                     updateNotificationBadge();
+                    if (notificationList && notificationList.querySelectorAll(".notificationItem").length === 0) {
+                        const emptyEl = document.getElementById("notificationEmpty");
+                        if (emptyEl) emptyEl.style.display = "block";
+                    }
                 }
             })
             .catch(error => console.error('Error:', error));
         }
 
-        // Mark all notifications as read
         function markAllAsRead() {
             fetch('{{ route("dashboard.notifications.mark-all-read") }}', {
                 method: 'POST',
@@ -1601,21 +1748,22 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    document.querySelectorAll('.notificationItem').forEach(item => {
-                        item.classList.remove('unread');
-                    });
+                    if (notificationList) {
+                        notificationList.querySelectorAll(".notificationItem").forEach(n => n.remove());
+                        if (notificationEmpty) notificationEmpty.style.display = "block";
+                    }
                     updateNotificationBadge();
                 }
             })
             .catch(error => console.error('Error:', error));
         }
 
-        // Update notification badge count
         function updateNotificationBadge() {
             fetch('{{ route("dashboard.notifications.get") }}')
                 .then(response => response.json())
                 .then(data => {
                     const badge = document.getElementById('notificationBadge');
+                    if (!badge) return;
                     if (data.unread_count > 0) {
                         badge.textContent = data.unread_count > 99 ? '99+' : data.unread_count;
                         badge.classList.remove('hidden');
@@ -1624,6 +1772,44 @@
                     }
                 })
                 .catch(error => console.error('Error:', error));
+        }
+
+        if (notificationBell && notificationDropdown && bellWrapper) {
+            notificationBell.addEventListener("click", function(e) {
+                e.stopPropagation();
+                if (profileDropdown) profileDropdown.classList.remove("show");
+                notificationDropdown.classList.toggle("show");
+                if (notificationDropdown.classList.contains("show")) {
+                    loadNotifications();
+                }
+            });
+            if (notificationMarkAllRead) {
+                notificationMarkAllRead.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    markAllAsRead();
+                });
+            }
+            document.addEventListener("click", function(e) {
+                if (!bellWrapper.contains(e.target)) {
+                    notificationDropdown.classList.remove("show");
+                }
+            });
+        }
+
+        updateNotificationBadge();
+
+        // Profile dropdown toggle
+        if (profileIcon && profileDropdown && profileWrapper) {
+            profileIcon.addEventListener("click", function(e) {
+                e.stopPropagation();
+                if (notificationDropdown) notificationDropdown.classList.remove("show");
+                profileDropdown.classList.toggle("show");
+            });
+            document.addEventListener("click", function(e) {
+                if (!profileWrapper.contains(e.target)) {
+                    profileDropdown.classList.remove("show");
+                }
+            });
         }
         nav?.addEventListener("click", (e) => {
             const a = e.target.closest("a[data-page]");

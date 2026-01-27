@@ -111,7 +111,7 @@
                         <textarea name="message" rows="8" required placeholder="Describe your issue or question..." style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,.10); background: #fff; font-size: 13px; color: #111827; font-family: inherit; resize: vertical; min-height: 150px;"></textarea>
                     </div>
 
-                    <button type="submit" style="height: 38px; padding: 0 20px; border-radius: 10px; background: #0b0c10; color: #fff; font-size: 12px; font-weight: 900; border: none; cursor: pointer; transition: opacity 0.15s;">
+                    <button type="submit" style="height: 38px; padding: 0 20px; border-radius: 10px; background: #E31937; color: #fff; font-size: 12px; font-weight: 900; border: none; cursor: pointer; transition: opacity 0.15s;">
                         Send Message
                     </button>
                 </form>

@@ -94,7 +94,7 @@
                         @forelse ($investments ?? [] as $investment)
                             @php
                                 $plan = $investment->investmentPlan;
-                                $returnRate = $plan ? $plan->one_year_return : 0;
+                                $returnRate = $plan ? (float) ($plan->profit_margin ?? $plan->one_year_return ?? 0) : 0;
                                 $earnings = $investment->calculated_earnings ?? ($investment->status === 'Active' && $plan ? ($investment->amount * ($returnRate / 100)) : 0);
                                 $totalValue = $investment->amount + $earnings;
                             @endphp
@@ -142,7 +142,7 @@
                                     </svg>
                                     <p style="font-size: 13px; color: #6b7280; font-weight: 700; margin: 0;">No investments yet</p>
                                     <p style="font-size: 11px; color: #9ca3af; margin: 4px 0 0 0;">Start investing to see your history here</p>
-                                    <a href="{{ route('dashboard.investments') }}" style="display: inline-block; margin-top: 16px; padding: 8px 16px; border-radius: 8px; background: #0b0c10; color: #fff; font-size: 11px; font-weight: 900; text-decoration: none;">
+                                    <a href="{{ route('dashboard.investments') }}" style="display: inline-block; margin-top: 16px; padding: 8px 16px; border-radius: 8px; background: #E31937; color: #fff; font-size: 11px; font-weight: 900; text-decoration: none;">
                                         Browse Investment Plans →
                                     </a>
                                 </td>

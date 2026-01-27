@@ -32,11 +32,11 @@
                     <tr style="background: #f9fafb; border-bottom: 1px solid rgba(0,0,0,.06);">
                         <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">Name</th>
                         <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">Category</th>
-                        <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">Strategy</th>
-                        <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">Risk Level</th>
-                        <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">NAV</th>
-                        <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">1Y Return</th>
-                        <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">Min Investment</th>
+                        <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">Risk</th>
+                        <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">Min</th>
+                        <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">Max</th>
+                        <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">Profit %</th>
+                        <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">Duration</th>
                         <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">Featured</th>
                         <th style="padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 900; color: #6b7280;">Actions</th>
                     </tr>
@@ -48,7 +48,6 @@
                                 <div style="font-size: 12px; font-weight: 900; color: #111827;">{{ $plan->name }}</div>
                             </td>
                             <td style="padding: 12px 14px; font-size: 12px; color: #111827;">{{ ucfirst($plan->category ?? 'N/A') }}</td>
-                            <td style="padding: 12px 14px; font-size: 12px; color: #111827;">{{ ucfirst($plan->strategy ?? 'N/A') }}</td>
                             <td style="padding: 12px 14px;">
                                 @php
                                     $riskColors = [
@@ -63,11 +62,10 @@
                                     {{ ucfirst($plan->risk_level ?? 'Medium') }}
                                 </span>
                             </td>
-                            <td style="padding: 12px 14px; font-size: 12px; font-weight: 900; color: #111827;">${{ number_format((float)($plan->nav ?? 0), 4) }}</td>
-                            <td style="padding: 12px 14px; font-size: 12px; color: {{ (float)($plan->one_year_return ?? 0) >= 0 ? '#10b981' : '#ef4444' }};">
-                                {{ (float)($plan->one_year_return ?? 0) >= 0 ? '+' : '' }}{{ number_format((float)($plan->one_year_return ?? 0), 2) }}%
-                            </td>
                             <td style="padding: 12px 14px; font-size: 12px; font-weight: 900; color: #111827;">${{ number_format((float)($plan->min_investment ?? 0), 2) }}</td>
+                            <td style="padding: 12px 14px; font-size: 12px; font-weight: 900; color: #111827;">{{ $plan->max_investment === null ? 'Unlimited' : '$' . number_format((float)$plan->max_investment, 2) }}</td>
+                            <td style="padding: 12px 14px; font-size: 12px; font-weight: 900; color: #10b981;">{{ number_format((float)($plan->profit_margin ?? 0), 2) }}%</td>
+                            <td style="padding: 12px 14px; font-size: 12px; color: #111827;">{{ $plan->duration_label ?? $plan->duration_days . ' days' }}</td>
                             <td style="padding: 12px 14px;">
                                 @if($plan->is_featured)
                                     <span class="status ok">Yes</span>

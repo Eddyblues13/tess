@@ -9,138 +9,91 @@ class InvestmentPlanSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * Tesla Investment Plans (exactly 4).
+     * WARNING: This removes ALL existing investment plans and user investments.
+     * Backup your data if you need to keep history.
      */
     public function run(): void
     {
+        // Disable foreign key checks temporarily for clean truncate
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        
+        // Clear all data (truncate is faster and resets auto-increment)
+        \DB::table('user_investments')->truncate();
+        \DB::table('investment_plans')->truncate();
+        
+        // Re-enable foreign key checks
+        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         $plans = [
             [
-                'name' => 'Tesla Growth Fund',
-                'slug' => 'tesla-growth-fund',
-                'category' => 'Growth',
-                'strategy' => 'Tesla-Focused',
-                'risk_level' => 'High',
-                'nav' => 35.5000,
-                'one_year_return' => 9.23,
-                'min_investment' => 100.00,
+                'name' => 'STARTER PLAN',
+                'slug' => 'starter',
+                'category' => 'Tesla',
+                'strategy' => 'Tesla Investment',
+                'risk_level' => 'medium',
+                'nav' => 0,
+                'one_year_return' => 20,
+                'min_investment' => 2000,
+                'max_investment' => 9999,
+                'profit_margin' => 20,
+                'duration_days' => 2,
+                'duration_label' => '2 days',
                 'is_featured' => true,
                 'display_order' => 1,
             ],
             [
-                'name' => 'Sustainable Energy ETF',
-                'slug' => 'sustainable-energy-etf',
-                'category' => 'ESG',
-                'strategy' => 'ESG',
-                'risk_level' => 'Medium',
-                'nav' => 18.7500,
-                'one_year_return' => 0.00,
-                'min_investment' => 50.00,
+                'name' => 'MEGA PLAN',
+                'slug' => 'mega',
+                'category' => 'Tesla',
+                'strategy' => 'Tesla Investment',
+                'risk_level' => 'medium',
+                'nav' => 0,
+                'one_year_return' => 20,
+                'min_investment' => 10000,
+                'max_investment' => 39999,
+                'profit_margin' => 20,
+                'duration_days' => 4,
+                'duration_label' => '4 days',
                 'is_featured' => true,
                 'display_order' => 2,
             ],
             [
-                'name' => 'Aggressive Growth Fund',
-                'slug' => 'aggressive-growth-fund',
-                'category' => 'Growth',
-                'strategy' => 'Growth',
-                'risk_level' => 'High',
-                'nav' => 32.4000,
-                'one_year_return' => 0.00,
-                'min_investment' => 200.00,
+                'name' => 'GRAND PLAN',
+                'slug' => 'grand',
+                'category' => 'Tesla',
+                'strategy' => 'Tesla Investment',
+                'risk_level' => 'high',
+                'nav' => 0,
+                'one_year_return' => 30,
+                'min_investment' => 40000,
+                'max_investment' => 99999,
+                'profit_margin' => 30,
+                'duration_days' => 7,
+                'duration_label' => '7 days',
                 'is_featured' => true,
                 'display_order' => 3,
             ],
             [
-                'name' => 'Conservative Bond Fund',
-                'slug' => 'conservative-bond-fund',
-                'category' => 'Conservative',
-                'strategy' => 'Conservative Bond',
-                'risk_level' => 'Low',
-                'nav' => 10.4500,
-                'one_year_return' => 0.00,
-                'min_investment' => 750.00,
-                'is_featured' => false,
+                'name' => 'VIP PLAN',
+                'slug' => 'vip',
+                'category' => 'Tesla',
+                'strategy' => 'Tesla Investment',
+                'risk_level' => 'high',
+                'nav' => 0,
+                'one_year_return' => 50,
+                'min_investment' => 999000,
+                'max_investment' => null,
+                'profit_margin' => 50,
+                'duration_days' => 30,
+                'duration_label' => '1 month',
+                'is_featured' => true,
                 'display_order' => 4,
-            ],
-            [
-                'name' => 'Conservative Income Fund',
-                'slug' => 'conservative-income-fund',
-                'category' => 'Income',
-                'strategy' => 'Income',
-                'risk_level' => 'Low',
-                'nav' => 12.8000,
-                'one_year_return' => 0.00,
-                'min_investment' => 500.00,
-                'is_featured' => false,
-                'display_order' => 5,
-            ],
-            [
-                'name' => 'Dividend Income Fund',
-                'slug' => 'dividend-income-fund',
-                'category' => 'Income',
-                'strategy' => 'Dividend Income',
-                'risk_level' => 'Medium',
-                'nav' => 14.6000,
-                'one_year_return' => 0.00,
-                'min_investment' => 1000.00,
-                'is_featured' => false,
-                'display_order' => 6,
-            ],
-            [
-                'name' => 'ESG Balanced Fund',
-                'slug' => 'esg-balanced-fund',
-                'category' => 'Balanced',
-                'strategy' => 'ESG Balanced',
-                'risk_level' => 'Medium',
-                'nav' => 22.1500,
-                'one_year_return' => 0.00,
-                'min_investment' => 150.00,
-                'is_featured' => false,
-                'display_order' => 7,
-            ],
-            [
-                'name' => 'Global Growth Fund',
-                'slug' => 'global-growth-fund',
-                'category' => 'Growth',
-                'strategy' => 'Global Growth',
-                'risk_level' => 'Medium',
-                'nav' => 19.8000,
-                'one_year_return' => 0.00,
-                'min_investment' => 400.00,
-                'is_featured' => false,
-                'display_order' => 8,
-            ],
-            [
-                'name' => 'Sustainable Energy ETF',
-                'slug' => 'sustainable-energy-etf-list',
-                'category' => 'ESG',
-                'strategy' => 'ESG',
-                'risk_level' => 'Medium',
-                'nav' => 18.7500,
-                'one_year_return' => 0.00,
-                'min_investment' => 50.00,
-                'is_featured' => false,
-                'display_order' => 9,
-            ],
-            [
-                'name' => 'Tesla Retirement Fund',
-                'slug' => 'tesla-retirement-fund',
-                'category' => 'Conservative',
-                'strategy' => 'Retirement',
-                'risk_level' => 'Low',
-                'nav' => 15.2000,
-                'one_year_return' => 0.00,
-                'min_investment' => 300.00,
-                'is_featured' => false,
-                'display_order' => 10,
             ],
         ];
 
         foreach ($plans as $plan) {
-            InvestmentPlan::updateOrCreate(
-                ['slug' => $plan['slug']],
-                $plan
-            );
+            InvestmentPlan::create($plan);
         }
     }
 }
-

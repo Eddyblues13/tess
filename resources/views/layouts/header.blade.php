@@ -3,33 +3,29 @@
         <div class="toprow">
             <!-- Logo -->
             <a href="{{ route('home') }}" class="teslaWordmark">
-                <span>T</span>
-                <span>E</span>
-                <span>S</span>
-                <span>L</span>
-                <span>A</span>
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" />
             </a>
 
             <!-- Navigation Links -->
             <div class="navlinks">
-                <a href="{{ route('home') }}">Home</a>
-                <a href="{{ route('invest') }}">Invest</a>
-                <a href="{{ route('stocks') }}">Stocks</a>
-                <a href="{{ route('inventory') }}">Inventory</a>
-                <a href="{{ route('portfolio') }}">Portfolio</a>
+                <a href="{{ route('home') }}" class="hover:text-[#E31937] transition-colors">Home</a>
+                <a href="{{ route('invest') }}" class="hover:text-[#E31937] transition-colors">Invest</a>
+                <a href="{{ route('stocks') }}" class="hover:text-[#E31937] transition-colors">Stocks</a>
+                <a href="{{ route('inventory') }}" class="hover:text-[#E31937] transition-colors">Inventory</a>
+                <a href="{{ route('portfolio') }}" class="hover:text-[#E31937] transition-colors">Portfolio</a>
             </div>
 
             <!-- Auth Links / Account -->
             <div class="auth-links">
                 @auth
-                    <a href="{{ route('dashboard.index') }}" class="account">Dashboard</a>
+                    <a href="{{ route('dashboard.index') }}" class="account hover:text-[#E31937] transition-colors">Dashboard</a>
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
-                        <button type="submit" class="account" style="background: none; border: none; cursor: pointer; padding: 0;">Logout</button>
+                        <button type="submit" class="account hover:text-[#E31937] transition-colors" style="background: none; border: none; cursor: pointer; padding: 0;">Logout</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="account">Login</a>
-                    <a href="{{ route('register') }}" class="account" style="padding: 8px 16px; background: #111; color: #fff; border-radius: 6px; font-weight: 600;">Sign Up</a>
+                    <a href="{{ route('login') }}" class="account hover:text-[#E31937] transition-colors">Login</a>
+                    <a href="{{ route('register') }}" class="account" style="padding: 8px 16px; background: #E31937; color: #fff; border-radius: 6px; font-weight: 600;">Sign Up</a>
                 @endauth
                 
                 <!-- Mobile Menu Button -->

@@ -184,7 +184,7 @@
         height: 32px;
         padding: 0 18px;
         border-radius: 10px;
-        background: #0b0c10;
+        background: #E31937;
         color: #fff;
         font-size: 11px;
         font-weight: 900;
@@ -325,7 +325,7 @@
         height: 36px;
         padding: 0 20px;
         border-radius: 10px;
-        background: #0b0c10;
+        background: #E31937;
         color: #ffffff;
         font-size: 12px;
         font-weight: 900;
@@ -450,16 +450,20 @@
             <div class="planModalBody">
                 <div class="planModalStatsRow">
                     <div class="planModalStat">
-                        <small>Current NAV</small>
-                        <strong id="planDetailsNav"></strong>
+                        <small>Profit Margin</small>
+                        <strong id="planDetailsProfit"></strong>
                     </div>
                     <div class="planModalStat">
-                        <small>1Y Return</small>
-                        <strong id="planDetailsReturn"></strong>
+                        <small>Duration</small>
+                        <strong id="planDetailsDuration"></strong>
                     </div>
                     <div class="planModalStat">
-                        <small>Min Investment</small>
+                        <small>Min</small>
                         <strong id="planDetailsMin"></strong>
+                    </div>
+                    <div class="planModalStat">
+                        <small>Max</small>
+                        <strong id="planDetailsMax"></strong>
                     </div>
                 </div>
                 <div class="planModalMeta" id="planDetailsMeta"></div>
@@ -500,6 +504,7 @@
                         />
                         <p style="font-size: 11px; font-weight: 700; color: #9ca3af; margin: 6px 0 0 0;">
                             Minimum: $<span id="investFormMinAmount">0.00</span>
+                            <span id="investFormMaxWrap" style="display: none;"> · Maximum: <span id="investFormMaxAmount">—</span></span>
                         </p>
                         <p style="font-size: 11px; font-weight: 700; color: #9ca3af; margin: 4px 0 0 0;">
                             Available Balance: ${{ number_format($currentBalance ?? 0, 2) }}
@@ -562,9 +567,8 @@
 
     function planCardHtml(plan, isFeaturedSection) {
         const riskClass = getRiskBadgeClass(plan.riskLevel);
-        const showPositiveReturn = plan.oneYearReturn > 0;
-        const returnClass = showPositiveReturn ? 'planReturnPositive' : '';
-        const returnPrefix = showPositiveReturn ? '+' : '';
+        const profit = plan.profitMargin != null ? plan.profitMargin : plan.oneYearReturn;
+        const maxLabel = plan.maxInvestment == null ? 'Unlimited' : '$' + formatMoney(plan.maxInvestment);
         const primaryCta = isFeaturedSection ? 'Invest Now' : 'Invest';
 
         return `
@@ -579,16 +583,20 @@
                     </div>
                     <div class="planMetaRow">
                         <div class="planMetaBlock">
-                            <small>${isFeaturedSection ? 'Current NAV' : 'NAV'}</small>
-                            <strong>$${formatCurrency(plan.nav)}</strong>
+                            <small>${isFeaturedSection ? 'Profit' : 'Profit'}</small>
+                            <strong class="planReturnPositive">${Number(profit).toFixed(0)}%</strong>
                         </div>
                         <div class="planMetaBlock">
-                            <small>${isFeaturedSection ? '1Y Return' : 'Return'}</small>
-                            <strong class="${returnClass}">${returnPrefix}${plan.oneYearReturn.toFixed(2)}%</strong>
+                            <small>${isFeaturedSection ? 'Duration' : 'Duration'}</small>
+                            <strong>${plan.durationLabel || (plan.durationDays + ' days')}</strong>
                         </div>
                         <div class="planMetaBlock">
-                            <small>${isFeaturedSection ? 'Min Investment' : 'Min'}</small>
+                            <small>${isFeaturedSection ? 'Min' : 'Min'}</small>
                             <strong>$${formatMoney(plan.minInvestment)}</strong>
+                        </div>
+                        <div class="planMetaBlock">
+                            <small>Max</small>
+                            <strong>${maxLabel}</strong>
                         </div>
                     </div>
                 </div>
@@ -689,27 +697,25 @@
 
         const titleEl = document.getElementById('planDetailsTitle');
         const strategyEl = document.getElementById('planDetailsStrategy');
-        const navEl = document.getElementById('planDetailsNav');
-        const returnEl = document.getElementById('planDetailsReturn');
+        const profitEl = document.getElementById('planDetailsProfit');
+        const durationEl = document.getElementById('planDetailsDuration');
         const minEl = document.getElementById('planDetailsMin');
+        const maxEl = document.getElementById('planDetailsMax');
         const metaEl = document.getElementById('planDetailsMeta');
         const riskBadgeEl = document.getElementById('planDetailsRiskBadge');
 
+        const profit = plan.profitMargin != null ? plan.profitMargin : plan.oneYearReturn;
+        const maxLabel = plan.maxInvestment == null ? 'Unlimited' : '$' + formatMoney(plan.maxInvestment);
+
         if (titleEl) titleEl.textContent = plan.name;
         if (strategyEl) strategyEl.textContent = plan.strategy;
-        if (navEl) navEl.textContent = `$${formatCurrency(plan.nav)}`;
-
-        if (returnEl) {
-            const showPositiveReturn = plan.oneYearReturn > 0;
-            const prefix = showPositiveReturn ? '+' : '';
-            returnEl.textContent = `${prefix}${plan.oneYearReturn.toFixed(2)}%`;
-            returnEl.classList.toggle('planReturnPositive', showPositiveReturn);
-        }
-
+        if (profitEl) profitEl.textContent = `${Number(profit).toFixed(0)}%`;
+        if (durationEl) durationEl.textContent = plan.durationLabel || (plan.durationDays + ' days');
         if (minEl) minEl.textContent = `$${formatMoney(plan.minInvestment)}`;
+        if (maxEl) maxEl.textContent = maxLabel;
 
         if (metaEl) {
-            metaEl.textContent = `${plan.category} • ${plan.riskLevel} risk • Minimum investment $${formatMoney(plan.minInvestment)}`;
+            metaEl.textContent = `${plan.category} • ${plan.riskLevel} risk • Min $${formatMoney(plan.minInvestment)} • Max ${maxLabel}`;
         }
 
         if (riskBadgeEl) {
@@ -732,7 +738,6 @@
         const overlay = document.getElementById('investFormOverlay');
         if (!overlay) return;
 
-        // Ensure plan has an ID
         if (!plan || !plan.id) {
             console.error('Plan ID is missing:', plan);
             alert('Error: Investment plan information is incomplete. Please refresh the page and try again.');
@@ -744,21 +749,29 @@
         const planIdInput = document.getElementById('investFormPlanId');
         const amountInput = document.getElementById('investFormAmount');
         const minAmountEl = document.getElementById('investFormMinAmount');
+        const maxWrapEl = document.getElementById('investFormMaxWrap');
+        const maxAmountEl = document.getElementById('investFormMaxAmount');
 
         if (titleEl) titleEl.textContent = `Invest in ${plan.name}`;
         if (subtitleEl) subtitleEl.textContent = plan.strategy;
-        if (planIdInput) {
-            planIdInput.value = plan.id;
-            // Verify the value was set
-            if (!planIdInput.value || planIdInput.value === '') {
-                console.error('Failed to set plan ID:', plan.id);
-            }
-        }
+        if (planIdInput) planIdInput.value = plan.id;
         if (amountInput) {
             amountInput.value = '';
             amountInput.min = plan.minInvestment;
+            amountInput.removeAttribute('max');
+            if (plan.maxInvestment != null) {
+                amountInput.max = plan.maxInvestment;
+            }
         }
         if (minAmountEl) minAmountEl.textContent = formatMoney(plan.minInvestment);
+        if (maxWrapEl && maxAmountEl) {
+            if (plan.maxInvestment != null) {
+                maxWrapEl.style.display = '';
+                maxAmountEl.textContent = '$' + formatMoney(plan.maxInvestment);
+            } else {
+                maxWrapEl.style.display = 'none';
+            }
+        }
 
         overlay.classList.add('is-visible');
     }

@@ -66,6 +66,9 @@ class DashboardController extends Controller
             ->where('status', 'Completed')
             ->count();
 
+        $activeInvestmentsCount = UserInvestment::where('user_id', $user?->id)->count();
+        $stockPositionsCount = StockPurchase::where('user_id', $user?->id)->count();
+
         // Recent orders for the "Recent Orders" panel
         $recentOrders = Order::with('car')
             ->where('user_id', $user?->id)
@@ -73,10 +76,32 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        // Top stocks for Market Overview (top 3 by change_percent or volume)
+        // Top stocks for Market Overview (top 5)
         $topStocks = Stock::orderByDesc('change_percent')
-            ->take(3)
+            ->take(5)
             ->get();
+
+        // Chart data: last 7 days - balance, investments, profit (live-style)
+        $chartLabels = [];
+        $balanceData = [];
+        $investmentsData = [];
+        $profitData = [];
+        $baseProfit = max(0, (float) ($portfolioValue - $totalInvested));
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $chartLabels[] = $date->format('D M j');
+            $endOfDay = $date->copy()->endOfDay();
+            $txUntil = WalletTransaction::where('user_id', $user?->id)
+                ->where('occurred_at', '<=', $endOfDay)
+                ->get();
+            $dep = $txUntil->where('direction', 'credit')->sum('amount');
+            $wit = $txUntil->where('type', 'withdrawal')->where('direction', 'debit')->sum('amount');
+            $inv = $txUntil->where('type', 'investment')->where('direction', 'debit')->sum('amount');
+            $bal = $dep - $wit - $inv;
+            $balanceData[] = round($bal, 2);
+            $investmentsData[] = round($inv, 2);
+            $profitData[] = round($baseProfit * (0.90 + (6 - $i) / 6 * 0.2), 2);
+        }
 
         return view('user.dashboard', [
             'user' => $user,
@@ -86,9 +111,19 @@ class DashboardController extends Controller
                 'investments_value' => $investmentsValue,
                 'stock_holdings_value' => $stockHoldingsValue,
                 'tesla_vehicles_count' => $teslaVehiclesCount,
+                'total_deposits' => $totalDeposits,
+                'total_invested' => $totalInvested,
+                'active_investments_count' => $activeInvestmentsCount,
+                'stock_positions_count' => $stockPositionsCount,
             ],
             'recentOrders' => $recentOrders,
             'topStocks' => $topStocks,
+            'chartData' => [
+                'labels' => $chartLabels,
+                'balance' => $balanceData,
+                'investments' => $investmentsData,
+                'profit' => $profitData,
+            ],
         ]);
     }
 
@@ -537,9 +572,13 @@ class DashboardController extends Controller
                 'category' => $plan->category,
                 'strategy' => $plan->strategy,
                 'riskLevel' => $plan->risk_level,
-                'nav' => (float) $plan->nav,
-                'oneYearReturn' => (float) $plan->one_year_return,
+                'nav' => (float) ($plan->nav ?? 0),
+                'oneYearReturn' => (float) ($plan->profit_margin ?? $plan->one_year_return ?? 0),
                 'minInvestment' => (float) $plan->min_investment,
+                'maxInvestment' => $plan->max_investment === null ? null : (float) $plan->max_investment,
+                'profitMargin' => (float) ($plan->profit_margin ?? 0),
+                'durationDays' => (int) ($plan->duration_days ?? 0),
+                'durationLabel' => $plan->duration_label ?? '',
                 'isFeatured' => (bool) $plan->is_featured,
             ];
         });
@@ -576,7 +615,14 @@ class DashboardController extends Controller
         // Check if amount meets minimum investment requirement
         if ($amount < $plan->min_investment) {
             return back()
-                ->withErrors(['amount' => "Minimum investment for this plan is $" . number_format($plan->min_investment, 2) . "."])
+                ->withErrors(['amount' => "Minimum investment for this plan is $" . number_format((float) $plan->min_investment, 2) . "."])
+                ->withInput();
+        }
+
+        // Check if amount exceeds maximum investment (when plan has a max)
+        if ($plan->max_investment !== null && $amount > $plan->max_investment) {
+            return back()
+                ->withErrors(['amount' => "Maximum investment for this plan is $" . number_format((float) $plan->max_investment, 2) . "."])
                 ->withInput();
         }
 

@@ -88,6 +88,12 @@
             user-select: none;
         }
 
+        .wordmark img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
+
         .wordmark span {
             font-weight: 900;
             letter-spacing: .28em;
@@ -907,7 +913,7 @@
         <!-- ================= SIDEBAR ================= -->
         <aside class="sidebar" id="sidebar">
             <div class="wordmark">
-                <span>TESLA</span>
+                <img src="{{ asset('images/logo.png') }}" alt="TESLA Logo" />
                 <span style="font-size: 11px; opacity: .6; margin-left: 8px;">ADMIN</span>
             </div>
 

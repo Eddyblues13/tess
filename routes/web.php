@@ -2,8 +2,42 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home.index');
+use App\Services\StockMarketService;
+use App\Services\NewsService;
+use App\Models\InvestmentPlan;
+
+Route::get('/', function (StockMarketService $stockService, NewsService $newsService) {
+    // Always return data, even if APIs fail (they have fallbacks)
+    $featuredStocks = [];
+    $topGainers = [];
+    $topLosers = [];
+    $mostActive = [];
+    $marketNews = [];
+    
+    try {
+        // Fetch stock market data with timeout protection
+        $featuredStocks = $stockService->getFeaturedStocks() ?: [];
+        $topGainers = $stockService->getTopGainers(5) ?: [];
+        $topLosers = $stockService->getTopLosers(5) ?: [];
+        $mostActive = $stockService->getMostActive(5) ?: [];
+    } catch (\Exception $e) {
+        \Log::error('Stock data fetch error: ' . $e->getMessage());
+    }
+    
+    try {
+        // Fetch market news
+        $marketNews = $newsService->getMarketNews(6) ?: [];
+    } catch (\Exception $e) {
+        \Log::error('News fetch error: ' . $e->getMessage());
+    }
+    
+    return view('home.index', [
+        'featuredStocks' => $featuredStocks,
+        'topGainers' => $topGainers,
+        'topLosers' => $topLosers,
+        'mostActive' => $mostActive,
+        'marketNews' => $marketNews,
+    ]);
 })->name('home');
 
 Route::get('/inventory', function () {
@@ -11,11 +45,33 @@ Route::get('/inventory', function () {
 })->name('inventory');
 
 Route::get('/invest', function () {
-    return view('invest.index');
+    $plans = InvestmentPlan::orderBy('display_order')->get();
+    return view('invest.index', ['investmentPlans' => $plans]);
 })->name('invest');
 
-Route::get('/stocks', function () {
-    return view('stocks.index');
+Route::get('/stocks', function (StockMarketService $stockService) {
+    try {
+        // Fetch stock market data
+        $featuredStocks = $stockService->getFeaturedStocks() ?: [];
+        $topGainers = $stockService->getTopGainers(5) ?: [];
+        $topLosers = $stockService->getTopLosers(5) ?: [];
+        $mostActive = $stockService->getMostActive(5) ?: [];
+        
+        return view('stocks.index', [
+            'featuredStocks' => $featuredStocks,
+            'topGainers' => $topGainers,
+            'topLosers' => $topLosers,
+            'mostActive' => $mostActive,
+        ]);
+    } catch (\Exception $e) {
+        \Log::error('Stocks page data fetch error: ' . $e->getMessage());
+        return view('stocks.index', [
+            'featuredStocks' => [],
+            'topGainers' => [],
+            'topLosers' => [],
+            'mostActive' => [],
+        ]);
+    }
 })->name('stocks');
 
 Route::get('/portfolio', function () {

@@ -34,33 +34,33 @@
 
             <div style="margin-bottom: 16px;">
                 <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Plan Name *</label>
-                <input type="text" name="name" value="{{ old('name', $plan->name ?? '') }}" required
+                    <input type="text" name="name" value="{{ old('name', optional($plan)->name ?? '') }}" required
                     style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
-                    placeholder="e.g., Growth Fund" />
+                    placeholder="e.g., STARTER PLAN" />
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px;">
                 <div>
                     <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Slug</label>
-                    <input type="text" name="slug" value="{{ old('slug', $plan->slug ?? '') }}"
+                    <input type="text" name="slug" value="{{ old('slug', optional($plan)->slug ?? '') }}"
                         style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
                         placeholder="auto-generated if empty" />
                 </div>
 
                 <div>
                     <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Category</label>
-                    <input type="text" name="category" value="{{ old('category', $plan->category ?? '') }}"
+                    <input type="text" name="category" value="{{ old('category', optional($plan)->category ?? '') }}"
                         style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
-                        placeholder="e.g., Equity" />
+                        placeholder="e.g., Tesla" />
                 </div>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px;">
                 <div>
                     <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Strategy</label>
-                    <input type="text" name="strategy" value="{{ old('strategy', $plan->strategy ?? '') }}"
+                    <input type="text" name="strategy" value="{{ old('strategy', optional($plan)->strategy ?? '') }}"
                         style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
-                        placeholder="e.g., Growth" />
+                        placeholder="e.g., Tesla Investment" />
                 </div>
 
                 <div>
@@ -76,24 +76,56 @@
 
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px;">
                 <div>
-                    <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">NAV (Net Asset Value) *</label>
-                    <input type="number" name="nav" value="{{ old('nav', $plan->nav ?? '') }}" step="0.0001" min="0" required
+                    <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">NAV (optional)</label>
+                    <input type="number" name="nav" value="{{ old('nav', optional($plan)->nav ?? 0) }}" step="0.0001" min="0"
                         style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
-                        placeholder="0.0000" />
+                        placeholder="0" />
                 </div>
 
                 <div>
-                    <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">1 Year Return %</label>
+                    <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">1 Year Return % (optional)</label>
                     <input type="number" name="one_year_return" value="{{ old('one_year_return', $plan->one_year_return ?? '') }}" step="0.01"
                         style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
-                        placeholder="0.00" />
+                        placeholder="0" />
                 </div>
 
                 <div>
                     <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Min Investment *</label>
-                    <input type="number" name="min_investment" value="{{ old('min_investment', $plan->min_investment ?? '') }}" step="0.01" min="0" required
+                    <input type="number" name="min_investment" value="{{ old('min_investment', optional($plan)->min_investment ?? '') }}" step="0.01" min="0" required
                         style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
                         placeholder="0.00" />
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px;">
+                <div>
+                    <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Max Investment (leave empty = Unlimited)</label>
+                    <input type="number" name="max_investment" value="{{ old('max_investment', $plan->max_investment ?? '') }}" step="0.01" min="0"
+                        style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
+                        placeholder="Unlimited" />
+                </div>
+
+                <div>
+                    <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Profit Margin % *</label>
+                    <input type="number" name="profit_margin" value="{{ old('profit_margin', $plan->profit_margin ?? '') }}" step="0.01" min="0" required
+                        style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
+                        placeholder="e.g. 20" />
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px;">
+                <div>
+                    <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Duration (days) *</label>
+                    <input type="number" name="duration_days" value="{{ old('duration_days', optional($plan)->duration_days ?? '') }}" min="0" required
+                        style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
+                        placeholder="e.g. 2, 7, 30" />
+                </div>
+
+                <div>
+                    <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Duration Label</label>
+                    <input type="text" name="duration_label" value="{{ old('duration_label', optional($plan)->duration_label ?? '') }}"
+                        style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
+                        placeholder="e.g. 2 days, 1 month" />
                 </div>
             </div>
 
@@ -107,7 +139,7 @@
 
                 <div style="display: flex; align-items: end;">
                     <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 700; color: #111827;">
-                        <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $plan->is_featured ?? false) ? 'checked' : '' }}
+                        <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', optional($plan)->is_featured ?? false) ? 'checked' : '' }}
                             style="width: 18px; height: 18px; cursor: pointer;" />
                         Featured Plan
                     </label>

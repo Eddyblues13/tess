@@ -364,7 +364,7 @@
     }
 
     .paginationBtn.active {
-        background: #0b0c10;
+        background: #E31937;
         color: #fff;
         border-color: #0b0c10;
     }
@@ -571,7 +571,7 @@
     }
 
     .modalBtn.primary {
-        background: #0b0c10;
+        background: #E31937;
         color: #fff;
     }
 

@@ -817,9 +817,13 @@ class DashboardController extends Controller
             'category' => 'nullable|string|max:255',
             'strategy' => 'nullable|string|max:255',
             'risk_level' => 'required|in:low,medium,high',
-            'nav' => 'required|numeric|min:0',
+            'nav' => 'nullable|numeric|min:0',
             'one_year_return' => 'nullable|numeric',
             'min_investment' => 'required|numeric|min:0',
+            'max_investment' => 'nullable|numeric|min:0',
+            'profit_margin' => 'required|numeric|min:0',
+            'duration_days' => 'required|integer|min:0',
+            'duration_label' => 'nullable|string|max:64',
             'is_featured' => 'nullable|boolean',
             'display_order' => 'nullable|integer|min:0',
         ]);
@@ -829,6 +833,11 @@ class DashboardController extends Controller
         }
 
         $validated['is_featured'] = $request->has('is_featured');
+        $validated['nav'] = $validated['nav'] ?? 0;
+        $validated['max_investment'] = $validated['max_investment'] ?? null;
+        if ($validated['max_investment'] !== null) {
+            $validated['max_investment'] = (float) $validated['max_investment'];
+        }
 
         InvestmentPlan::create($validated);
 
@@ -854,9 +863,13 @@ class DashboardController extends Controller
             'category' => 'nullable|string|max:255',
             'strategy' => 'nullable|string|max:255',
             'risk_level' => 'required|in:low,medium,high',
-            'nav' => 'required|numeric|min:0',
+            'nav' => 'nullable|numeric|min:0',
             'one_year_return' => 'nullable|numeric',
             'min_investment' => 'required|numeric|min:0',
+            'max_investment' => 'nullable|numeric|min:0',
+            'profit_margin' => 'required|numeric|min:0',
+            'duration_days' => 'required|integer|min:0',
+            'duration_label' => 'nullable|string|max:64',
             'is_featured' => 'nullable|boolean',
             'display_order' => 'nullable|integer|min:0',
         ]);
@@ -866,6 +879,11 @@ class DashboardController extends Controller
         }
 
         $validated['is_featured'] = $request->has('is_featured');
+        $validated['nav'] = $validated['nav'] ?? 0;
+        $validated['max_investment'] = $validated['max_investment'] ?? null;
+        if ($validated['max_investment'] !== null) {
+            $validated['max_investment'] = (float) $validated['max_investment'];
+        }
 
         $plan->update($validated);
 

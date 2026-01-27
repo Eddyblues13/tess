@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap");
 
 :root {
     --navBg: #f4f5f6;
@@ -20,10 +20,29 @@
 
 body {
     margin: 0;
-    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     background: var(--bg);
     color: #fff;
+    font-size: 16px;
+    font-weight: 500;
 }
+
+/* Global font improvements */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight: 900;
+}
+
+p, span, div, a, button, input, textarea, select {
+    font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+h1 { font-size: 2.5rem; font-weight: 900; }
+h2 { font-size: 2rem; font-weight: 900; }
+h3 { font-size: 1.75rem; font-weight: 800; }
+h4 { font-size: 1.5rem; font-weight: 800; }
+h5 { font-size: 1.25rem; font-weight: 700; }
+h6 { font-size: 1.125rem; font-weight: 700; }
 
 /* ======= TOP NAV ======= */
 .topbar {
@@ -54,6 +73,11 @@ body {
     align-items: center;
     user-select: none;
     text-decoration: none;
+}
+
+.teslaWordmark img {
+    height: auto;
+    max-width: 150px;
 }
 
 .teslaWordmark span {
@@ -106,9 +130,9 @@ body {
 
 .account {
     justify-self: end;
-    font-size: 13px;
+    font-size: 15px;
     color: var(--navText);
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
     transition: opacity 0.2s ease;
 }
@@ -233,7 +257,7 @@ body {
 }
 
 .h1 {
-    font-size: 64px;
+    font-size: 72px;
     font-weight: 900;
     letter-spacing: -.04em;
     line-height: 1.08;
@@ -246,12 +270,12 @@ body {
 }
 
 .lead {
-    font-size: 15px;
+    font-size: 18px;
     color: rgba(255, 255, 255, 0.75);
     max-width: 580px;
     line-height: 1.7;
     margin: 0 0 24px;
-    font-weight: 400;
+    font-weight: 500;
     text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
 }
 
@@ -263,14 +287,14 @@ body {
 }
 
 .btn {
-    height: 40px;
+    height: 44px;
     border-radius: 8px;
-    padding: 0 18px;
+    padding: 0 20px;
     display: inline-flex;
     align-items: center;
     gap: 10px;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 15px;
     border: 1px solid rgba(255, 255, 255, .18);
     background: rgba(0, 0, 0, .12);
     color: #fff;
@@ -347,14 +371,14 @@ body {
 }
 
 .label {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     color: rgba(255, 255, 255, .58);
     margin-bottom: 8px;
 }
 
 .big {
-    font-size: 26px;
+    font-size: 32px;
     font-weight: 900;
     letter-spacing: -.02em;
     line-height: 1.08;
@@ -362,9 +386,10 @@ body {
 }
 
 .desc {
-    font-size: 13px;
+    font-size: 15px;
     color: rgba(255, 255, 255, .52);
     line-height: 1.45;
+    font-weight: 500;
 }
 
 .miniGrid {
@@ -395,14 +420,14 @@ body {
 }
 
 .miniTitle {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     color: rgba(255, 255, 255, .58);
     margin-bottom: 6px;
 }
 
 .miniWord {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 900;
     letter-spacing: -.02em;
 }
@@ -481,7 +506,7 @@ img.loaded {
     }
 
     .h1 {
-        font-size: 48px;
+        font-size: 56px;
     }
 
     .hero {
@@ -500,12 +525,16 @@ img.loaded {
         height: 56px;
     }
 
+    .teslaWordmark img {
+        max-width: 100px;
+    }
+
     .h1 {
-        font-size: 36px;
+        font-size: 42px;
     }
 
     .lead {
-        font-size: 13px;
+        font-size: 16px;
     }
 
     .btnRow {
@@ -541,12 +570,16 @@ img.loaded {
 
 @media (max-width: 480px) {
     .h1 {
-        font-size: 28px;
+        font-size: 36px;
     }
 
     .hero {
         min-height: 380px;
         background-attachment: scroll;
+    }
+
+    .teslaWordmark img {
+        max-width: 80px;
     }
 }
 

@@ -8,7 +8,7 @@
         <div class="wrap">
             <div class="max-w-3xl">
                 <h1 class="text-[48px] md:text-[64px] font-[900] tracking-[-.04em] text-white mb-4">
-                    Your Portfolio
+                    Your Portfolio <span class="text-[#E31937]">•</span>
                 </h1>
                 <p class="text-[15px] md:text-[16px] text-white/60">
                     Track performance, analyze returns, and manage your investments.
@@ -22,39 +22,39 @@
         <div class="wrap">
             <!-- Summary Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div class="glass bigCard">
-                    <div class="label">Total Value</div>
-                    <div class="big">$125,430.00</div>
+                <div class="glass bigCard hover:border-[#E31937]/30 transition-colors">
+                    <div class="label text-[#E31937]">Total Value</div>
+                    <div class="big"><span class="text-[#E31937]">$125,430.00</span></div>
                     <div class="desc">+$5,234.50 (+4.35%)</div>
                 </div>
 
-                <div class="glass bigCard">
-                    <div class="label">Invested</div>
-                    <div class="big">$120,195.50</div>
+                <div class="glass bigCard hover:border-[#E31937]/30 transition-colors">
+                    <div class="label text-[#E31937]">Invested</div>
+                    <div class="big"><span class="text-[#E31937]">$120,195.50</span></div>
                     <div class="desc">Principal amount</div>
                 </div>
 
-                <div class="glass bigCard">
-                    <div class="label">Returns</div>
-                    <div class="big">+$5,234.50</div>
+                <div class="glass bigCard hover:border-[#E31937]/30 transition-colors">
+                    <div class="label text-[#E31937]">Returns</div>
+                    <div class="big"><span class="text-[#E31937]">+$5,234.50</span></div>
                     <div class="desc">4.35% gain this month</div>
                 </div>
             </div>
 
             <!-- Holdings -->
             <div class="mb-12">
-                <h2 class="text-[28px] font-[900] tracking-[-.02em] text-white mb-6">Holdings</h2>
-                <div class="glass overflow-hidden">
+                <h2 class="text-[28px] font-[900] tracking-[-.02em] text-white mb-6">Holdings <span class="text-[#E31937]">•</span></h2>
+                <div class="glass overflow-hidden hover:border-[#E31937]/30 transition-colors">
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead>
-                                <tr class="border-b border-white/10">
-                                    <th class="px-5 py-4 text-left text-[13px] font-[900] text-white/75">Symbol</th>
-                                    <th class="px-5 py-4 text-left text-[13px] font-[900] text-white/75">Name</th>
-                                    <th class="px-5 py-4 text-right text-[13px] font-[900] text-white/75">Shares</th>
-                                    <th class="px-5 py-4 text-right text-[13px] font-[900] text-white/75">Price</th>
-                                    <th class="px-5 py-4 text-right text-[13px] font-[900] text-white/75">Value</th>
-                                    <th class="px-5 py-4 text-right text-[13px] font-[900] text-white/75">Change</th>
+                                <tr class="border-b border-[#E31937]/30">
+                                    <th class="px-5 py-4 text-left text-[13px] font-[900] text-[#E31937]">Symbol</th>
+                                    <th class="px-5 py-4 text-left text-[13px] font-[900] text-[#E31937]">Name</th>
+                                    <th class="px-5 py-4 text-right text-[13px] font-[900] text-[#E31937]">Shares</th>
+                                    <th class="px-5 py-4 text-right text-[13px] font-[900] text-[#E31937]">Price</th>
+                                    <th class="px-5 py-4 text-right text-[13px] font-[900] text-[#E31937]">Value</th>
+                                    <th class="px-5 py-4 text-right text-[13px] font-[900] text-[#E31937]">Change</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,12 +89,12 @@
             </div>
 
             <!-- Performance Chart Area -->
-            <div class="glass bigCardTall">
-                <div class="label">Performance</div>
-                <div class="big">Last 30 Days</div>
+            <div class="glass bigCardTall hover:border-[#E31937]/30 transition-colors">
+                <div class="label text-[#E31937]">Performance</div>
+                <div class="big">Last 30 Days <span class="text-[#E31937]">•</span></div>
                 <div class="desc">Portfolio value over time</div>
-                <div class="mt-6 h-48 bg-black/20 rounded-lg flex items-center justify-center">
-                    <div class="text-white/40 text-[13px]">Chart visualization would appear here</div>
+                <div class="mt-6 h-48 bg-black/20 rounded-lg flex items-center justify-center border border-[#E31937]/20">
+                    <div class="text-[#E31937]/60 text-[13px]">Chart visualization would appear here</div>
                 </div>
             </div>
         </div>

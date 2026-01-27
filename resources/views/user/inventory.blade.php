@@ -1,4 +1,4 @@
-﻿@extends('layouts.dashboard')
+@extends('layouts.dashboard')
 
 @section('title', 'TESLA Inventory')
 @section('topTitle', 'Inventory')
@@ -83,7 +83,7 @@
         color: #111827;
     }
     .carButton.primary {
-        background: #0b0c10;
+        background: #E31937;
         color: #ffffff;
     }
     

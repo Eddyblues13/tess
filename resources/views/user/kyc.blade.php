@@ -284,7 +284,7 @@
                     </div>
 
                     <div style="padding-top: 12px; border-top: 1px solid rgba(0,0,0,.06);">
-                        <button type="submit" style="height: 42px; padding: 0 24px; border-radius: 10px; background: #0b0c10; color: #fff; font-size: 12px; font-weight: 900; border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
+                        <button type="submit" style="height: 42px; padding: 0 24px; border-radius: 10px; background: #E31937; color: #fff; font-size: 12px; font-weight: 900; border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 6L9 17l-5-5" />
                             </svg>

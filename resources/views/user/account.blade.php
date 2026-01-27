@@ -84,7 +84,7 @@
         height: 42px;
         padding: 0 24px;
         border-radius: 10px;
-        background: #0b0c10;
+        background: #E31937;
         color: #fff;
         font-size: 12px;
         font-weight: 900;
