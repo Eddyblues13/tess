@@ -36,11 +36,17 @@
         }
         
         .email-logo {
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: 0.28em;
-            color: #ffffff;
             margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .email-logo img {
+            max-height: 75px;
+            width: auto;
+            max-width: 300px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
         }
         
         .email-body {
@@ -116,7 +122,9 @@
 <body>
     <div class="email-wrapper">
         <div class="email-header">
-            <div class="email-logo">TESLA</div>
+            <div class="email-logo">
+                <img src="{{ url('images/logo.png') }}" alt="TESLA Logo" style="max-width: 300px; height: auto; display: block; margin: 0 auto;" />
+            </div>
         </div>
         
         <div class="email-body">

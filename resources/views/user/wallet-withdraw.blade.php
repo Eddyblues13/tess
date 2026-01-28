@@ -111,6 +111,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const amountInput = document.querySelector('input[name="amount"]');
     const methodRadios = document.querySelectorAll('input[name="payment_method_id"]');
     const withdrawalDetailsSections = document.querySelectorAll('.withdrawalDetailsSection');
+    const feeWithdrawAmount = document.getElementById('feeWithdrawAmount');
+    const feeProcessing = document.getElementById('feeWithdrawProcessing');
+    const feeReceiveAmount = document.getElementById('feeReceiveAmount');
     
     const methodCategories = {
         @foreach($withdrawMethods as $method)
@@ -152,10 +155,34 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+
+    function formatAmount(value) {
+        return value.toFixed(2);
+    }
+
+    function updateFeeBreakdown() {
+        if (!feeWithdrawAmount || !feeProcessing || !feeReceiveAmount) return;
+
+        const amount = parseFloat(amountInput.value) || 0;
+
+        // Currently no withdrawal fee; keep this centralised for future changes
+        const processingFee = 0;
+        const receive = Math.max(amount - processingFee, 0);
+
+        feeWithdrawAmount.textContent = formatAmount(amount);
+        feeProcessing.textContent = formatAmount(processingFee);
+        feeReceiveAmount.textContent = formatAmount(receive);
+    }
     
     // Listen for amount changes
-    amountInput.addEventListener('input', updateDetailsVisibility);
-    amountInput.addEventListener('change', updateDetailsVisibility);
+    amountInput.addEventListener('input', function () {
+        updateDetailsVisibility();
+        updateFeeBreakdown();
+    });
+    amountInput.addEventListener('change', function () {
+        updateDetailsVisibility();
+        updateFeeBreakdown();
+    });
     
     // Listen for method selection changes
     methodRadios.forEach(radio => {
@@ -164,6 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initial check (in case form has old values)
     updateDetailsVisibility();
+    updateFeeBreakdown();
     
     // Before form submission, ensure all visible fields are enabled
     const form = document.querySelector('form[action="{{ route('dashboard.wallet.withdraw.submit') }}"]');
@@ -202,6 +230,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     @foreach ($errors->all() as $error)
                         <div>{{ $error }}</div>
                     @endforeach
+                </div>
+            @endif
+            @if (session('error'))
+                <div style="margin-bottom: 12px; padding: 10px 12px; border-radius: 10px; background:#fee2e2; border:1px solid #fecaca; font-size:12px; color:#991b1b;">
+                    {{ session('error') }}
                 </div>
             @endif
             @if (session('success'))
@@ -359,9 +392,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 <div class="feeBox">
                     Fee Breakdown<br>
-                    Withdrawal Amount: $<span>{{ old('amount', '0.00') }}</span><br>
-                    Processing Fee: $0.00<br>
-                    You’ll Receive: $<span>{{ old('amount', '0.00') }}</span>
+                    Withdrawal Amount: $<span id="feeWithdrawAmount">{{ old('amount', '0.00') }}</span><br>
+                    Processing Fee: $<span id="feeWithdrawProcessing">0.00</span><br>
+                    You’ll Receive: $<span id="feeReceiveAmount">{{ old('amount', '0.00') }}</span>
                 </div>
 
                 <button class="primaryBtn" type="submit">Withdraw</button>

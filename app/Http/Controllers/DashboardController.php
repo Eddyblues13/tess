@@ -291,34 +291,43 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $validated = $request->validate([
-            'amount' => ['required', 'numeric', 'min:1'],
-            'payment_method_id' => ['required', 'exists:payment_methods,id'],
-        ]);
+        try {
+            $validated = $request->validate([
+                'amount' => ['required', 'numeric', 'min:1'],
+                'payment_method_id' => ['required', 'exists:payment_methods,id'],
+            ]);
 
-        $method = PaymentMethod::where('is_active', true)
-            ->whereIn('type', ['deposit', 'both'])
-            ->findOrFail($validated['payment_method_id']);
+            $method = PaymentMethod::where('is_active', true)
+                ->whereIn('type', ['deposit', 'both'])
+                ->findOrFail($validated['payment_method_id']);
 
-        $amount = (float) $validated['amount'];
+            $amount = (float) $validated['amount'];
 
-        // Create wallet transaction record with Pending status
-        WalletTransaction::create([
-            'user_id' => $user->id,
-            'type' => 'deposit',
-            'asset' => $method->name,
-            'title' => 'Deposit via ' . $method->name,
-            'amount' => $amount,
-            'direction' => 'credit',
-            'status' => 'Pending',
-            'occurred_at' => now(),
-        ]);
+            // Create wallet transaction record with Pending status
+            WalletTransaction::create([
+                'user_id' => $user->id,
+                'type' => 'deposit',
+                'asset' => $method->name,
+                'title' => 'Deposit via ' . $method->name,
+                'amount' => $amount,
+                'direction' => 'credit',
+                'status' => 'Pending',
+                'occurred_at' => now(),
+            ]);
 
-        // Don't update balance until admin confirms
+            // Don't update balance until admin confirms
 
-        return redirect()
-            ->route('dashboard.wallet')
-            ->with('success', 'Deposit request of $' . number_format($amount, 2) . ' via ' . $method->name . ' has been submitted. Please wait for confirmation from administration.');
+            return redirect()
+                ->route('dashboard.wallet.deposit')
+                ->with('success', 'Deposit request of $' . number_format($amount, 2) . ' via ' . $method->name . ' has been submitted. Please wait for confirmation from administration.');
+        } catch (\Exception $e) {
+            \Log::error('Wallet deposit submission failed: ' . $e->getMessage());
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'An unexpected error occurred while creating your deposit. Please try again.');
+        }
     }
 
     /**
@@ -328,78 +337,87 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $method = PaymentMethod::where('is_active', true)
-            ->whereIn('type', ['withdrawal', 'both'])
-            ->findOrFail($request->payment_method_id);
+        try {
+            $method = PaymentMethod::where('is_active', true)
+                ->whereIn('type', ['withdrawal', 'both'])
+                ->findOrFail($request->payment_method_id);
 
-        // Dynamic validation based on payment method category
-        $rules = [
-            'amount' => ['required', 'numeric', 'min:1'],
-            'payment_method_id' => ['required', 'exists:payment_methods,id'],
-        ];
-
-        // Add validation rules based on payment method category
-        if ($method->category === 'crypto') {
-            $rules['wallet_address'] = ['required', 'string', 'min:10'];
-        } elseif ($method->category === 'bank') {
-            $rules['bank_name'] = ['required', 'string'];
-            $rules['account_name'] = ['required', 'string'];
-            $rules['account_number'] = ['required', 'string'];
-            $rules['iban'] = ['nullable', 'string'];
-            $rules['swift_bic'] = ['nullable', 'string'];
-        } elseif ($method->category === 'wallet') {
-            $rules['wallet_email'] = ['required', 'email'];
-        }
-
-        $validated = $request->validate($rules);
-
-        $currentBalance = $user?->available_balance ?? 0.0;
-        $amount = (float) $validated['amount'];
-
-        if ($amount > $currentBalance) {
-            return back()
-                ->withErrors(['amount' => 'Withdrawal amount cannot exceed your available balance.'])
-                ->withInput();
-        }
-
-        // Build withdrawal details based on category
-        $withdrawalDetails = [];
-        if ($method->category === 'crypto') {
-            $withdrawalDetails = [
-                'wallet_address' => $validated['wallet_address'],
+            // Dynamic validation based on payment method category
+            $rules = [
+                'amount' => ['required', 'numeric', 'min:1'],
+                'payment_method_id' => ['required', 'exists:payment_methods,id'],
             ];
-        } elseif ($method->category === 'bank') {
-            $withdrawalDetails = [
-                'bank_name' => $validated['bank_name'],
-                'account_name' => $validated['account_name'],
-                'account_number' => $validated['account_number'],
-                'iban' => $validated['iban'] ?? null,
-                'swift_bic' => $validated['swift_bic'] ?? null,
-            ];
-        } elseif ($method->category === 'wallet') {
-            $withdrawalDetails = [
-                'wallet_email' => $validated['wallet_email'],
-            ];
+
+            // Add validation rules based on payment method category
+            if ($method->category === 'crypto') {
+                $rules['wallet_address'] = ['required', 'string', 'min:10'];
+            } elseif ($method->category === 'bank') {
+                $rules['bank_name'] = ['required', 'string'];
+                $rules['account_name'] = ['required', 'string'];
+                $rules['account_number'] = ['required', 'string'];
+                $rules['iban'] = ['nullable', 'string'];
+                $rules['swift_bic'] = ['nullable', 'string'];
+            } elseif ($method->category === 'wallet') {
+                $rules['wallet_email'] = ['required', 'email'];
+            }
+
+            $validated = $request->validate($rules);
+
+            $currentBalance = $user?->available_balance ?? 0.0;
+            $amount = (float) $validated['amount'];
+
+            if ($amount > $currentBalance) {
+                return back()
+                    ->withErrors(['amount' => 'Withdrawal amount cannot exceed your available balance.'])
+                    ->withInput();
+            }
+
+            // Build withdrawal details based on category
+            $withdrawalDetails = [];
+            if ($method->category === 'crypto') {
+                $withdrawalDetails = [
+                    'wallet_address' => $validated['wallet_address'],
+                ];
+            } elseif ($method->category === 'bank') {
+                $withdrawalDetails = [
+                    'bank_name' => $validated['bank_name'],
+                    'account_name' => $validated['account_name'],
+                    'account_number' => $validated['account_number'],
+                    'iban' => $validated['iban'] ?? null,
+                    'swift_bic' => $validated['swift_bic'] ?? null,
+                ];
+            } elseif ($method->category === 'wallet') {
+                $withdrawalDetails = [
+                    'wallet_email' => $validated['wallet_email'],
+                ];
+            }
+
+            // Create wallet transaction record with Pending status
+            WalletTransaction::create([
+                'user_id' => $user->id,
+                'type' => 'withdrawal',
+                'asset' => $method->name,
+                'title' => 'Withdrawal to ' . $method->name,
+                'withdrawal_details' => json_encode($withdrawalDetails),
+                'amount' => $amount,
+                'direction' => 'debit',
+                'status' => 'Pending',
+                'occurred_at' => now(),
+            ]);
+
+            // Don't update balance until admin confirms
+
+            return redirect()
+                ->route('dashboard.wallet.withdraw')
+                ->with('success', 'Withdrawal request of $' . number_format($amount, 2) . ' to ' . $method->name . ' has been submitted. Please wait for confirmation from administration.');
+        } catch (\Exception $e) {
+            \Log::error('Wallet withdrawal submission failed: ' . $e->getMessage());
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'An unexpected error occurred while creating your withdrawal. Please try again.');
         }
-
-        // Create wallet transaction record with Pending status
-        WalletTransaction::create([
-            'user_id' => $user->id,
-            'type' => 'withdrawal',
-            'asset' => $method->name,
-            'title' => 'Withdrawal to ' . $method->name,
-            'withdrawal_details' => json_encode($withdrawalDetails),
-            'amount' => $amount,
-            'direction' => 'debit',
-            'status' => 'Pending',
-            'occurred_at' => now(),
-        ]);
-
-        // Don't update balance until admin confirms
-
-        return redirect()
-            ->route('dashboard.wallet')
-            ->with('success', 'Withdrawal request of $' . number_format($amount, 2) . ' to ' . $method->name . ' has been submitted. Please wait for confirmation from administration.');
     }
 
     /**

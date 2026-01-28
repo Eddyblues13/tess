@@ -230,6 +230,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Payment Settings Management
         Route::get('/payment-settings', [AdminDashboardController::class, 'paymentSettings'])->name('payment-settings');
         Route::post('/payment-settings', [AdminDashboardController::class, 'updatePaymentSettings'])->name('payment-settings.update');
+
+        // Payment Methods CRUD
+        Route::get('/payment-methods', [AdminDashboardController::class, 'paymentMethods'])->name('payment-methods');
+        Route::get('/payment-methods/create', [AdminDashboardController::class, 'createPaymentMethod'])->name('payment-methods.create');
+        Route::post('/payment-methods', [AdminDashboardController::class, 'storePaymentMethod'])->name('payment-methods.store');
+        Route::get('/payment-methods/{method}/edit', [AdminDashboardController::class, 'editPaymentMethod'])->name('payment-methods.edit');
+        Route::put('/payment-methods/{method}', [AdminDashboardController::class, 'updatePaymentMethod'])->name('payment-methods.update');
+        Route::delete('/payment-methods/{method}', [AdminDashboardController::class, 'deletePaymentMethod'])->name('payment-methods.delete');
     });
 });
 

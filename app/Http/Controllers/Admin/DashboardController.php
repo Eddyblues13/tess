@@ -997,53 +997,9 @@ class DashboardController extends Controller
      */
     public function paymentSettings()
     {
-        // Get or create payment methods
-        $cryptoWallet = PaymentMethod::firstOrCreate(
-            ['slug' => 'crypto-wallet'],
-            [
-                'name' => 'Crypto Wallet',
-                'type' => 'deposit',
-                'category' => 'crypto',
-                'display_order' => 1,
-                'is_active' => true,
-            ]
-        );
-
-        $paypal = PaymentMethod::firstOrCreate(
-            ['slug' => 'paypal'],
-            [
-                'name' => 'PayPal',
-                'type' => 'both',
-                'category' => 'wallet',
-                'display_order' => 2,
-                'is_active' => true,
-            ]
-        );
-
-        $bankTransfer = PaymentMethod::firstOrCreate(
-            ['slug' => 'bank-transfer'],
-            [
-                'name' => 'Bank Transfer',
-                'type' => 'both',
-                'category' => 'bank',
-                'display_order' => 3,
-                'is_active' => true,
-            ]
-        );
-
-        // Parse details JSON if exists
-        $cryptoDetails = $cryptoWallet->details ? json_decode($cryptoWallet->details, true) : [];
-        $paypalDetails = $paypal->details ? json_decode($paypal->details, true) : [];
-        $bankDetails = $bankTransfer->details ? json_decode($bankTransfer->details, true) : [];
-
-        return view('admin.payment-settings', compact(
-            'cryptoWallet',
-            'paypal',
-            'bankTransfer',
-            'cryptoDetails',
-            'paypalDetails',
-            'bankDetails'
-        ));
+        // Keep legacy "settings" view for now, but the main CRUD is in paymentMethods.*
+        // Redirect to the new payment methods index where admin can fully manage methods.
+        return redirect()->route('admin.payment-methods');
     }
 
     /**
@@ -1051,79 +1007,102 @@ class DashboardController extends Controller
      */
     public function updatePaymentSettings(Request $request)
     {
-        $request->validate([
-            'payment_type' => 'required|in:crypto,paypal,bank',
+        // Legacy endpoint no longer used; keep for BC but point admins to the new CRUD.
+        return redirect()->route('admin.payment-methods')
+            ->with('success', 'Please use the Payment Methods page to manage deposit methods.');
+    }
+
+    /**
+     * List all payment methods (admin)
+     */
+    public function paymentMethods()
+    {
+        $methods = PaymentMethod::orderBy('display_order')->orderBy('name')->paginate(20);
+
+        return view('admin.payment-methods', compact('methods'));
+    }
+
+    /**
+     * Show create payment method form
+     */
+    public function createPaymentMethod()
+    {
+        return view('admin.payment-method-form');
+    }
+
+    /**
+     * Store new payment method
+     */
+    public function storePaymentMethod(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:payment_methods,slug',
+            'type' => 'required|in:deposit,withdrawal,both',
+            'category' => 'nullable|string|max:50',
+            'logo_url' => 'nullable|string|max:500',
+            'details' => 'nullable|string',
+            'display_order' => 'nullable|integer|min:0',
+            'is_active' => 'nullable|boolean',
         ]);
 
-        $paymentType = $request->payment_type;
-        $details = [];
-
-        if ($paymentType === 'crypto') {
-            $request->validate([
-                'crypto_wallet_address' => 'required|string|max:255',
-                'crypto_network' => 'nullable|string|max:100',
-                'crypto_qr_code' => 'nullable|string',
-            ]);
-
-            $details = [
-                'wallet_address' => $request->crypto_wallet_address,
-                'network' => $request->crypto_network,
-                'qr_code' => $request->crypto_qr_code,
-            ];
-
-            $paymentMethod = PaymentMethod::where('slug', 'crypto-wallet')->firstOrFail();
-            $paymentMethod->update([
-                'details' => json_encode($details),
-                'is_active' => $request->has('crypto_active'),
-            ]);
-
-        } elseif ($paymentType === 'paypal') {
-            $request->validate([
-                'paypal_email' => 'required|email|max:255',
-                'paypal_business_name' => 'nullable|string|max:255',
-                'paypal_account_type' => 'nullable|string|max:50',
-            ]);
-
-            $details = [
-                'email' => $request->paypal_email,
-                'business_name' => $request->paypal_business_name,
-                'account_type' => $request->paypal_account_type,
-            ];
-
-            $paymentMethod = PaymentMethod::where('slug', 'paypal')->firstOrFail();
-            $paymentMethod->update([
-                'details' => json_encode($details),
-                'is_active' => $request->has('paypal_active'),
-            ]);
-
-        } elseif ($paymentType === 'bank') {
-            $request->validate([
-                'bank_name' => 'required|string|max:255',
-                'account_name' => 'required|string|max:255',
-                'account_number' => 'required|string|max:100',
-                'routing_number' => 'nullable|string|max:100',
-                'swift_code' => 'nullable|string|max:50',
-                'iban' => 'nullable|string|max:50',
-                'bank_address' => 'nullable|string|max:500',
-            ]);
-
-            $details = [
-                'bank_name' => $request->bank_name,
-                'account_name' => $request->account_name,
-                'account_number' => $request->account_number,
-                'routing_number' => $request->routing_number,
-                'swift_code' => $request->swift_code,
-                'iban' => $request->iban,
-                'bank_address' => $request->bank_address,
-            ];
-
-            $paymentMethod = PaymentMethod::where('slug', 'bank-transfer')->firstOrFail();
-            $paymentMethod->update([
-                'details' => json_encode($details),
-                'is_active' => $request->has('bank_active'),
-            ]);
+        if (empty($validated['slug'])) {
+            $validated['slug'] = \Illuminate\Support\Str::slug($validated['name']);
         }
 
-        return redirect()->route('admin.payment-settings')->with('success', ucfirst($paymentType) . ' payment settings updated successfully.');
+        $validated['category'] = $validated['category'] ?? 'other';
+        $validated['display_order'] = $validated['display_order'] ?? 0;
+        $validated['is_active'] = $request->has('is_active');
+
+        PaymentMethod::create($validated);
+
+        return redirect()->route('admin.payment-methods')->with('success', 'Payment method created successfully.');
+    }
+
+    /**
+     * Show edit payment method form
+     */
+    public function editPaymentMethod(PaymentMethod $method)
+    {
+        return view('admin.payment-method-form', compact('method'));
+    }
+
+    /**
+     * Update payment method
+     */
+    public function updatePaymentMethod(Request $request, PaymentMethod $method)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:payment_methods,slug,' . $method->id,
+            'type' => 'required|in:deposit,withdrawal,both',
+            'category' => 'nullable|string|max:50',
+            'logo_url' => 'nullable|string|max:500',
+            'details' => 'nullable|string',
+            'display_order' => 'nullable|integer|min:0',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        if (empty($validated['slug'])) {
+            $validated['slug'] = \Illuminate\Support\Str::slug($validated['name']);
+        }
+
+        $validated['category'] = $validated['category'] ?? 'other';
+        $validated['display_order'] = $validated['display_order'] ?? 0;
+        $validated['is_active'] = $request->has('is_active');
+
+        $method->update($validated);
+
+        return redirect()->route('admin.payment-methods')->with('success', 'Payment method updated successfully.');
+    }
+
+    /**
+     * Delete payment method
+     */
+    public function deletePaymentMethod(PaymentMethod $method)
+    {
+        $method->delete();
+
+        return redirect()->route('admin.payment-methods')->with('success', 'Payment method deleted successfully.');
     }
 }

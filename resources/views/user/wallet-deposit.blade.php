@@ -157,6 +157,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const amountInput = document.querySelector('input[name="amount"]');
     const methodRadios = document.querySelectorAll('input[name="payment_method_id"]');
     const methodDetails = document.querySelectorAll('.methodDetails');
+    const feeDepositAmount = document.getElementById('feeDepositAmount');
+    const feeProcessing = document.getElementById('feeProcessing');
+    const feeTotalAmount = document.getElementById('feeTotalAmount');
     
     function updateDetailsVisibility() {
         const amount = parseFloat(amountInput.value) || 0;
@@ -175,10 +178,34 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+
+    function formatAmount(value) {
+        return value.toFixed(2);
+    }
+
+    function updateFeeBreakdown() {
+        if (!feeDepositAmount || !feeProcessing || !feeTotalAmount) return;
+
+        const amount = parseFloat(amountInput.value) || 0;
+
+        // Currently no processing fee; keep this logic simple but centralized
+        const processingFee = 0;
+        const total = amount + processingFee;
+
+        feeDepositAmount.textContent = formatAmount(amount);
+        feeProcessing.textContent = formatAmount(processingFee);
+        feeTotalAmount.textContent = formatAmount(total);
+    }
     
     // Listen for amount changes
-    amountInput.addEventListener('input', updateDetailsVisibility);
-    amountInput.addEventListener('change', updateDetailsVisibility);
+    amountInput.addEventListener('input', function () {
+        updateDetailsVisibility();
+        updateFeeBreakdown();
+    });
+    amountInput.addEventListener('change', function () {
+        updateDetailsVisibility();
+        updateFeeBreakdown();
+    });
     
     // Listen for method selection changes
     methodRadios.forEach(radio => {
@@ -187,6 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initial check (in case form has old values)
     updateDetailsVisibility();
+    updateFeeBreakdown();
     
     // Copy to clipboard functionality for individual items
     document.querySelectorAll('.copyBtn').forEach(btn => {
@@ -249,6 +277,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     @foreach ($errors->all() as $error)
                         <div>{{ $error }}</div>
                     @endforeach
+                </div>
+            @endif
+            @if (session('error'))
+                <div style="margin-bottom: 12px; padding: 10px 12px; border-radius: 10px; background:#fee2e2; border:1px solid #fecaca; font-size:12px; color:#991b1b;">
+                    {{ session('error') }}
                 </div>
             @endif
             @if (session('success'))
@@ -448,9 +481,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 <div class="feeBox">
                     Fee Breakdown<br>
-                    Deposit Amount: $<span>{{ old('amount', '0.00') }}</span><br>
-                    Processing Fee: $0.00<br>
-                    Total Amount: $<span>{{ old('amount', '0.00') }}</span>
+                    Deposit Amount: $<span id="feeDepositAmount">{{ old('amount', '0.00') }}</span><br>
+                    Processing Fee: $<span id="feeProcessing">0.00</span><br>
+                    Total Amount: $<span id="feeTotalAmount">{{ old('amount', '0.00') }}</span>
                 </div>
 
                 <button class="primaryBtn" type="submit">Add Funds</button>
