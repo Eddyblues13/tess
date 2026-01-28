@@ -1363,20 +1363,65 @@
                 font-size: 11px;
             }
         }
+
+        /* Dashboard popup banner (like screenshot) */
+        .dashPopup {
+            position: fixed;
+            left: 16px;
+            bottom: 16px;
+            z-index: 9999;
+            max-width: 360px;
+            width: calc(100vw - 32px);
+            background: #0b0c10;
+            color: #fff;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,.14);
+            box-shadow: 0 18px 45px rgba(0,0,0,.35);
+            padding: 12px 12px;
+            display: none;
+        }
+        .dashPopup.show { display: block; }
+        .dashPopupTop {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: start;
+        }
+        .dashPopupTitle {
+            font-size: 13px;
+            font-weight: 900;
+            margin: 0;
+        }
+        .dashPopupMsg {
+            margin-top: 2px;
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(255,255,255,.82);
+            line-height: 1.35;
+        }
+        .dashPopupAmt {
+            font-size: 15px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+        .dashPopupClose {
+            width: 28px;
+            height: 28px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,.12);
+            background: rgba(255,255,255,.06);
+            color: #fff;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+        .dashPopupClose:hover { background: rgba(255,255,255,.10); }
+        @media (max-width: 480px) {
+            .dashPopup { left: 12px; bottom: 12px; width: calc(100vw - 24px); }
+        }
     </style>
     @stack('styles')
-    <!-- Smartsupp Live Chat script -->
-<script type="text/javascript">
-var _smartsupp = _smartsupp || {};
-_smartsupp.key = '8a2bc8baa405d6ee7cbd0681e4761a7421139f71';
-window.smartsupp||(function(d) {
-  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
-  c.type='text/javascript';c.charset='utf-8';c.async=true;
-  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
-})(document);
-</script>
-<noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 
 </head>
 
@@ -1621,6 +1666,17 @@ window.smartsupp||(function(d) {
         </main>
     </div>
 
+    <!-- Dashboard popup banner -->
+    <div class="dashPopup" id="dashPopup" aria-live="polite" aria-atomic="true">
+        <div class="dashPopupTop">
+            <div style="min-width:0;">
+                <div class="dashPopupTitle" id="dashPopupTitle">Notification</div>
+                <div class="dashPopupMsg" id="dashPopupMsg"></div>
+            </div>
+            <button type="button" class="dashPopupClose" id="dashPopupClose" aria-label="Close">✕</button>
+        </div>
+    </div>
+
     <script>
         // Sidebar toggle (mobile)
         const sidebar = document.getElementById("sidebar");
@@ -1751,6 +1807,70 @@ window.smartsupp||(function(d) {
                 .catch(error => console.error('Error:', error));
         }
 
+        // Popup banner (show newest unread notifications like screenshot)
+        const dashPopup = document.getElementById('dashPopup');
+        const dashPopupTitle = document.getElementById('dashPopupTitle');
+        const dashPopupMsg = document.getElementById('dashPopupMsg');
+        const dashPopupClose = document.getElementById('dashPopupClose');
+
+        let dashPopupTimer = null;
+        let currentPopupNotification = null;
+
+        function mapPopupTitle(n) {
+            const t = (n && n.type) ? String(n.type) : '';
+            if (t.includes('withdraw')) return 'Withdrawal';
+            if (t.includes('deposit')) return 'Deposit';
+            if (t.includes('stock')) return 'Purchase';
+            if (t.includes('vehicle')) return 'Purchase';
+            if (t.includes('investment')) return 'Profit';
+            return (n && n.title) ? n.title : 'Notification';
+        }
+
+        function highlightAmount(text) {
+            return String(text || '').replace(/(\$[0-9][0-9,]*(?:\.[0-9]{2})?)/, '<span class="dashPopupAmt">$1</span>');
+        }
+
+        function showDashPopup(n) {
+            if (!dashPopup || !dashPopupTitle || !dashPopupMsg) return;
+            currentPopupNotification = n;
+            dashPopupTitle.textContent = mapPopupTitle(n);
+            dashPopupMsg.innerHTML = highlightAmount(n.message || n.title || '');
+            dashPopup.classList.add('show');
+
+            if (dashPopupTimer) clearTimeout(dashPopupTimer);
+            dashPopupTimer = setTimeout(() => {
+                if (dashPopup.classList.contains('show') && currentPopupNotification?.id) {
+                    markAsRead(currentPopupNotification.id);
+                }
+                dashPopup.classList.remove('show');
+            }, 10000);
+        }
+
+        dashPopupClose?.addEventListener('click', function (e) {
+            e.stopPropagation();
+            if (currentPopupNotification?.id) markAsRead(currentPopupNotification.id);
+            dashPopup?.classList.remove('show');
+        });
+
+        dashPopup?.addEventListener('click', function () {
+            if (currentPopupNotification?.id) markAsRead(currentPopupNotification.id);
+            if (currentPopupNotification?.link) window.location.href = currentPopupNotification.link;
+            dashPopup.classList.remove('show');
+        });
+
+        function loadPopupNotification() {
+            fetch('{{ route("dashboard.notifications.get") }}')
+                .then(r => r.json())
+                .then(data => {
+                    const list = data.notifications || [];
+                    if (list.length > 0) {
+                        // show the newest unread
+                        showDashPopup(list[0]);
+                    }
+                })
+                .catch(() => {});
+        }
+
         if (notificationBell && notificationDropdown && bellWrapper) {
             notificationBell.addEventListener("click", function(e) {
                 e.stopPropagation();
@@ -1774,6 +1894,9 @@ window.smartsupp||(function(d) {
         }
 
         updateNotificationBadge();
+        // popup on dashboard
+        setTimeout(loadPopupNotification, 1500);
+        setInterval(loadPopupNotification, 30000);
 
         // Profile dropdown toggle
         if (profileIcon && profileDropdown && profileWrapper) {
