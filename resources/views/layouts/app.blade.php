@@ -14,8 +14,9 @@
         /* Homepage popup banner (like your screenshot) */
         .sitePopup {
             position: fixed;
-            left: 16px;
+            left: 50%;
             bottom: 16px;
+            transform: translateX(-50%);
             z-index: 9999;
             max-width: 340px;
             width: calc(100vw - 32px);
@@ -65,7 +66,7 @@
         }
         .sitePopupClose:hover { background: rgba(255,255,255,.10); }
         @media (max-width: 480px) {
-            .sitePopup { left: 12px; bottom: 12px; width: calc(100vw - 24px); }
+            .sitePopup { left: 50%; bottom: 12px; transform: translateX(-50%); width: calc(100vw - 24px); }
         }
     </style>
 

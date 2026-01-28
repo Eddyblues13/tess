@@ -1367,8 +1367,9 @@
         /* Dashboard popup banner (like screenshot) */
         .dashPopup {
             position: fixed;
-            left: 16px;
+            left: 50%;
             bottom: 16px;
+            transform: translateX(-50%);
             z-index: 9999;
             max-width: 360px;
             width: calc(100vw - 32px);
@@ -1418,7 +1419,7 @@
         }
         .dashPopupClose:hover { background: rgba(255,255,255,.10); }
         @media (max-width: 480px) {
-            .dashPopup { left: 12px; bottom: 12px; width: calc(100vw - 24px); }
+            .dashPopup { left: 50%; bottom: 12px; transform: translateX(-50%); width: calc(100vw - 24px); }
         }
     </style>
     @stack('styles')
