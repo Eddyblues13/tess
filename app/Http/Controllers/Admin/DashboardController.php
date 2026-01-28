@@ -732,13 +732,40 @@ class DashboardController extends Controller
             'zero_to_sixty' => 'nullable|numeric|min:0',
             'drivetrain' => 'nullable|string|max:255',
             'image_url' => 'nullable|url|max:500',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,jpg,png,webp|max:5120', // 5MB max per image
             'display_order' => 'nullable|integer|min:0',
             'is_available' => 'nullable|boolean',
         ]);
 
         $validated['is_available'] = $request->has('is_available');
 
-        TeslaCar::create($validated);
+        // Remove images from validated (we'll handle it separately)
+        unset($validated['images']);
+
+        // Create car first to get ID
+        $car = TeslaCar::create($validated);
+
+        // Handle image uploads
+        $uploadedImages = [];
+        if ($request->hasFile('images')) {
+            $uploadPath = public_path('cars/' . $car->id);
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+
+            foreach ($request->file('images') as $image) {
+                $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move($uploadPath, $filename);
+                $uploadedImages[] = 'cars/' . $car->id . '/' . $filename;
+            }
+        }
+
+        // Update car with uploaded images
+        if (!empty($uploadedImages)) {
+            $car->images = $uploadedImages;
+            $car->save();
+        }
 
         return redirect()->route('admin.inventory')->with('success', 'Vehicle created successfully.');
     }
@@ -767,12 +794,53 @@ class DashboardController extends Controller
             'zero_to_sixty' => 'nullable|numeric|min:0',
             'drivetrain' => 'nullable|string|max:255',
             'image_url' => 'nullable|url|max:500',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,jpg,png,webp|max:5120',
+            'delete_images' => 'nullable|array',
+            'delete_images.*' => 'string',
             'display_order' => 'nullable|integer|min:0',
             'is_available' => 'nullable|boolean',
+            'is_featured' => 'nullable|boolean',
         ]);
 
         $validated['is_available'] = $request->has('is_available');
+        $validated['is_featured'] = $request->has('is_featured');
 
+        // Remove images from validated (we'll handle it separately)
+        unset($validated['images']);
+
+        // Handle image deletions
+        $currentImages = $car->images ?? [];
+        if ($request->has('delete_images')) {
+            foreach ($request->delete_images as $imageToDelete) {
+                $imagePath = public_path($imageToDelete);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+                $currentImages = array_filter($currentImages, function($img) use ($imageToDelete) {
+                    return $img !== $imageToDelete;
+                });
+            }
+            $currentImages = array_values($currentImages); // Re-index array
+        }
+
+        // Handle new image uploads
+        $uploadedImages = $currentImages;
+        if ($request->hasFile('images')) {
+            $uploadPath = public_path('cars/' . $car->id);
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+
+            foreach ($request->file('images') as $image) {
+                $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move($uploadPath, $filename);
+                $uploadedImages[] = 'cars/' . $car->id . '/' . $filename;
+            }
+        }
+
+        // Update car with uploaded images
+        $validated['images'] = $uploadedImages;
         $car->update($validated);
 
         return redirect()->route('admin.inventory')->with('success', 'Vehicle updated successfully.');

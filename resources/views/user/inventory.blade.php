@@ -220,8 +220,12 @@
         <div class="carGrid">
             @foreach($cars as $car)
                 <div class="carCard">
-                    @if($car->image_url)
-                        <img src="{{ $car->image_url }}" alt="{{ $car->name }}" class="carImage">
+                    @php
+                        $primaryImage = $car->getPrimaryImage();
+                        $imageSrc = (str_starts_with($primaryImage ?? '', 'http')) ? $primaryImage : asset($primaryImage ?? 'images/tesla1.jpg');
+                    @endphp
+                    @if($primaryImage)
+                        <img src="{{ $imageSrc }}" alt="{{ $car->name }}" class="carImage" onerror="this.src='{{ asset('images/tesla1.jpg') }}';">
                     @endif
                     <div class="carBody">
                         <div>
@@ -292,8 +296,11 @@
         
         let html = '';
         
-        if (car.image_url) {
-            html += `<img src="${car.image_url}" alt="${car.name}" class="carModalImage">`;
+        // Use primary image (support both image_url and images array)
+        const carImage = car.image_url || (car.images && car.images.length > 0 ? car.images[0] : null);
+        if (carImage) {
+            const imageSrc = carImage.startsWith('http') ? carImage : `/${carImage}`;
+            html += `<img src="${imageSrc}" alt="${car.name}" class="carModalImage" onerror="this.src='/images/tesla1.jpg';">`;
         }
         
         html += '<div class="carModalInfo">';

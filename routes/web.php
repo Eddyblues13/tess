@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Services\StockMarketService;
 use App\Services\NewsService;
 use App\Models\InvestmentPlan;
+use App\Models\TeslaCar;
 
 Route::get('/', function (StockMarketService $stockService, NewsService $newsService) {
     // Always return data, even if APIs fail (they have fallbacks)
@@ -34,6 +35,13 @@ Route::get('/', function (StockMarketService $stockService, NewsService $newsSer
     // Tesla Investment Plans (4 plans as defined in seeder)
     $investmentPlans = InvestmentPlan::orderBy('display_order')->get();
     
+    // Tesla Cars for homepage (show featured and available cars, limit to 4 for homepage)
+    $featuredCars = TeslaCar::where('is_available', true)
+        ->where('is_featured', true)
+        ->orderBy('display_order')
+        ->take(4)
+        ->get();
+    
     return view('home.index', [
         'featuredStocks' => $featuredStocks,
         'topGainers' => $topGainers,
@@ -41,12 +49,23 @@ Route::get('/', function (StockMarketService $stockService, NewsService $newsSer
         'mostActive' => $mostActive,
         'marketNews' => $marketNews,
         'investmentPlans' => $investmentPlans,
+        'featuredCars' => $featuredCars,
     ]);
 })->name('home');
 
 Route::get('/inventory', function () {
-    return view('inventory.index');
+    $cars = TeslaCar::where('is_available', true)
+        ->orderBy('display_order')
+        ->get();
+    return view('inventory.index', ['cars' => $cars]);
 })->name('inventory');
+
+Route::get('/inventory/{car}', function (TeslaCar $car) {
+    if (!$car->is_available) {
+        abort(404);
+    }
+    return view('inventory.show', ['car' => $car]);
+})->name('inventory.show');
 
 Route::get('/invest', function () {
     $plans = InvestmentPlan::orderBy('display_order')->get();

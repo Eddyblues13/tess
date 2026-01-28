@@ -727,7 +727,8 @@ class DashboardController extends Controller
                 'top_speed_mph' => $car->top_speed_mph ?? null,
                 'zero_to_sixty' => $car->zero_to_sixty ? (float) $car->zero_to_sixty : null,
                 'drivetrain' => $car->drivetrain ?? 'Electric',
-                'image_url' => $car->image_url ?? null,
+                'image_url' => $car->getPrimaryImage() ?? null,
+                'images' => $car->images ?? [],
             ];
         })->values();
 

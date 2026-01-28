@@ -367,131 +367,80 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-7">
-                <!-- Card 1 -->
-                <div
-                    class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-                    <!-- Image -->
-                    <div class="h-[300px] bg-[#f3f4f6]">
-                        <img src="{{asset('images/tesla2.jpg')}}"
-                            alt="Tesla Model S" class="w-full h-full object-cover" loading="lazy" />
-                    </div>
-
-                    <!-- Content -->
-                    <div class="p-5">
-                        <div class="text-[18px] font-[900] tracking-[-.01em] text-[#0f1115]">
-                            Tesla <span class="text-[#E31937]">Model S</span>
+                @forelse($featuredCars->take(2) as $car)
+                    <div class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_40px_rgba(227,25,55,0.2)] transition">
+                        <!-- Image -->
+                        <div class="h-[300px] bg-[#f3f4f6] relative overflow-hidden">
+                            <a href="{{ route('inventory.show', $car) }}">
+                                <img src="{{ asset($car->getPrimaryImage()) }}"
+                                    alt="{{ $car->name }}" class="w-full h-full object-cover" loading="lazy" />
+                            </a>
                         </div>
 
-                        <!-- specs line -->
-                        <div class="mt-3 grid grid-cols-3 gap-3">
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">348mi</div>
-                                <div class="text-[11px] text-black/45">Range</div>
+                        <!-- Content -->
+                        <div class="p-5">
+                            <div class="text-[18px] font-[900] tracking-[-.01em] text-[#0f1115]">
+                                {{ $car->name }}
                             </div>
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">3.8s</div>
-                                <div class="text-[11px] text-black/45">0-60 mph</div>
-                            </div>
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">149mph</div>
-                                <div class="text-[11px] text-black/45">Top Speed</div>
-                            </div>
-                        </div>
 
-                        <!-- price + buttons -->
-                        <div class="mt-5 flex items-end justify-between gap-4">
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">
-                                    Starting at <span class="text-[#E31937]">$79,990.00*</span>
+                            <!-- specs line -->
+                            <div class="mt-3 grid grid-cols-3 gap-3">
+                                @if($car->range_miles)
+                                <div>
+                                    <div class="text-[14px] font-[900] text-[#0f1115]">{{ $car->range_miles }}mi</div>
+                                    <div class="text-[11px] text-black/45">Range</div>
                                 </div>
-                                <div class="text-[12px] text-black/45">
-                                    After Est. Gas Savings
+                                @endif
+                                @if($car->zero_to_sixty)
+                                <div>
+                                    <div class="text-[14px] font-[900] text-[#0f1115]">{{ number_format($car->zero_to_sixty, 1) }}s</div>
+                                    <div class="text-[11px] text-black/45">0-60 mph</div>
                                 </div>
-                            </div>
-
-                            <div class="flex items-center gap-3">
-                                <button
-                                    class="h-[34px] px-4 rounded-md border border-black/15 bg-white text-[#0f1115] text-[12px] font-[800] hover:bg-black/5 hover:border-[#E31937] hover:text-[#E31937] transition cursor-pointer">
-                                    Learn
-                                </button>
-                                @auth
-                                    <a href="{{ route('dashboard.orders') }}"
-                                        class="h-[34px] px-4 rounded-md text-white text-[12px] font-[800] hover:opacity-90 transition cursor-pointer inline-flex items-center justify-center" style="background: #E31937;">
-                                        Order
-                                    </a>
-                                @else
-                                    <a href="{{ route('login') }}"
-                                        class="h-[34px] px-4 rounded-md text-white text-[12px] font-[800] hover:opacity-90 transition cursor-pointer inline-flex items-center justify-center" style="background: #E31937;">
-                                        Order
-                                    </a>
-                                @endauth
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2 f-->
-                <div
-                    class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-                    <!-- Image -->
-                    <div class="h-[300px] bg-[#f3f4f6]">
-                        <img src="{{asset('images/tesla1.jpg')}}"
-                            alt="Tesla Model Y" class="w-full h-full object-cover" loading="lazy" />
-                    </div>
-
-                    <!-- Content -->
-                    <div class="p-5">
-                        <div class="text-[18px] font-[900] tracking-[-.01em] text-[#0f1115]">
-                            Tesla Model Y
-                        </div>
-
-                        <!-- specs line -->
-                        <div class="mt-3 grid grid-cols-3 gap-3">
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">358mi</div>
-                                <div class="text-[11px] text-black/45">Range</div>
-                            </div>
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">4.2s</div>
-                                <div class="text-[11px] text-black/45">0-60 mph</div>
-                            </div>
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">145mph</div>
-                                <div class="text-[11px] text-black/45">Top Speed</div>
-                            </div>
-                        </div>
-
-                        <!-- price + buttons -->
-                        <div class="mt-5 flex items-end justify-between gap-4">
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">
-                                    Starting at <span class="text-[#E31937]">$47,740.00*</span>
+                                @endif
+                                @if($car->top_speed_mph)
+                                <div>
+                                    <div class="text-[14px] font-[900] text-[#0f1115]">{{ $car->top_speed_mph }}mph</div>
+                                    <div class="text-[11px] text-black/45">Top Speed</div>
                                 </div>
-                                <div class="text-[12px] text-black/45">
-                                    After Est. Gas Savings
-                                </div>
+                                @endif
                             </div>
 
-                            <div class="flex items-center gap-3">
-                                <button
-                                    class="h-[34px] px-4 rounded-md border border-black/15 bg-white text-[#0f1115] text-[12px] font-[800] hover:bg-black/5 hover:border-[#E31937] hover:text-[#E31937] transition cursor-pointer">
-                                    Learn
-                                </button>
-                                @auth
-                                    <a href="{{ route('dashboard.orders') }}"
-                                        class="h-[34px] px-4 rounded-md text-white text-[12px] font-[800] hover:opacity-90 transition cursor-pointer inline-flex items-center justify-center" style="background: #E31937;">
-                                        Order
+                            <!-- price + buttons -->
+                            <div class="mt-5 flex items-end justify-between gap-4">
+                                <div>
+                                    <div class="text-[14px] font-[900] text-[#0f1115]">
+                                        Starting at <span class="text-[#E31937]">${{ number_format($car->price, 2) }}*</span>
+                                    </div>
+                                    <div class="text-[12px] text-black/45">
+                                        After Est. Gas Savings
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-3">
+                                    <a href="{{ route('inventory.show', $car) }}"
+                                        class="h-[34px] px-4 rounded-md border border-black/15 bg-white text-[#0f1115] text-[12px] font-[800] hover:bg-black/5 hover:border-[#E31937] hover:text-[#E31937] transition cursor-pointer inline-flex items-center">
+                                        View Details
                                     </a>
-                                @else
-                                    <a href="{{ route('login') }}"
-                                        class="h-[34px] px-4 rounded-md text-white text-[12px] font-[800] hover:opacity-90 transition cursor-pointer inline-flex items-center justify-center" style="background: #E31937;">
-                                        Order
-                                    </a>
-                                @endauth
+                                    @auth
+                                        <a href="{{ route('inventory.show', $car) }}"
+                                            class="h-[34px] px-4 rounded-md text-white text-[12px] font-[800] hover:opacity-90 transition cursor-pointer inline-flex items-center justify-center" style="background: #E31937;">
+                                            Order
+                                        </a>
+                                    @else
+                                        <a href="{{ route('login') }}"
+                                            class="h-[34px] px-4 rounded-md text-white text-[12px] font-[800] hover:opacity-90 transition cursor-pointer inline-flex items-center justify-center" style="background: #E31937;">
+                                            Order
+                                        </a>
+                                    @endauth
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @empty
+                    <div class="col-span-2 text-center py-12 text-[14px] text-black/50">
+                        No vehicles available at the moment.
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>
@@ -506,123 +455,79 @@
         <div class="wrap pb-16">
             <!-- Cards row -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Card 1 -->
-                <div
-                    class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-                    <!-- Image -->
-                    <div class="h-[300px] bg-[#f3f4f6]">
-                        <img src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&h=600&fit=crop&q=80&auto=format"
-                            alt="Tesla Model X Plaid" class="w-full h-full object-cover" loading="lazy" />
-                    </div>
-
-                    <!-- Content -->
-                    <div class="p-5">
-                        <div class="text-[18px] font-[900] tracking-[-.01em] text-[#0f1115]">
-                            Tesla <span class="text-[#E31937]">Model X Plaid</span>
+                @forelse($featuredCars->skip(2)->take(2) as $car)
+                    <div class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_40px_rgba(227,25,55,0.2)] transition">
+                        <!-- Image -->
+                        <div class="h-[300px] bg-[#f3f4f6] relative overflow-hidden">
+                            <a href="{{ route('inventory.show', $car) }}">
+                                <img src="{{ asset($car->getPrimaryImage()) }}"
+                                    alt="{{ $car->name }}" class="w-full h-full object-cover" loading="lazy" />
+                            </a>
                         </div>
 
-                        <!-- specs line -->
-                        <div class="mt-3 grid grid-cols-3 gap-3">
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">410mi</div>
-                                <div class="text-[11px] text-black/45">Range</div>
-                            </div>
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">3.1s</div>
-                                <div class="text-[11px] text-black/45">0-60 mph</div>
-                            </div>
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">130mph</div>
-                                <div class="text-[11px] text-black/45">Top Speed</div>
-                            </div>
-                        </div>
-
-                        <!-- price + buttons -->
-                        <div class="mt-5 flex items-end justify-between gap-4">
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">
-                                    Starting at <span class="text-[#E31937]">$94,990.00*</span>
-                                </div>
-                                <div class="text-[12px] text-black/45">
-                                    After Est. Gas Savings
-                                </div>
+                        <!-- Content -->
+                        <div class="p-5">
+                            <div class="text-[18px] font-[900] tracking-[-.01em] text-[#0f1115]">
+                                {{ $car->name }}
                             </div>
 
-                            <div class="flex items-center gap-3">
-                                <button
-                                    class="h-[34px] px-4 rounded-md border border-black/15 bg-white text-[#0f1115] text-[12px] font-[800] hover:bg-black/5 transition">
-                                    Learn
-                                </button>
-                                @auth
-                                    <a href="{{ route('dashboard.orders') }}"
-                                        class="h-[34px] px-4 rounded-md text-white text-[12px] font-[800] hover:opacity-90 transition cursor-pointer inline-flex items-center justify-center" style="background: #E31937;">
-                                        Order
+                            <!-- specs line -->
+                            <div class="mt-3 grid grid-cols-3 gap-3">
+                                @if($car->range_miles)
+                                <div>
+                                    <div class="text-[14px] font-[900] text-[#0f1115]">{{ $car->range_miles }}mi</div>
+                                    <div class="text-[11px] text-black/45">Range</div>
+                                </div>
+                                @endif
+                                @if($car->zero_to_sixty)
+                                <div>
+                                    <div class="text-[14px] font-[900] text-[#0f1115]">{{ number_format($car->zero_to_sixty, 1) }}s</div>
+                                    <div class="text-[11px] text-black/45">0-60 mph</div>
+                                </div>
+                                @endif
+                                @if($car->top_speed_mph)
+                                <div>
+                                    <div class="text-[14px] font-[900] text-[#0f1115]">{{ $car->top_speed_mph }}mph</div>
+                                    <div class="text-[11px] text-black/45">Top Speed</div>
+                                </div>
+                                @endif
+                            </div>
+
+                            <!-- price + buttons -->
+                            <div class="mt-5 flex items-end justify-between gap-4">
+                                <div>
+                                    <div class="text-[14px] font-[900] text-[#0f1115]">
+                                        Starting at <span class="text-[#E31937]">${{ number_format($car->price, 2) }}*</span>
+                                    </div>
+                                    <div class="text-[12px] text-black/45">
+                                        After Est. Gas Savings
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-3">
+                                    <a href="{{ route('inventory.show', $car) }}"
+                                        class="h-[34px] px-4 rounded-md border border-black/15 bg-white text-[#0f1115] text-[12px] font-[800] hover:bg-black/5 hover:border-[#E31937] hover:text-[#E31937] transition cursor-pointer inline-flex items-center">
+                                        View Details
                                     </a>
-                                @else
-                                    <a href="{{ route('login') }}"
-                                        class="h-[34px] px-4 rounded-md text-white text-[12px] font-[800] hover:opacity-90 transition cursor-pointer inline-flex items-center justify-center" style="background: #E31937;">
-                                        Order
-                                    </a>
-                                @endauth
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2 (optional second card to match the top row in your screenshot) -->
-                <div
-                    class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-                    <div class="h-[300px] bg-[#f3f4f6]">
-                        <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&h=600&fit=crop&q=80&auto=format"
-                            alt="Tesla Model 3" class="w-full h-full object-cover" loading="lazy" />
-                    </div>
-
-                    <div class="p-5">
-                        <div class="text-[18px] font-[900] tracking-[-.01em] text-[#0f1115]">
-                            Tesla <span class="text-[#E31937]">Model 3</span>
-                        </div>
-
-                        <div class="mt-3 grid grid-cols-3 gap-3">
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">396mi</div>
-                                <div class="text-[11px] text-black/45">Range</div>
-                            </div>
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">3.1s</div>
-                                <div class="text-[11px] text-black/45">0-60 mph</div>
-                            </div>
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">155mph</div>
-                                <div class="text-[11px] text-black/45">Top Speed</div>
-                            </div>
-                        </div>
-
-                        <div class="mt-5 flex items-end justify-between gap-4">
-                            <div>
-                                <div class="text-[14px] font-[900] text-[#0f1115]">
-                                    Starting at <span class="text-[#E31937]">$74,990.00*</span>
-                                </div>
-                                <div class="text-[12px] text-black/45">
-                                    After Est. Gas Savings
+                                    @auth
+                                        <a href="{{ route('inventory.show', $car) }}"
+                                            class="h-[34px] px-4 rounded-md text-white text-[12px] font-[800] hover:opacity-90 transition cursor-pointer inline-flex items-center justify-center" style="background: #E31937;">
+                                            Order
+                                        </a>
+                                    @else
+                                        <a href="{{ route('login') }}"
+                                            class="h-[34px] px-4 rounded-md text-white text-[12px] font-[800] hover:opacity-90 transition cursor-pointer inline-flex items-center justify-center" style="background: #E31937;">
+                                            Order
+                                        </a>
+                                    @endauth
                                 </div>
                             </div>
-
-                            <div class="flex items-center gap-3">
-                                <button
-                                    class="h-[34px] px-4 rounded-md border border-black/15 bg-white text-[#0f1115] text-[12px] font-[800] hover:bg-black/5 transition">
-                                    Learn
-                                </button>
-                                <button
-                                    class="h-[34px] px-4 rounded-md text-white text-[12px] font-[800] hover:opacity-90 transition" style="background: #E31937;">
-                                    Order
-                                </button>
-                            </div>
                         </div>
                     </div>
-                </div>
+                @empty
+                    <!-- Show placeholder if no more cars -->
+                @endforelse
             </div>
-
-            <!-- NOTE: if you only want ONE big card (like your screenshot crop), delete Card 2 -->
         </div>
     </section>
 

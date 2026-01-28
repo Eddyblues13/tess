@@ -26,7 +26,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ isset($car) ? route('admin.inventory.update', $car) : route('admin.inventory.store') }}" style="padding: 20px;">
+        <form method="POST" action="{{ isset($car) ? route('admin.inventory.update', $car) : route('admin.inventory.store') }}" enctype="multipart/form-data" style="padding: 20px;">
             @csrf
             @if(isset($car))
                 @method('PUT')
@@ -101,35 +101,68 @@
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px;">
-                <div>
-                    <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Image URL</label>
-                    <input type="url" name="image_url" value="{{ old('image_url', $car->image_url ?? '') }}"
-                        style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
-                        placeholder="https://example.com/image.jpg" />
-                </div>
-
-                <div>
-                    <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Display Order</label>
-                    <input type="number" name="display_order" value="{{ old('display_order', $car->display_order ?? '') }}" min="0"
-                        style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
-                        placeholder="0" />
-                </div>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Display Order</label>
+                <input type="number" name="display_order" value="{{ old('display_order', $car->display_order ?? '') }}" min="0"
+                    style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
+                    placeholder="0" />
             </div>
 
-            @if(isset($car) && $car->image_url)
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Car Images (Multiple images allowed)</label>
+                <input type="file" name="images[]" multiple accept="image/jpeg,image/jpg,image/png,image/webp"
+                    style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
+                    id="car-images-input" />
+                <p style="margin-top: 6px; font-size: 11px; color: #9ca3af;">
+                    Upload multiple images. Images will be stored in public/cars/ directory. Max 5MB per image.
+                </p>
+            </div>
+
+            @if(isset($car) && !empty($car->getAllImages()))
                 <div style="margin-bottom: 16px;">
-                    <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Current Image</label>
-                    <img src="{{ $car->image_url }}" alt="{{ $car->name }}" style="max-width: 200px; max-height: 150px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1);" />
+                    <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Current Images</label>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px;">
+                        @foreach($car->getAllImages() as $index => $imagePath)
+                            <div style="position: relative; border: 1px solid rgba(0,0,0,.1); border-radius: 8px; overflow: hidden;">
+                                <img src="{{ asset($imagePath) }}" alt="{{ $car->name }} Image {{ $index + 1 }}" 
+                                    style="width: 100%; height: 120px; object-fit: cover; display: block;" />
+                                <label style="position: absolute; top: 4px; right: 4px; cursor: pointer; background: rgba(239,68,68,0.9); color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 900;">
+                                    <input type="checkbox" name="delete_images[]" value="{{ $imagePath }}" style="display: none;" onchange="this.parentElement.parentElement.style.opacity = this.checked ? '0.5' : '1';" />
+                                    Delete
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             @endif
 
-            <div style="margin-bottom: 20px;">
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Image URL (Legacy - Optional)</label>
+                <input type="url" name="image_url" value="{{ old('image_url', $car->image_url ?? '') }}"
+                    style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
+                    placeholder="https://example.com/image.jpg" />
+                <p style="margin-top: 6px; font-size: 11px; color: #9ca3af;">
+                    Optional: External image URL (for backward compatibility)
+                </p>
+            </div>
+
+            <div style="margin-bottom: 16px;">
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 700; color: #111827;">
                     <input type="checkbox" name="is_available" value="1" {{ old('is_available', $car->is_available ?? true) ? 'checked' : '' }}
                         style="width: 18px; height: 18px; cursor: pointer;" />
                     Available for purchase
                 </label>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 700; color: #111827;">
+                    <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $car->is_featured ?? false) ? 'checked' : '' }}
+                        style="width: 18px; height: 18px; cursor: pointer;" />
+                    Show on Homepage
+                </label>
+                <p style="margin-top: 6px; font-size: 11px; color: #9ca3af;">
+                    Featured cars will appear on the homepage. Only available cars can be featured.
+                </p>
             </div>
 
             <div style="display: flex; gap: 12px;">
