@@ -134,11 +134,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 use App\Http\Controllers\DashboardController;
 
+// Public stock logo route (for homepage)
+Route::get('/stock-logo/{ticker}', [DashboardController::class, 'stockLogo'])->name('stock-logo');
+
 Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::get('/support', [DashboardController::class, 'support'])->name('support');
     Route::post('/support', [DashboardController::class, 'submitSupport'])->name('support.submit');
-    Route::get('/stock-logo/{ticker}', [DashboardController::class, 'stockLogo'])->name('stock-logo');
     Route::get('/wallet', [DashboardController::class, 'wallet'])->name('wallet');
     Route::get('/wallet/deposit', [DashboardController::class, 'walletDeposit'])->name('wallet.deposit');
     Route::get('/wallet/withdraw', [DashboardController::class, 'walletWithdraw'])->name('wallet.withdraw');

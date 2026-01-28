@@ -700,8 +700,15 @@
                     @forelse($featuredStocks ?? [] as $symbol => $stock)
                         <div class="flex items-center justify-between gap-3 px-5 py-4 border-t border-white/7">
                             <div class="flex items-center gap-3 min-w-0">
-                                <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center text-white/90 text-[12px] font-[900]">
-                                    {{ substr($symbol, 0, 1) }}
+                                <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 overflow-hidden flex-shrink-0">
+                                    <img src="{{ route('stock-logo', ['ticker' => $symbol]) }}" 
+                                         alt="{{ $symbol }}" 
+                                         class="w-full h-full object-cover"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+                                         loading="lazy">
+                                    <div class="w-full h-full grid place-items-center text-white/90 text-[12px] font-[900]" style="display:none;">
+                                        {{ substr($symbol, 0, 1) }}
+                                    </div>
                                 </div>
                                 <div class="min-w-0">
                                     <div class="text-[13px] font-[900] text-white/90 truncate">
@@ -734,8 +741,15 @@
                     @forelse($topGainers ?? [] as $stock)
                         <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
                             <div class="flex items-center gap-3">
-                                <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                    <span class="text-[12px] font-[900] text-white/85">{{ substr($stock['symbol'] ?? '?', 0, 2) }}</span>
+                                <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 overflow-hidden flex-shrink-0">
+                                    <img src="{{ route('stock-logo', ['ticker' => $stock['symbol'] ?? '']) }}" 
+                                         alt="{{ $stock['symbol'] ?? 'N/A' }}" 
+                                         class="w-full h-full object-cover"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+                                         loading="lazy">
+                                    <div class="w-full h-full grid place-items-center text-white/85 text-[12px] font-[900]" style="display:none;">
+                                        {{ substr($stock['symbol'] ?? '?', 0, 2) }}
+                                    </div>
                                 </div>
                                 <div class="text-[13px] font-[900] text-white/90">{{ $stock['symbol'] ?? 'N/A' }}</div>
                             </div>
@@ -755,8 +769,15 @@
                     @forelse($topLosers ?? [] as $stock)
                         <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
                             <div class="flex items-center gap-3">
-                                <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                    <span class="text-[12px] font-[900] text-white/85">{{ substr($stock['symbol'] ?? '?', 0, 2) }}</span>
+                                <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 overflow-hidden flex-shrink-0">
+                                    <img src="{{ route('stock-logo', ['ticker' => $stock['symbol'] ?? '']) }}" 
+                                         alt="{{ $stock['symbol'] ?? 'N/A' }}" 
+                                         class="w-full h-full object-cover"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+                                         loading="lazy">
+                                    <div class="w-full h-full grid place-items-center text-white/85 text-[12px] font-[900]" style="display:none;">
+                                        {{ substr($stock['symbol'] ?? '?', 0, 2) }}
+                                    </div>
                                 </div>
                                 <div class="text-[13px] font-[900] text-white/90">{{ $stock['symbol'] ?? 'N/A' }}</div>
                             </div>
@@ -784,8 +805,15 @@
                         @endphp
                         <div class="flex items-center justify-between px-5 py-4 border-t border-white/7">
                             <div class="flex items-center gap-3">
-                                <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 grid place-items-center">
-                                    <span class="text-[12px] font-[900] text-white/85">{{ substr($stock['symbol'] ?? '?', 0, 2) }}</span>
+                                <div class="w-[30px] h-[30px] rounded-[10px] border border-white/10 bg-black/20 overflow-hidden flex-shrink-0">
+                                    <img src="{{ route('stock-logo', ['ticker' => $stock['symbol'] ?? '']) }}" 
+                                         alt="{{ $stock['symbol'] ?? 'N/A' }}" 
+                                         class="w-full h-full object-cover"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+                                         loading="lazy">
+                                    <div class="w-full h-full grid place-items-center text-white/85 text-[12px] font-[900]" style="display:none;">
+                                        {{ substr($stock['symbol'] ?? '?', 0, 2) }}
+                                    </div>
                                 </div>
                                 <div class="text-[13px] font-[900] text-white/90">{{ $stock['symbol'] ?? 'N/A' }}</div>
                             </div>
