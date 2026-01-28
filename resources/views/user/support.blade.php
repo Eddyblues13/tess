@@ -142,7 +142,7 @@
 
                 <div style="padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,.06); background: #f9fafb;">
                     <h4 style="margin: 0 0 4px 0; font-size: 12px; font-weight: 900; color: #111827;">Phone Support</h4>
-                    <p style="margin: 0; font-size: 11px; color: #6b7280; font-weight: 700;">+1 (555) 123-4567</p>
+                    <p style="margin: 0; font-size: 11px; color: #6b7280; font-weight: 700;">+13024197620</p>
                     <p style="margin: 4px 0 0 0; font-size: 10px; color: #9ca3af;">Mon-Fri, 9 AM - 6 PM EST</p>
                 </div>
 

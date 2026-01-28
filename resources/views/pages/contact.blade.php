@@ -57,7 +57,7 @@
                         </div>
                         <div>
                             <div class="text-[14px] font-[900] text-black/60 mb-2">Phone</div>
-                            <a href="tel:+15551234567" class="text-[15px] text-[#0f1115] hover:opacity-80 transition">+1 (555) 123-4567</a>
+                            <a href="tel:+13024197620" class="text-[15px] text-[#0f1115] hover:opacity-80 transition">+13024197620</a>
                         </div>
                         <div>
                             <div class="text-[14px] font-[900] text-black/60 mb-2">Address</div>

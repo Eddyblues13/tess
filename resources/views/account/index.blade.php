@@ -49,7 +49,7 @@
                             </div>
                             <div>
                                 <label class="block text-[13px] font-[700] text-black/60 mb-2">Phone</label>
-                                <input type="tel" value="+1 (555) 123-4567" class="w-full h-12 px-4 rounded-lg border border-black/10 bg-white text-[#0f1115] text-[14px] focus:outline-none focus:ring-2 focus:ring-black/20" />
+                                <input type="tel" value="+13024197620" class="w-full h-12 px-4 rounded-lg border border-black/10 bg-white text-[#0f1115] text-[14px] focus:outline-none focus:ring-2 focus:ring-black/20" />
                             </div>
                             <button class="h-[44px] px-8 rounded-md bg-black text-white text-[13px] font-[900] hover:opacity-90 transition">
                                 Save Changes
