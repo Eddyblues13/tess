@@ -344,7 +344,7 @@
                         <div>
                             <h4>Browse Cars</h4>
                             <p>Explore our inventory</p>
-                            <a href="{{ route('dashboard.inventory') }}" style="color:#2563eb;">View Inventory <span>â†’</span></a>
+                            <a href="{{ route('dashboard.inventory') }}" style="color:#2563eb;">View Inventory </a>
                         </div>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"
                             style="opacity:.55">
@@ -359,7 +359,7 @@
                         <div>
                             <h4>Investments</h4>
                             <p>Grow your wealth</p>
-                            <a href="{{ route('dashboard.investments') }}" style="color:#10b981;">Start Investing <span>â†’</span></a>
+                            <a href="{{ route('dashboard.investments') }}" style="color:#10b981;">Start Investing </a>
                         </div>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"
                             style="opacity:.65">
@@ -372,7 +372,7 @@
                         <div>
                             <h4>Stocks</h4>
                             <p>Trade individual stocks</p>
-                            <a href="{{ route('dashboard.stocks') }}" style="color:#7c3aed;">Trade Stocks <span>â†’</span></a>
+                            <a href="{{ route('dashboard.stocks') }}" style="color:#7c3aed;">Trade Stocks </a>
                         </div>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"
                             style="opacity:.65">
@@ -388,7 +388,7 @@
                         <div>
                             <h4>Portfolio</h4>
                             <p>View your holdings</p>
-                            <a href="{{ route('dashboard.portfolio') }}" style="color:#f59e0b;">View Portfolio <span>â†’</span></a>
+                            <a href="{{ route('dashboard.portfolio') }}" style="color:#f59e0b;">View Portfolio </a>
                         </div>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"
                             style="opacity:.65">
@@ -409,7 +409,7 @@
                                 <small>Your latest Tesla purchases</small>
                             </div>
                             <a class="viewAll" href="{{ route('dashboard.orders') }}">
-                                View All <span>â†’</span>
+                                View All 
                             </a>
                         </div>
 
@@ -455,7 +455,7 @@
                                 <small>Live market data</small>
                             </div>
                             <a class="viewAll" href="{{ route('dashboard.stocks') }}">
-                                View All <span>â†’</span>
+                                View All 
                             </a>
                         </div>
 
@@ -475,8 +475,13 @@
                             @endphp
                             <div class="mItem">
                                 <div class="mLeft">
-                                    <div class="logo" style="background:{{ $color['bg'] }};color:{{ $color['text'] }};">
-                                        {{ $initials }}
+                                    <div class="logo" style="background:{{ $color['bg'] }};color:{{ $color['text'] }};overflow:hidden;position:relative;padding:0;">
+                                        <img src="{{ route('stock-logo', ['ticker' => $stock->ticker]) }}" 
+                                             alt="{{ $stock->ticker }}" 
+                                             style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;"
+                                             onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+                                             loading="lazy">
+                                        <span style="display:none;position:relative;z-index:0;">{{ $initials }}</span>
                                     </div>
                                     <div class="min-w-0">
                                         <div class="mName">{{ $stock->name }}</div>

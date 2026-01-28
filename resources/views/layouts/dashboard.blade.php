@@ -1300,35 +1300,6 @@
             margin-right: 6px;
         }
 
-        .fab {
-            position: fixed;
-            right: 18px;
-            bottom: 18px;
-            width: 52px;
-            height: 52px;
-            border-radius: 18px;
-            background: #0b0c10;
-            border: 1px solid rgba(255, 255, 255, .15);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, .45);
-            display: grid;
-            place-items: center;
-            z-index: 80;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .fab {
-                right: 12px;
-                bottom: 12px;
-                width: 48px;
-                height: 48px;
-            }
-        }
-
-        .fab svg {
-            opacity: .9;
-        }
-
         /* spacing like screenshot (big empty top area) */
         .spacerTop {
             height: 0;
@@ -1394,6 +1365,19 @@
         }
     </style>
     @stack('styles')
+    <!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '8a2bc8baa405d6ee7cbd0681e4761a7421139f71';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+</script>
+<noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
+
 </head>
 
 <body>
@@ -1636,13 +1620,6 @@
 
         </main>
     </div>
-
-    <!-- Floating chat button -->
-    <button class="fab" aria-label="Chat">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-            <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
-        </svg>
-    </button>
 
     <script>
         // Sidebar toggle (mobile)
