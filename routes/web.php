@@ -141,6 +141,7 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::get('/support', [DashboardController::class, 'support'])->name('support');
     Route::post('/support', [DashboardController::class, 'submitSupport'])->name('support.submit');
+    Route::get('/stock-logo/{ticker}', [DashboardController::class, 'stockLogo'])->name('stock-logo');
     Route::get('/wallet', [DashboardController::class, 'wallet'])->name('wallet');
     Route::get('/wallet/deposit', [DashboardController::class, 'walletDeposit'])->name('wallet.deposit');
     Route::get('/wallet/withdraw', [DashboardController::class, 'walletWithdraw'])->name('wallet.withdraw');
