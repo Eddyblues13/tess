@@ -35,7 +35,18 @@
 
                         <div>
                             <label class="block text-[13px] font-[700] text-black/60 mb-2">Password</label>
-                            <input type="password" name="password" placeholder="Enter your password" class="w-full h-12 px-4 rounded-lg border border-black/10 bg-white text-[#0f1115] text-[14px] focus:outline-none focus:ring-2 focus:ring-black/20" required />
+                            <div class="relative">
+                                <input type="password" id="admin-password" name="password" placeholder="Enter your password" class="w-full h-12 px-4 pr-12 rounded-lg border border-black/10 bg-white text-[#0f1115] text-[14px] focus:outline-none focus:ring-2 focus:ring-black/20" required />
+                                <button type="button" onclick="togglePassword('admin-password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 hover:text-black/60 transition">
+                                    <svg class="eye-open w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                    <svg class="eye-closed w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="flex items-center justify-between">
@@ -43,7 +54,7 @@
                                 <input type="checkbox" name="remember" class="w-4 h-4 rounded border-black/20 text-black focus:ring-2 focus:ring-black/20" />
                                 <span class="text-[13px] text-black/60">Remember me</span>
                             </label>
-                            <a href="#" class="text-[13px] font-[700] text-black/60 hover:text-black transition">Forgot password?</a>
+                            <a href="{{ route('admin.forgot-password') }}" class="text-[13px] font-[700] text-black/60 hover:text-black transition">Forgot password?</a>
                         </div>
 
                         <button type="submit" class="w-full h-[44px] rounded-md bg-black text-white text-[13px] font-[900] hover:opacity-90 transition">
@@ -61,4 +72,22 @@
             </div>
         </div>
     </section>
+
+    <script>
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const eyeOpen = button.querySelector('.eye-open');
+            const eyeClosed = button.querySelector('.eye-closed');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                eyeOpen.classList.add('hidden');
+                eyeClosed.classList.remove('hidden');
+            } else {
+                input.type = 'password';
+                eyeOpen.classList.remove('hidden');
+                eyeClosed.classList.add('hidden');
+            }
+        }
+    </script>
 @endsection

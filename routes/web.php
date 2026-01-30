@@ -132,6 +132,12 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Forgot Password Routes
+Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('forgot-password');
+Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('forgot-password.post');
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('reset-password');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset-password.post');
+
 use App\Http\Controllers\DashboardController;
 
 // Public stock logo route (for homepage)
@@ -183,6 +189,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     
     // Admin logout route
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+    
+    // Admin Forgot Password Routes
+    Route::get('/forgot-password', [AdminAuthController::class, 'showForgotPasswordForm'])->name('forgot-password');
+    Route::post('/forgot-password', [AdminAuthController::class, 'sendResetLinkEmail'])->name('forgot-password.post');
+    Route::get('/reset-password/{token}', [AdminAuthController::class, 'showResetPasswordForm'])->name('reset-password');
+    Route::post('/reset-password', [AdminAuthController::class, 'resetPassword'])->name('reset-password.post');
     
     // Admin protected routes
     Route::middleware('admin')->group(function () {
