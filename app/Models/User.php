@@ -30,6 +30,7 @@ class User extends Authenticatable
         'email',
         'password',
         'available_balance',
+        'total_profit',
     ];
 
     /**
@@ -53,6 +54,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'available_balance' => 'decimal:2',
+            'total_profit' => 'decimal:2',
         ];
     }
 

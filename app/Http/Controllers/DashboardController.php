@@ -43,9 +43,10 @@ class DashboardController extends Controller
         $totalDeposits = $transactions->where('direction', 'credit')->sum('amount');
         $totalWithdrawals = $transactions->where('type', 'withdrawal')->where('direction', 'debit')->sum('amount');
         $totalInvested = $transactions->where('type', 'investment')->where('direction', 'debit')->sum('amount');
+        $totalProfitDebits = $transactions->where('type', 'profit_distribution')->where('direction', 'debit')->sum('amount');
 
         // Compute a live balance from transactions
-        $computedBalance = $totalDeposits - $totalWithdrawals - $totalInvested;
+        $computedBalance = $totalDeposits - $totalWithdrawals - $totalInvested - $totalProfitDebits;
 
         // Use stored balance on the user if present, otherwise fall back to computed
         $availableBalance = $user?->available_balance ?? $computedBalance;
@@ -97,10 +98,23 @@ class DashboardController extends Controller
             $dep = $txUntil->where('direction', 'credit')->sum('amount');
             $wit = $txUntil->where('type', 'withdrawal')->where('direction', 'debit')->sum('amount');
             $inv = $txUntil->where('type', 'investment')->where('direction', 'debit')->sum('amount');
-            $bal = $dep - $wit - $inv;
+            
+            // Calculate real profit from transactions
+            $profit = $txUntil->where('type', 'profit_distribution')->where('direction', 'credit')->sum('amount') 
+                    - $txUntil->where('type', 'profit_distribution')->where('direction', 'debit')->sum('amount');
+
+            // Balance is deposits (includes profit credits) - withdrawals - investments
+            // Note: If profit subtraction (debit) happens, it should ideally be treated as a withdrawal-like reduction or negative deposit?
+            // Currently $dep sums all CREDITS.
+            // If we have a profit debit, it is NOT in $dep.
+            // We need to subtract profit debits from balance.
+            
+            $profitDebits = $txUntil->where('type', 'profit_distribution')->where('direction', 'debit')->sum('amount');
+            $bal = $dep - $wit - $inv - $profitDebits;
+
             $balanceData[] = round($bal, 2);
             $investmentsData[] = round($inv, 2);
-            $profitData[] = round($baseProfit * (0.90 + (6 - $i) / 6 * 0.2), 2);
+            $profitData[] = round($profit, 2);
         }
 
         return view('user.dashboard', [

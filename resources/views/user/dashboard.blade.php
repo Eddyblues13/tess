@@ -248,7 +248,7 @@
                         </div>
                         <div class="chart-value-section">
                             @php
-                                $currentProfit = $chartData['profit'][6] ?? 0;
+                                $currentProfit = $user->total_profit ?? 0;
                                 $profitChange = $currentProfit - ($chartData['profit'][0] ?? 0);
                                 $profitChangePercent = ($chartData['profit'][0] ?? 0) > 0 ? (($profitChange / ($chartData['profit'][0] ?? 1)) * 100) : 0;
                                 $isProfitPositive = $profitChange >= 0;
@@ -266,7 +266,7 @@
                             </div>
                             <div class="chart-metric">
                                 <div class="chart-metric-label">Current</div>
-                                <div class="chart-metric-value">${{ number_format(($chartData['profit'][6] ?? ($chartData['profit'][count($chartData['profit'] ?? []) - 1] ?? 0)), 2) }}</div>
+                                <div class="chart-metric-value">${{ number_format($user->total_profit ?? 0, 2) }}</div>
                             </div>
                             <div class="chart-metric">
                                 <div class="chart-metric-label">Low</div>

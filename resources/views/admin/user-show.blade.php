@@ -54,6 +54,10 @@
                 <div style="font-size: 18px; font-weight: 900; color: #10b981;">${{ number_format((float)($user->available_balance ?? 0), 2) }}</div>
             </div>
             <div>
+                <div style="font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Total Profit</div>
+                <div style="font-size: 18px; font-weight: 900; color: #8b5cf6;">${{ number_format((float)($user->total_profit ?? 0), 2) }}</div>
+            </div>
+            <div>
                 <div style="font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">KYC Status</div>
                 @php
                     $latestKyc = $user->latestKycSubmission;
@@ -80,6 +84,10 @@
             <button onclick="openBalanceModal({{ $user->id }}, '{{ $user->name }}', {{ $user->available_balance ?? 0 }})" 
                 style="padding: 8px 16px; border-radius: 8px; background: #10b981; color: white; font-size: 12px; font-weight: 900; cursor: pointer; border: none;">
                 Update Balance
+            </button>
+            <button onclick="openProfitModal({{ $user->id }}, '{{ $user->name }}', {{ $user->total_profit ?? 0 }})" 
+                style="padding: 8px 16px; border-radius: 8px; background: #8b5cf6; color: white; font-size: 12px; font-weight: 900; cursor: pointer; border: none;">
+                Update Profit
             </button>
             <button onclick="openEmailModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->email }}')" 
                 style="padding: 8px 16px; border-radius: 8px; background: #2563eb; color: white; font-size: 12px; font-weight: 900; cursor: pointer; border: none;">
@@ -226,6 +234,44 @@
     </div>
 </div>
 
+<!-- Profit Update Modal -->
+<div id="profitModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 100; align-items: center; justify-content: center;">
+    <div style="background: white; border-radius: 14px; padding: 24px; max-width: 400px; width: 90%;">
+        <h3 style="font-size: 16px; font-weight: 900; color: #111827; margin-bottom: 16px;">Update Profit</h3>
+        <form method="POST" id="profitForm">
+            @csrf
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">User</label>
+                <input type="text" id="profitUserName" readonly style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); background: #f9fafb; font-size: 13px; color: #111827;" />
+            </div>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Current Profit</label>
+                <input type="text" id="currentProfit" readonly style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); background: #f9fafb; font-size: 13px; font-weight: 700; color: #8b5cf6;" />
+            </div>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Action</label>
+                <select name="action" id="profitAction" required style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px; color: #111827; background: white;">
+                    <option value="add">Add Amount</option>
+                    <option value="subtract">Subtract Amount</option>
+                    <option value="set">Set Amount</option>
+                </select>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Amount</label>
+                <input type="number" name="amount" step="0.01" min="0" required style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px; color: #111827; background: white;" />
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" style="flex: 1; height: 40px; border-radius: 8px; background: #111827; color: white; font-size: 12px; font-weight: 900; cursor: pointer; border: none;">
+                    Update
+                </button>
+                <button type="button" onclick="closeProfitModal()" style="flex: 1; height: 40px; border-radius: 8px; background: #ef4444; color: white; font-size: 12px; font-weight: 900; cursor: pointer; border: none;">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- Email Modal -->
 <div id="emailModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 100; align-items: center; justify-content: center;">
     <div style="background: white; border-radius: 14px; padding: 24px; max-width: 500px; width: 90%;">
@@ -268,6 +314,17 @@ function closeBalanceModal() {
     document.getElementById('balanceModal').style.display = 'none';
 }
 
+function openProfitModal(userId, userName, currentProfit) {
+    document.getElementById('profitForm').action = `/admin/users/${userId}/profit`;
+    document.getElementById('profitUserName').value = userName;
+    document.getElementById('currentProfit').value = '$' + parseFloat(currentProfit).toFixed(2);
+    document.getElementById('profitModal').style.display = 'flex';
+}
+
+function closeProfitModal() {
+    document.getElementById('profitModal').style.display = 'none';
+}
+
 function openEmailModal(userId, userName, userEmail) {
     document.getElementById('emailForm').action = `/admin/users/${userId}/email`;
     document.getElementById('userEmail').value = userEmail;
@@ -281,6 +338,12 @@ function closeEmailModal() {
 document.getElementById('balanceModal')?.addEventListener('click', function(e) {
     if (e.target === this) {
         closeBalanceModal();
+    }
+});
+
+document.getElementById('profitModal')?.addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeProfitModal();
     }
 });
 

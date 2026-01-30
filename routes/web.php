@@ -211,6 +211,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/users/{user}', [AdminDashboardController::class, 'deleteUser'])->name('users.delete');
         Route::get('/users/{user}/transactions', [AdminDashboardController::class, 'userTransactions'])->name('users.transactions');
         Route::post('/users/{user}/balance', [AdminDashboardController::class, 'updateUserBalance'])->name('users.balance');
+        Route::post('/users/{user}/profit', [AdminDashboardController::class, 'updateUserProfit'])->name('users.profit');
         Route::post('/users/{user}/email', [AdminDashboardController::class, 'sendEmailToUser'])->name('users.email');
         Route::post('/users/{user}/impersonate', [AdminDashboardController::class, 'impersonateUser'])->name('users.impersonate');
         

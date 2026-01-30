@@ -125,6 +125,75 @@ class DashboardController extends Controller
     }
 
     /**
+     * Update user profit
+     */
+    public function updateUserProfit(Request $request, User $user)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+            'action' => 'required|in:add,subtract,set',
+        ]);
+
+        $currentProfit = $user->total_profit ?? 0;
+        $currentBalance = $user->available_balance ?? 0;
+        $amount = (float) $request->amount;
+        $adjustmentAmount = 0;
+        $direction = '';
+
+        switch ($request->action) {
+            case 'add':
+                $newProfit = $currentProfit + $amount;
+                $adjustmentAmount = $amount;
+                $direction = 'credit';
+                break;
+            case 'subtract':
+                $newProfit = max(0, $currentProfit - $amount);
+                $adjustmentAmount = $currentProfit - $newProfit; // Calculate actual reduction
+                $direction = 'debit';
+                break;
+            case 'set':
+                $newProfit = $amount;
+                if ($newProfit > $currentProfit) {
+                    $adjustmentAmount = $newProfit - $currentProfit;
+                    $direction = 'credit';
+                } else {
+                    $adjustmentAmount = $currentProfit - $newProfit;
+                    $direction = 'debit';
+                }
+                break;
+        }
+
+        // Update profit
+        $user->total_profit = $newProfit;
+        
+        // Update balance based on direction
+        // Only update balance if there is an actual change
+        if ($adjustmentAmount > 0) {
+            if ($direction === 'credit') {
+                $user->available_balance = $currentBalance + $adjustmentAmount;
+            } elseif ($direction === 'debit') {
+                $user->available_balance = max(0, $currentBalance - $adjustmentAmount);
+            }
+            
+            // Create transaction record for the balance adjustment
+            WalletTransaction::create([
+                'user_id' => $user->id,
+                'type' => 'profit_distribution',
+                'asset' => 'USD',
+                'title' => 'Profit Adjustment',
+                'amount' => $adjustmentAmount,
+                'direction' => $direction,
+                'status' => 'Completed',
+                'occurred_at' => now(),
+            ]);
+        }
+        
+        $user->save();
+
+        return back()->with('success', 'User profit and balance updated successfully.');
+    }
+
+    /**
      * Show user details
      */
     public function showUser(User $user)
