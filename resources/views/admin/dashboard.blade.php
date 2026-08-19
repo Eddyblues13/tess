@@ -201,7 +201,7 @@
                             @endif
                         </div>
                         <div class="min-w-0">
-                            <div class="orderTitle">{{ $order->car?->name ?? 'Tesla Vehicle' }}</div>
+                            <div class="orderTitle">{{ $order->car?->name ?? 'Tes Options Vehicle' }}</div>
                             <div class="orderMeta">
                                 {{ $order->user->name }} · {{ $order->created_at->format('M d') }}
                             </div>

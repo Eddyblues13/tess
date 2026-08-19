@@ -406,7 +406,7 @@
                         <div class="panelHead">
                             <div>
                                 <h5>Recent Orders</h5>
-                                <small>Your latest Tesla purchases</small>
+                                <small>Your latest Tes Options purchases</small>
                             </div>
                             <a class="viewAll" href="{{ route('dashboard.orders') }}">
                                 View All 
@@ -422,7 +422,7 @@
                                         @endif
                                     </div>
                                     <div class="min-w-0">
-                                        <div class="orderTitle">{{ $order->car?->name ?? 'Tesla Vehicle' }}</div>
+                                        <div class="orderTitle">{{ $order->car?->name ?? 'Tes Options Vehicle' }}</div>
                                         <div class="orderMeta">
                                             {{ $order->car?->year }} {{ $order->car?->model }}
                                             @if($order->car?->variant)

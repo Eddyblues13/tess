@@ -11,7 +11,7 @@
                     Available Inventory <span class="text-[#E31937]">•</span>
                 </h1>
                 <p class="text-[15px] md:text-[16px] text-black/60">
-                    Explore our curated selection of <span class="text-[#E31937] font-[600]">premium Tesla vehicles</span> ready for delivery.
+                    Explore our curated selection of <span class="text-[#E31937] font-[600]">premium Tes Options vehicles</span> ready for delivery.
                 </p>
             </div>
         </div>

@@ -157,7 +157,7 @@
                             <p class="text-[14px] leading-relaxed text-white/80">
                                 "Our mission is to accelerate the world's transition to sustainable energy. Through innovative technology, 
                                 we're not just building electric vehicles—we're creating a sustainable energy ecosystem that will 
-                                transform how we power our world. Every Tesla vehicle, every solar panel, every battery we produce 
+                                transform how we power our world. Every Tes Options vehicle, every solar panel, every battery we produce 
                                 brings us closer to a zero-emission future."
                             </p>
                         </div>
@@ -242,16 +242,16 @@
         </div>
     </section>
 
-    <!-- Tesla Investment Plans section -->
+    <!-- Tes Options Investment Plans section -->
     <section class="bg-[#07090c] border-t border-[#E31937]/20">
         <div class="wrap py-14">
             <div class="flex items-start justify-between gap-6 mb-6">
                 <div>
                     <h2 class="text-[26px] md:text-[32px] font-[900] tracking-[-.02em] text-white">
-                        Tesla Investment Plans <span class="text-[#E31937]">•</span>
+                        Tes Options Investment Plans <span class="text-[#E31937]">•</span>
                     </h2>
                     <p class="mt-2 text-[13px] md:text-[14px] text-white/55 max-w-xl">
-                        Choose from four Tesla investment plans with fixed profit margins and clear minimum and maximum investment limits.
+                        Choose from four Tes Options investment plans with fixed profit margins and clear minimum and maximum investment limits.
                     </p>
                 </div>
                 <div class="mt-2">
@@ -531,16 +531,16 @@
         </div>
     </section>
 
-    <!-- Tesla News Section -->
+    <!-- Tes Options News Section -->
     <section class="bg-white py-16">
         <div class="wrap">
             <div class="flex items-start justify-between gap-6 mb-8">
                 <div>
                     <h2 class="text-[32px] md:text-[40px] font-[900] tracking-[-.02em] text-[#0f1115]">
-                        Tesla News <span class="text-[#E31937]">•</span>
+                        Tes Options News <span class="text-[#E31937]">•</span>
                     </h2>
                     <p class="mt-2 text-[15px] text-black/60">
-                        Stay updated with the latest news, updates, and announcements from Tesla.
+                        Stay updated with the latest news, updates, and announcements from Tes Options.
                     </p>
                 </div>
             </div>
@@ -550,15 +550,15 @@
                 <div class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_40px_rgba(227,25,55,0.15)] hover:border-[#E31937]/30 transition">
                     <div class="h-[200px] bg-[#f3f4f6] relative">
                         <div class="absolute top-3 left-3 w-2 h-2 rounded-full bg-[#E31937]"></div>
-                        <img src="{{ asset('images/news-1.jpg') }}" alt="Tesla News" class="w-full h-full object-cover" loading="lazy" />
+                        <img src="{{ asset('images/news-1.jpg') }}" alt="Tes Options News" class="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div class="p-5">
                         <div class="text-[12px] font-[700] text-[#E31937] mb-2">January 26, 2026</div>
                         <h3 class="text-[18px] font-[900] tracking-[-.01em] text-[#0f1115] mb-3">
-                            Tesla Announces Record-Breaking Q4 Deliveries
+                            Tes Options Announces Record-Breaking Q4 Deliveries
                         </h3>
                         <p class="text-[14px] text-black/60 leading-relaxed">
-                            Tesla delivered over 1.8 million vehicles in Q4 2025, marking another record quarter and demonstrating strong global demand for electric vehicles.
+                            Tes Options delivered over 1.8 million vehicles in Q4 2025, marking another record quarter and demonstrating strong global demand for electric vehicles.
                         </p>
                     </div>
                 </div>
@@ -567,7 +567,7 @@
                 <div class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_40px_rgba(227,25,55,0.15)] hover:border-[#E31937]/30 transition">
                     <div class="h-[200px] bg-[#f3f4f6] relative">
                         <div class="absolute top-3 left-3 w-2 h-2 rounded-full bg-[#E31937]"></div>
-                        <img src="{{ asset('images/news-2.jpg') }}" alt="Tesla News" class="w-full h-full object-cover" loading="lazy" />
+                        <img src="{{ asset('images/news-2.jpg') }}" alt="Tes Options News" class="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div class="p-5">
                         <div class="text-[12px] font-[700] text-[#E31937] mb-2">January 20, 2026</div>
@@ -575,7 +575,7 @@
                             New Supercharger Network Expansion
                         </h3>
                         <p class="text-[14px] text-black/60 leading-relaxed">
-                            Tesla continues to expand its Supercharger network globally, adding 500 new locations to make long-distance travel even more convenient for EV owners.
+                            Tes Options continues to expand its Supercharger network globally, adding 500 new locations to make long-distance travel even more convenient for EV owners.
                         </p>
                     </div>
                 </div>
@@ -584,7 +584,7 @@
                 <div class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_40px_rgba(227,25,55,0.15)] hover:border-[#E31937]/30 transition">
                     <div class="h-[200px] bg-[#f3f4f6] relative">
                         <div class="absolute top-3 left-3 w-2 h-2 rounded-full bg-[#E31937]"></div>
-                        <img src="{{ asset('images/news-3.jpg') }}" alt="Tesla News" class="w-full h-full object-cover" loading="lazy" />
+                        <img src="{{ asset('images/news-3.jpg') }}" alt="Tes Options News" class="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div class="p-5">
                         <div class="text-[12px] font-[700] text-[#E31937] mb-2">January 15, 2026</div>
@@ -592,7 +592,7 @@
                             Full Self-Driving Beta Reaches New Milestone
                         </h3>
                         <p class="text-[14px] text-black/60 leading-relaxed">
-                            Tesla's Full Self-Driving Beta v12.5 now available to over 500,000 users, showcasing significant improvements in autonomous driving capabilities.
+                            Tes Options' Full Self-Driving Beta v12.5 now available to over 500,000 users, showcasing significant improvements in autonomous driving capabilities.
                         </p>
                     </div>
                 </div>
@@ -601,7 +601,7 @@
                 <div class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_40px_rgba(227,25,55,0.15)] hover:border-[#E31937]/30 transition">
                     <div class="h-[200px] bg-[#f3f4f6] relative">
                         <div class="absolute top-3 left-3 w-2 h-2 rounded-full bg-[#E31937]"></div>
-                        <img src="{{ asset('images/news-4.jpg') }}" alt="Tesla News" class="w-full h-full object-cover" loading="lazy" />
+                        <img src="{{ asset('images/news-4.jpg') }}" alt="Tes Options News" class="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div class="p-5">
                         <div class="text-[12px] font-[700] text-[#E31937] mb-2">January 10, 2026</div>
@@ -609,7 +609,7 @@
                             Cybertruck Production Ramps Up
                         </h3>
                         <p class="text-[14px] text-black/60 leading-relaxed">
-                            Tesla's revolutionary Cybertruck production reaches new heights with increased manufacturing capacity at Giga Texas facility.
+                            Tes Options' revolutionary Cybertruck production reaches new heights with increased manufacturing capacity at Giga Texas facility.
                         </p>
                     </div>
                 </div>
@@ -618,7 +618,7 @@
                 <div class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_40px_rgba(227,25,55,0.15)] hover:border-[#E31937]/30 transition">
                     <div class="h-[200px] bg-[#f3f4f6] relative">
                         <div class="absolute top-3 left-3 w-2 h-2 rounded-full bg-[#E31937]"></div>
-                        <img src="{{ asset('images/news-1.jpg') }}" alt="Tesla News" class="w-full h-full object-cover" loading="lazy" />
+                        <img src="{{ asset('images/news-1.jpg') }}" alt="Tes Options News" class="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div class="p-5">
                         <div class="text-[12px] font-[700] text-[#E31937] mb-2">January 5, 2026</div>
@@ -626,7 +626,7 @@
                             Energy Storage Solutions Expand Globally
                         </h3>
                         <p class="text-[14px] text-black/60 leading-relaxed">
-                            Tesla Energy announces major expansion of Megapack installations worldwide, supporting the transition to renewable energy infrastructure.
+                            Tes Options Energy announces major expansion of Megapack installations worldwide, supporting the transition to renewable energy infrastructure.
                         </p>
                     </div>
                 </div>
@@ -635,7 +635,7 @@
                 <div class="rounded-[18px] border border-black/10 bg-white overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_40px_rgba(227,25,55,0.15)] hover:border-[#E31937]/30 transition">
                     <div class="h-[200px] bg-[#f3f4f6] relative">
                         <div class="absolute top-3 left-3 w-2 h-2 rounded-full bg-[#E31937]"></div>
-                        <img src="{{ asset('images/news-2.jpg') }}" alt="Tesla News" class="w-full h-full object-cover" loading="lazy" />
+                        <img src="{{ asset('images/news-2.jpg') }}" alt="Tes Options News" class="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div class="p-5">
                         <div class="text-[12px] font-[700] text-[#E31937] mb-2">December 30, 2025</div>
@@ -643,7 +643,7 @@
                             Model Y Becomes World's Best-Selling EV
                         </h3>
                         <p class="text-[14px] text-black/60 leading-relaxed">
-                            Tesla Model Y maintains its position as the world's best-selling electric vehicle, with over 1.2 million units delivered in 2025.
+                            Tes Options Model Y maintains its position as the world's best-selling electric vehicle, with over 1.2 million units delivered in 2025.
                         </p>
                     </div>
                 </div>

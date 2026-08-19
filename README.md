@@ -1,3 +1,74 @@
+# Boostelix
+
+Laravel 12 application (Tes Options investment / stock trading platform) with a public
+site, a user dashboard, and an admin panel.
+
+## Requirements
+
+- PHP 8.2+ (developed against 8.4) with `pdo_sqlite` (or `pdo_mysql`), `mbstring`, `gd`, `zip`
+- Composer 2
+- Node.js 20+ / npm
+
+## Local setup
+
+```bash
+# 1. PHP dependencies
+composer install            # or: unzip vendor.zip -d .  (vendored snapshot)
+
+# 2. Environment
+cp .env.example .env
+php artisan key:generate
+
+# 3. Database — .env ships with SQLite so no DB server is needed
+touch database/database.sqlite
+php artisan migrate --seed
+
+# 4. Frontend assets
+npm install
+npm run build               # or: npm run dev  for hot reload
+
+# 5. Storage symlink (public/storage -> storage/app/public)
+php artisan storage:link
+
+# 6. Serve
+php artisan serve           # http://localhost:8000
+```
+
+`composer dev` runs the server, queue listener and Vite together.
+
+### Using MySQL instead of SQLite
+
+`.env` has the MySQL block commented out. Uncomment it, comment the two
+`DB_CONNECTION=sqlite` / `DB_FOREIGN_KEYS` lines, create the database, and
+re-run `php artisan migrate --seed`.
+
+### Seeded accounts
+
+| Role  | Email             | Password    |
+|-------|-------------------|-------------|
+| Admin | admin@mail.com    | 12345678    |
+| User  | test@example.com  | password    |
+
+Change the admin password before deploying anywhere public.
+
+### Environment variables worth noting
+
+- `FRONTEND_URL` — public site URL used when building links (`config/frontend.php`)
+- `FLUTTERWAVE_PUBLIC_KEY` / `FLUTTERWAVE_SECRET_KEY` / `FLUTTERWAVE_ENCRYPTION_KEY` —
+  payment credentials (`config/services.php`); blank locally, so payment calls fail until set
+- `MAIL_MAILER=log` writes outgoing mail to `storage/logs/laravel.log` instead of sending
+
+Stock quotes and market news come from free, keyless Yahoo Finance endpoints and
+fall back to static data if unreachable.
+
+## Tests
+
+```bash
+php artisan test
+```
+
+---
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

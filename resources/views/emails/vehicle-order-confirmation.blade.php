@@ -5,7 +5,7 @@
 
 <p>Hello <strong>{{ $user->name }}</strong>,</p>
 
-<p>Your vehicle order has been successfully placed! We're excited to help you get behind the wheel of your new Tesla.</p>
+<p>Your vehicle order has been successfully placed! We're excited to help you get behind the wheel of your new Tes Options.</p>
 
 <table class="details-table">
     <tr>

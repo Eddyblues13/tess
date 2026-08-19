@@ -757,7 +757,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Manage Tesla cars inventory
+     * Manage Tes Options cars inventory
      */
     public function inventory(Request $request)
     {
@@ -940,7 +940,10 @@ class DashboardController extends Controller
      */
     public function createInvestmentPlan()
     {
-        return view('admin.investment-plan-form');
+        // The form view is shared with the edit action and dereferences $plan
+        // via optional($plan), which still evaluates an undefined variable.
+        // Passing null keeps the view in "create" mode without erroring.
+        return view('admin.investment-plan-form', ['plan' => null]);
     }
 
     /**

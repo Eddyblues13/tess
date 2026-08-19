@@ -28,7 +28,7 @@
     <div class="whitePanel">
         <div class="panelHead">
             <div>
-                <h5>Tesla Vehicles</h5>
+                <h5>Tes Options Vehicles</h5>
                 <small>Total: {{ $cars->total() }} vehicles</small>
             </div>
             <a href="{{ route('admin.inventory.create') }}" style="padding: 8px 16px; border-radius: 8px; background: #111827; color: white; font-size: 12px; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">

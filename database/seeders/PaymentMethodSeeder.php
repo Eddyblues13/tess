@@ -55,7 +55,7 @@ class PaymentMethodSeeder extends Seeder
                 'type' => 'both',
                 'category' => 'bank',
                 'logo_url' => 'https://cdn-icons-png.flaticon.com/512/84/84578.png',
-                'details' => "Bank name: Tesla Global Bank\nAccount name: Tesla Investments Ltd\nAccount number: 1234567890\nIBAN: GB00TESL00000012345678\nSWIFT/BIC: TESLGB2L",
+                'details' => "Bank name: Tes Options Global Bank\nAccount name: Tes Options Ltd\nAccount number: 1234567890\nIBAN: GB00TESO00000012345678\nSWIFT/BIC: TESOGB2L",
                 'display_order' => 5,
             ],
             [

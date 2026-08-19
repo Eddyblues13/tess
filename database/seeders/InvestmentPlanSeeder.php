@@ -9,28 +9,31 @@ class InvestmentPlanSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     * Tesla Investment Plans (exactly 4).
+     * Tes Options Investment Plans (exactly 4).
      * WARNING: This removes ALL existing investment plans and user investments.
      * Backup your data if you need to keep history.
      */
     public function run(): void
     {
-        // Disable foreign key checks temporarily for clean truncate
-        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        
-        // Clear all data (truncate is faster and resets auto-increment)
-        \DB::table('user_investments')->truncate();
-        \DB::table('investment_plans')->truncate();
-        
-        // Re-enable foreign key checks
-        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        // Disable foreign key checks temporarily for clean truncate.
+        // Schema::* is driver-portable; raw SET FOREIGN_KEY_CHECKS is MySQL-only.
+        \Schema::disableForeignKeyConstraints();
+
+        try {
+            // Clear all data (truncate is faster and resets auto-increment)
+            \DB::table('user_investments')->truncate();
+            \DB::table('investment_plans')->truncate();
+        } finally {
+            // Re-enable foreign key checks even if truncating fails
+            \Schema::enableForeignKeyConstraints();
+        }
 
         $plans = [
             [
                 'name' => 'STARTER PLAN',
                 'slug' => 'starter',
-                'category' => 'Tesla',
-                'strategy' => 'Tesla Investment',
+                'category' => 'Tes Options',
+                'strategy' => 'Tes Options',
                 'risk_level' => 'medium',
                 'nav' => 0,
                 'one_year_return' => 20,
@@ -45,8 +48,8 @@ class InvestmentPlanSeeder extends Seeder
             [
                 'name' => 'MEGA PLAN',
                 'slug' => 'mega',
-                'category' => 'Tesla',
-                'strategy' => 'Tesla Investment',
+                'category' => 'Tes Options',
+                'strategy' => 'Tes Options',
                 'risk_level' => 'medium',
                 'nav' => 0,
                 'one_year_return' => 20,
@@ -61,8 +64,8 @@ class InvestmentPlanSeeder extends Seeder
             [
                 'name' => 'GRAND PLAN',
                 'slug' => 'grand',
-                'category' => 'Tesla',
-                'strategy' => 'Tesla Investment',
+                'category' => 'Tes Options',
+                'strategy' => 'Tes Options',
                 'risk_level' => 'high',
                 'nav' => 0,
                 'one_year_return' => 30,
@@ -77,8 +80,8 @@ class InvestmentPlanSeeder extends Seeder
             [
                 'name' => 'VIP PLAN',
                 'slug' => 'vip',
-                'category' => 'Tesla',
-                'strategy' => 'Tesla Investment',
+                'category' => 'Tes Options',
+                'strategy' => 'Tes Options',
                 'risk_level' => 'high',
                 'nav' => 0,
                 'one_year_return' => 50,

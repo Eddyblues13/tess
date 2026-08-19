@@ -98,8 +98,8 @@ class NewsService
     {
         $mockNews = [
             [
-                'title' => 'Tesla Announces Record-Breaking Q4 Deliveries',
-                'description' => 'Tesla delivered over 1.8 million vehicles in Q4 2025, marking another record quarter and demonstrating strong global demand for electric vehicles.',
+                'title' => 'Tes Options Announces Record-Breaking Q4 Deliveries',
+                'description' => 'Tes Options delivered over 1.8 million vehicles in Q4 2025, marking another record quarter and demonstrating strong global demand for electric vehicles.',
                 'url' => '#',
                 'source' => 'Market Watch',
                 'published_at' => now()->subHours(2)->toIso8601String(),

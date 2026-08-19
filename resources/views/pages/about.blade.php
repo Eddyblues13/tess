@@ -39,7 +39,7 @@
                         </div>
                         <div class="p-6 rounded-lg border border-black/10 bg-white">
                             <div class="text-[18px] font-[900] text-[#0f1115] mb-2">Drive</div>
-                            <div class="text-[13px] text-black/60">Curated selection of premium Tesla vehicles ready for delivery.</div>
+                            <div class="text-[13px] text-black/60">Curated selection of premium Tes Options vehicles ready for delivery.</div>
                         </div>
                     </div>
 

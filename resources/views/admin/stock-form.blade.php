@@ -44,7 +44,7 @@
                     <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Company Name *</label>
                     <input type="text" name="name" value="{{ old('name', $stock->name ?? '') }}" required
                         style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
-                        placeholder="e.g., Tesla Inc." />
+                        placeholder="e.g., Apple Inc." />
                 </div>
             </div>
 

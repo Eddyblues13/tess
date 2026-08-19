@@ -62,7 +62,7 @@
                         <div>
                             <div class="text-[14px] font-[900] text-black/60 mb-2">Address</div>
                             <div class="text-[15px] text-black/70">
-                                1 Tesla Road<br />
+                                1 Tes Options Road<br />
                                 Austin, TX 78735<br />
                                 United States
                             </div>

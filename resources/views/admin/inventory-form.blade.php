@@ -9,7 +9,7 @@
         <div class="panelHead">
             <div>
                 <h5>{{ isset($car) ? 'Edit Vehicle' : 'Create New Vehicle' }}</h5>
-                <small>{{ isset($car) ? 'Update vehicle information' : 'Add a new Tesla vehicle to inventory' }}</small>
+                <small>{{ isset($car) ? 'Update vehicle information' : 'Add a new Tes Options vehicle to inventory' }}</small>
             </div>
             <a href="{{ route('admin.inventory') }}" style="padding: 8px 16px; border-radius: 8px; background: #6b7280; color: white; font-size: 12px; font-weight: 900; text-decoration: none;">
                 ← Back
@@ -36,7 +36,7 @@
                 <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Vehicle Name *</label>
                 <input type="text" name="name" value="{{ old('name', $car->name ?? '') }}" required
                     style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
-                    placeholder="e.g., Tesla Model 3" />
+                    placeholder="e.g., Tes Options Model 3" />
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px;">

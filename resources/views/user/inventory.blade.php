@@ -193,7 +193,7 @@
         <div class="heroCard">
             <div class="heroText">
                 <h3>Vehicle Inventory</h3>
-                <p>Browse available Tesla vehicles and place an order.</p>
+                <p>Browse available Tes Options vehicles and place an order.</p>
             </div>
         </div>
     </div>

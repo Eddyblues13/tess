@@ -10,6 +10,7 @@ use Database\Seeders\InvestmentPlanSeeder;
 use Database\Seeders\WalletTransactionSeeder;
 use Database\Seeders\PaymentMethodSeeder;
 use Database\Seeders\TeslaCarSeeder;
+use Database\Seeders\AdminSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
             WalletTransactionSeeder::class,
             PaymentMethodSeeder::class,
             TeslaCarSeeder::class,
+            AdminSeeder::class,
         ]);
     }
 }

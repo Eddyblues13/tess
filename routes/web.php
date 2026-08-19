@@ -32,10 +32,10 @@ Route::get('/', function (StockMarketService $stockService, NewsService $newsSer
         \Log::error('News fetch error: ' . $e->getMessage());
     }
 
-    // Tesla Investment Plans (4 plans as defined in seeder)
+    // Tes Options Investment Plans (4 plans as defined in seeder)
     $investmentPlans = InvestmentPlan::orderBy('display_order')->get();
     
-    // Tesla Cars for homepage (show featured and available cars, limit to 4 for homepage)
+    // Tes Options Cars for homepage (show featured and available cars, limit to 4 for homepage)
     $featuredCars = TeslaCar::where('is_available', true)
         ->where('is_featured', true)
         ->orderBy('display_order')

@@ -10,11 +10,15 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        Admin::create([
-            'name' => 'Super Admin',
-            'type' => 'superadmin',
-            'email' => 'admin@mail.com',
-            'password' => Hash::make('12345678'), // use a strong password in production
-        ]);
+        // firstOrCreate keeps re-seeding safe: the email column is unique,
+        // so a plain create() would throw on the second run.
+        Admin::firstOrCreate(
+            ['email' => 'admin@mail.com'],
+            [
+                'name' => 'Super Admin',
+                'type' => 'superadmin',
+                'password' => Hash::make('12345678'), // use a strong password in production
+            ]
+        );
     }
 }

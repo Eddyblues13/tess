@@ -62,7 +62,7 @@ class DashboardController extends Controller
         $investmentsValue = $totalInvested;
         $stockHoldingsValue = max(0, $portfolioValue - $investmentsValue - $totalWithdrawals);
 
-        // Tesla vehicles owned == completed orders count
+        // Tes Options vehicles owned == completed orders count
         $teslaVehiclesCount = Order::where('user_id', $user?->id)
             ->where('status', 'Completed')
             ->count();
@@ -720,7 +720,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Show the inventory page (Tesla cars).
+     * Show the inventory page (Tes Options cars).
      */
     public function inventory()
     {

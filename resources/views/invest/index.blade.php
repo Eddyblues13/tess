@@ -22,10 +22,10 @@
         <div class="wrap">
             <div class="max-w-4xl mb-12">
                 <h2 class="text-[32px] md:text-[40px] font-[900] tracking-[-.02em] text-white mb-4">
-                    Tesla Investment Plans
+                    Tes Options Investment Plans
                 </h2>
                 <p class="text-[15px] text-white/60">
-                    Tesla offers four investment plans with varying profit margins and investment limits.
+                    Tes Options offers four investment plans with varying profit margins and investment limits.
                 </p>
             </div>
 

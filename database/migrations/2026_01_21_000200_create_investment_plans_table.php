@@ -10,7 +10,7 @@ return new class extends Migration
      * Run the migrations.
      *
      * This creates the full `investment_plans` table, including
-     * Tesla‑specific fields like max_investment, profit_margin,
+     * Tes Options‑specific fields like max_investment, profit_margin,
      * duration_days, and duration_label used across the app.
      */
     public function up(): void
@@ -21,8 +21,8 @@ return new class extends Migration
             // Core identity / display
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('category')->nullable();      // e.g. "Tesla"
-            $table->string('strategy')->nullable();      // e.g. "Tesla Investment"
+            $table->string('category')->nullable();      // e.g. "Tes Options"
+            $table->string('strategy')->nullable();      // e.g. "Tes Options"
             $table->string('risk_level');                // low / medium / high
 
             // Basic fund metrics
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->decimal('min_investment', 16, 2);
             $table->decimal('max_investment', 16, 2)->nullable(); // NULL = Unlimited
 
-            // Tesla plan profit terms
+            // Tes Options plan profit terms
             // e.g. 20% after 2 days, 30% after 7 days, 50% after 1 month
             $table->decimal('profit_margin', 6, 2)->default(0);
             $table->unsignedInteger('duration_days')->default(0);

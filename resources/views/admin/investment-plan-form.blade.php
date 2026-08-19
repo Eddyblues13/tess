@@ -51,7 +51,7 @@
                     <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Category</label>
                     <input type="text" name="category" value="{{ old('category', optional($plan)->category ?? '') }}"
                         style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
-                        placeholder="e.g., Tesla" />
+                        placeholder="e.g., Tes Options" />
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
                     <label style="display: block; font-size: 11px; font-weight: 900; color: #6b7280; margin-bottom: 6px;">Strategy</label>
                     <input type="text" name="strategy" value="{{ old('strategy', optional($plan)->strategy ?? '') }}"
                         style="width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); font-size: 13px;"
-                        placeholder="e.g., Tesla Investment" />
+                        placeholder="e.g., Tes Options" />
                 </div>
 
                 <div>

@@ -18,7 +18,7 @@
 <ul style="margin-left: 20px; margin-bottom: 24px; color: #374151;">
     <li style="margin-bottom: 8px;"><strong>Explore Investment Plans</strong> - Grow your wealth with automated investment strategies</li>
     <li style="margin-bottom: 8px;"><strong>Trade Stocks</strong> - Buy and sell stocks in real-time with live market data</li>
-    <li style="margin-bottom: 8px;"><strong>Browse Vehicle Inventory</strong> - Discover premium Tesla vehicles</li>
+    <li style="margin-bottom: 8px;"><strong>Browse Vehicle Inventory</strong> - Discover premium Tes Options vehicles</li>
     <li style="margin-bottom: 8px;"><strong>Manage Your Wallet</strong> - Deposit, withdraw, and track all your transactions</li>
 </ul>
 
